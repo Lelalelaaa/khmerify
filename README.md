@@ -1,7 +1,7 @@
-﻿# Khmerify 🇰🇭
+# Khmerify 🇰🇭
 
 > Type Khmer phonetically using Latin letters — get accurate Khmer Unicode script in real-time.
-> Example: 	ngai nis mek kdav nas → **ថ្ងៃនេះមេឃក្តៅណាស់**
+> Example: `tngai nis mek kdav nas` → **ថ្ងៃនេះមេឃក្តៅណាស់**
 
 ---
 
@@ -13,15 +13,15 @@
 ---
 
 ## 🌿 Branching Strategy
-- main: Production-ready & tested stable code
-- rontend: UI screens, input components, suggestion chips
-- ule-engine: Phonetic transliteration algorithms & mapping logic
-- data: Khmer word lists, dictionary data, and test fixtures
+- `main`: Production-ready & tested stable code
+- `frontend`: UI screens, input components, suggestion chips
+- `rule-engine`: Phonetic transliteration algorithms & mapping logic
+- `data`: Khmer word lists, dictionary data, and test fixtures
 
 ---
 
 ## 🔄 Workflow
-1. Never push directly to main.
-2. Work on your designated branch (rontend, ule-engine, or data).
-3. Open a **Pull Request (PR)** to merge into main.
+1. Never push directly to `main`.
+2. Work on your designated branch (`frontend`, `rule-engine`, or `data`).
+3. Open a **Pull Request (PR)** to merge into `main`.
 4. Get at least **1 review approval** before merging.
