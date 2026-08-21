@@ -5,7 +5,7 @@
 
 ---
 
-## Team: Squadify
+## Team: Khmerify
 - **Frontend**: Sok Kimpheng, Chau Senghong
 - **Backend & Rule Engine**: So Phumin, Chhim Pheaktra
 - **QA & Data**: Eang Soputhik
