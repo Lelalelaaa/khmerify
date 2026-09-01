@@ -1,4 +1,3 @@
-# To run the backend server, open a terminal in the 'backend' folder and run:
 # uvicorn main:app --port 8000 --reload
 
 from fastapi import FastAPI
