@@ -1,4 +1,8 @@
 # engine/rule_engine.py
+# .\venv\Scripts\Activate.ps1       this is to start the venv
+
+import json
+import os
 
 CONSONANTS = {
     "k": "ក",
@@ -37,7 +41,14 @@ VOWELS = {
 
 JERNG = "\u17D2"
 
-def convert(text: str) -> str:
+# Load whole-word dictionary from data/words.json
+WORDS_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "words.json")
+
+with open(WORDS_PATH, "r", encoding="utf-8") as f:
+    WORDS = json.load(f)
+
+
+def convert_by_pattern(text: str) -> str:
     text = text.lower()
     result = []
     i = 0
@@ -69,6 +80,17 @@ def convert(text: str) -> str:
 
     return "".join(result)
 
-if __name__ == "__main__":
-    print(convert("khae"))
 
+def convert(text: str) -> str:
+    words = text.lower().split(" ")
+    result = []
+    for word in words:
+        if word in WORDS:
+            result.append(WORDS[word])
+        else:
+            result.append(convert_by_pattern(word))
+    return " ".join(result)
+
+
+if __name__ == "__main__":
+    print(convert("sursdey"))
