@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'login_screen.dart';
 
 class LandingScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class LandingScreen extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     final isMobile = screenSize.width < 600;
     final isTablet = screenSize.width >= 600 && screenSize.width < 1200;
-    
+
     // Responsive sizes
     final logoSize = isMobile ? 120.0 : (isTablet ? 160.0 : 180.0);
     final titleFontSize = isMobile ? 32.0 : (isTablet ? 40.0 : 48.0);
@@ -18,7 +19,7 @@ class LandingScreen extends StatelessWidget {
     final buttonHeight = isMobile ? 48.0 : (isTablet ? 52.0 : 56.0);
     final horizontalPadding = isMobile ? 24.0 : (isTablet ? 40.0 : 60.0);
     final verticalSpacing = isMobile ? 20.0 : (isTablet ? 28.0 : 36.0);
-    
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -37,14 +38,11 @@ class LandingScreen extends StatelessWidget {
                     gradient: const LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [
-                        Color(0xFF003DA5),
-                        Color(0xFF0052CC),
-                      ],
+                      colors: [Color(0xFF003DA5), Color(0xFF0052CC)],
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: const Color(0xFF003DA5).withOpacity(0.3),
+                        color: const Color(0xFF003DA5).withValues(alpha: 0.3),
                         blurRadius: 20,
                         spreadRadius: 5,
                       ),
@@ -59,7 +57,7 @@ class LandingScreen extends StatelessWidget {
                         height: logoSize * 0.85,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white.withOpacity(0.1),
+                          color: Colors.white.withValues(alpha: 0.1),
                         ),
                       ),
                       // Main content
@@ -71,9 +69,9 @@ class LandingScreen extends StatelessWidget {
                             height: logoSize * 0.6,
                             decoration: BoxDecoration(
                               shape: BoxShape.circle,
-                              color: Colors.white.withOpacity(0.15),
+                              color: Colors.white.withValues(alpha: 0.15),
                               border: Border.all(
-                                color: Colors.white.withOpacity(0.3),
+                                color: Colors.white.withValues(alpha: 0.3),
                                 width: 2,
                               ),
                             ),
@@ -86,7 +84,9 @@ class LandingScreen extends StatelessWidget {
                                   color: Colors.white,
                                   shadows: [
                                     Shadow(
-                                      color: Colors.black.withOpacity(0.2),
+                                      color: Colors.black.withValues(
+                                        alpha: 0.2,
+                                      ),
                                       blurRadius: 4,
                                       offset: const Offset(2, 2),
                                     ),

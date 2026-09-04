@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'landing_screen.dart';
 
 class SettingsScreen extends StatefulWidget {
   final bool showAppBar;
-  
+
   const SettingsScreen({super.key, this.showAppBar = true});
 
   @override
@@ -19,43 +20,50 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
     final isMobile = screenSize.width < 600;
-    
+
     // Responsive sizes
-    final appBarTitleSize = isMobile ? 18.0 : (screenSize.width >= 1200 ? 24.0 : 20.0);
-    final sectionLabelSize = isMobile ? 10.0 : (screenSize.width >= 1200 ? 12.0 : 11.0);
-    final titleSize = isMobile ? 13.0 : (screenSize.width >= 1200 ? 15.0 : 14.0);
+    final appBarTitleSize = isMobile
+        ? 18.0
+        : (screenSize.width >= 1200 ? 24.0 : 20.0);
+    final sectionLabelSize = isMobile
+        ? 10.0
+        : (screenSize.width >= 1200 ? 12.0 : 11.0);
+    final titleSize = isMobile
+        ? 13.0
+        : (screenSize.width >= 1200 ? 15.0 : 14.0);
     const buttonHeight = 50.0;
-    final horizontalPadding = isMobile ? 14.0 : (screenSize.width >= 1200 ? 28.0 : 20.0);
-    
+    final horizontalPadding = isMobile
+        ? 14.0
+        : (screenSize.width >= 1200 ? 28.0 : 20.0);
+
     return Scaffold(
-      appBar: widget.showAppBar ? AppBar(
-        backgroundColor: const Color(0xFF003DA5),
-        elevation: 0,
-        title: Text(
-          'Khmerify',
-          style: TextStyle(
-            fontSize: appBarTitleSize,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: false,
-        actions: [
-          Padding(
-            padding: EdgeInsets.all(isMobile ? 12 : 16),
-            child: Center(
-              child: CircleAvatar(
-                backgroundColor: Colors.grey[300],
-                radius: isMobile ? 18 : 20,
-                child: const Icon(
-                  Icons.person,
-                  color: Colors.grey,
+      appBar: widget.showAppBar
+          ? AppBar(
+              backgroundColor: const Color(0xFF003DA5),
+              elevation: 0,
+              title: Text(
+                'Khmerify',
+                style: TextStyle(
+                  fontSize: appBarTitleSize,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
                 ),
               ),
-            ),
-          ),
-        ],
-      ) : null,
+              centerTitle: false,
+              actions: [
+                Padding(
+                  padding: EdgeInsets.all(isMobile ? 12 : 16),
+                  child: Center(
+                    child: CircleAvatar(
+                      backgroundColor: Colors.grey[300],
+                      radius: isMobile ? 18 : 20,
+                      child: const Icon(Icons.person, color: Colors.grey),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          : null,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -151,7 +159,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           _darkMode = value;
                         });
                       },
-                      activeColor: const Color(0xFF003DA5),
+                      activeThumbColor: const Color(0xFF003DA5),
                     ),
                   ),
                   // Auto-save History
@@ -168,7 +176,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           _autoSaveHistory = value;
                         });
                       },
-                      activeColor: const Color(0xFF003DA5),
+                      activeThumbColor: const Color(0xFF003DA5),
                     ),
                   ),
                   // App Language
@@ -328,15 +336,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
             onPressed: () {
               Navigator.pop(context);
               Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const LandingScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const LandingScreen()),
               );
             },
-            child: const Text(
-              'Log Out',
-              style: TextStyle(color: Colors.red),
-            ),
+            child: const Text('Log Out', style: TextStyle(color: Colors.red)),
           ),
         ],
       ),
