@@ -38,10 +38,3 @@ build/
 *.apk
 *.aab
 *.exe
-
-# Python / Backend
-venv/
-__pycache__/
-*.pyc
-.env
-*.egg-info/
