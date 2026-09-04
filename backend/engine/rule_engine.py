@@ -47,6 +47,24 @@ WORDS_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "words.json")
 with open(WORDS_PATH, "r", encoding="utf-8") as f:
     WORDS = json.load(f)
 
+AMBIGUOUS_WORDS = WORDS.get("_ambiguous", {})
+
+from language_model.ngram_scorer import score_candidate
+
+
+def resolve_ambiguous(previous_word: str, word: str) -> str:
+    candidates = AMBIGUOUS_WORDS[word]
+    best_candidate = candidates[0]
+    best_score = -1
+
+    for candidate in candidates:
+        score = score_candidate(previous_word, candidate)
+        if score > best_score:
+            best_score = score
+            best_candidate = candidate
+
+    return best_candidate
+
 
 def convert_by_pattern(text: str) -> str:
     text = text.lower()
@@ -83,12 +101,32 @@ def convert_by_pattern(text: str) -> str:
 
 def convert(text: str) -> str:
     words = text.lower().split(" ")
+    max_phrase_len = max(
+        len(key.split(" ")) for key in WORDS.keys() if key != "_ambiguous"
+    )
     result = []
-    for word in words:
-        if word in WORDS:
-            result.append(WORDS[word])
-        else:
-            result.append(convert_by_pattern(word))
+
+    i = 0
+    while i < len(words):
+        matched = False
+        for length in range(max_phrase_len, 0, -1):
+            phrase = " ".join(words[i:i + length])
+            if phrase in AMBIGUOUS_WORDS:
+                previous = result[-1] if result else ""
+                result.append(resolve_ambiguous(previous, phrase))
+                i += length
+                matched = True
+                break
+            if phrase in WORDS and phrase != "_ambiguous":
+                result.append(WORDS[phrase])
+                i += length
+                matched = True
+                break
+
+        if not matched:
+            result.append(convert_by_pattern(words[i]))
+            i += 1
+
     return " ".join(result)
 
 
