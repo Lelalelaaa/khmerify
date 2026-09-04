@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ApiService {
-  // Change this later if you host the backend somewhere other than local
+  // Change this
   static const String baseUrl = "http://127.0.0.1:8000";
 
   static Future<String> convert(String input) async {

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "788507375310",
+    "project_id": "khmerify-14086",
+    "storage_bucket": "khmerify-14086.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:788507375310:android:7a11eb4812f473d460029f",
+        "android_client_info": {
+          "package_name": "com.example.khmerify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "788507375310-cqrc037oqorhktsdqlk002bj14r6ncef.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALT7-zhNNjDKJJdirDciZ6JFVpSD1s9Eg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "788507375310-cqrc037oqorhktsdqlk002bj14r6ncef.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
