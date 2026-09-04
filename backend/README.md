@@ -3,6 +3,22 @@
 > Type Khmer phonetically using Latin letters — get accurate Khmer Unicode script in real-time.
 > Example: `tngai nis mek kdav nas` → **ថ្ងៃនេះមេឃក្តៅណាស់**
 
+## Run the backend
+
+From the repository root in PowerShell:
+
+```powershell
+py -3 -m venv backend\.venv
+backend\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
+backend\.venv\Scripts\python.exe -m uvicorn main:app --app-dir backend --host 0.0.0.0 --port 8000 --reload
+```
+
+Verify it with:
+
+```powershell
+Invoke-RestMethod http://127.0.0.1:8000/convert -Method Post -ContentType "application/json" -Body '{"input":"sursdey"}'
+```
+
 ---
 
 ## Team: Khmerify
