@@ -83,14 +83,26 @@ def convert_by_pattern(text: str) -> str:
 
 def convert(text: str) -> str:
     words = text.lower().split(" ")
+    max_phrase_len = max(len(key.split(" ")) for key in WORDS.keys())
     result = []
-    for word in words:
-        if word in WORDS:
-            result.append(WORDS[word])
-        else:
-            result.append(convert_by_pattern(word))
+
+    i = 0
+    while i < len(words):
+        matched = False
+        for length in range(max_phrase_len, 0, -1):
+            phrase = " ".join(words[i:i + length])
+            if phrase in WORDS:
+                result.append(WORDS[phrase])
+                i += length
+                matched = True
+                break
+
+        if not matched:
+            result.append(convert_by_pattern(words[i]))
+            i += 1
+
     return " ".join(result)
 
 
 if __name__ == "__main__":
-    print(convert("sursdey"))
+    print(convert("sok sabay te"))
