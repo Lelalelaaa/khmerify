@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'translate_screen.dart';
+import '../services/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -210,7 +211,19 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      // Trigger Google Login
+                      final user = await AuthService.signInWithGoogle();
+                      
+                      // If login was successful, go to the Translate Screen!
+                      if (user != null && context.mounted) {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (context) => const TranslateScreen(),
+                          ),
+                        );
+                      }
+                    },
                     child: Text(
                       'G',
                       style: TextStyle(
