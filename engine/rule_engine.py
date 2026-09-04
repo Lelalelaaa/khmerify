@@ -28,7 +28,8 @@ CONSONANTS = {
 }
 
 VOWELS = {
-    "a": "អ",       # standalone vowel form (used when a word starts with just a vowel sound)
+    "a": "អ",
+    "ah": "ា",              # standalone vowel form (used when a word starts with just a vowel sound)
     "ei": "ី",
     "ei_open": "ែ",  # placeholder name — we'll refine naming once we handle positioning
     "u": "ុ",
