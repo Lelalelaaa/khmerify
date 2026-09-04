@@ -4,7 +4,7 @@ import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, Tar
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError('Please add Web credentials if you want to run on Web!');
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -13,6 +13,16 @@ class DefaultFirebaseOptions {
         throw UnsupportedError('Unsupported platform.');
     }
   }
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyCGVdZbk7V8gg4-5VNAf6rZiUT2KPvJQ3k',
+    appId: '1:788507375310:web:a70aad1d9224c42460029f',
+    messagingSenderId: '788507375310',
+    projectId: 'khmerify-14086',
+    authDomain: 'khmerify-14086.firebaseapp.com',
+    storageBucket: 'khmerify-14086.firebasestorage.app',
+    measurementId: 'G-4LTV4K1EKS',
+  );
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyALT7-zhNNjDKJJdirDciZ6JFVpSD1s9Eg',
