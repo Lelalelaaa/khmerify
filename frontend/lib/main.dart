@@ -2,14 +2,14 @@
 
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+
 import 'firebase_options.dart';
 import 'screens/landing_screen.dart';
+import 'theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -18,16 +18,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Khmerify',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFF003DA5),
-        ),
-        useMaterial3: true,
-      ),
-      home: const LandingScreen(),
+    return ValueListenableBuilder<bool>(
+      valueListenable: AppTheme.darkMode,
+      builder: (context, isDark, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Khmerify',
+          theme: AppTheme.light(),
+          darkTheme: AppTheme.dark(),
+          themeMode: isDark ? ThemeMode.dark : ThemeMode.light,
+          home: const LandingScreen(),
+        );
+      },
     );
   }
 }

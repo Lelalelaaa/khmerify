@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../services/api_service.dart';
 import 'history_screen.dart';
 import 'settings_screen.dart';
+import '../theme/app_theme.dart';
 
 class TranslateScreen extends StatefulWidget {
   const TranslateScreen({super.key});
@@ -19,9 +21,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   Future<void> _handleTranslate() async {
     if (_controller.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter text to translate'),
-        ),
+        const SnackBar(content: Text('Please enter text to translate')),
       );
       return;
     }
@@ -41,9 +41,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
       });
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Error: could not reach the server'),
-          ),
+          const SnackBar(content: Text('Error: could not reach the server')),
         );
       }
     } finally {
@@ -55,62 +53,67 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final isMobile = screenSize.width < 600;
-    final appBarTitleSize = isMobile ? 18.0 : (screenSize.width >= 1200 ? 24.0 : 20.0);
-    
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF003DA5),
-        elevation: 0,
-        title: Text(
-          'Khmerify',
-          style: TextStyle(
-            fontSize: appBarTitleSize,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: false,
-        actions: [
-          Padding(
-            padding: EdgeInsets.all(isMobile ? 12 : 16),
-            child: Center(
-              child: CircleAvatar(
-                backgroundColor: Colors.grey[300],
-                radius: isMobile ? 18 : 20,
-                child: const Icon(
-                  Icons.person,
-                  color: Colors.grey,
-                ),
+    return ValueListenableBuilder<bool>(
+      valueListenable: AppTheme.darkMode,
+      builder: (context, isDark, child) {
+        final screenSize = MediaQuery.of(context).size;
+        final isMobile = screenSize.width < 600;
+        final appBarTitleSize = isMobile
+            ? 18.0
+            : (screenSize.width >= 1200 ? 24.0 : 20.0);
+
+        return Scaffold(
+          backgroundColor: AppTheme.paper,
+          appBar: AppBar(
+            backgroundColor: AppTheme.paper,
+            elevation: 0,
+            title: Text(
+              'Khmerify',
+              style: TextStyle(
+                fontSize: appBarTitleSize,
+                fontWeight: FontWeight.bold,
+                color: AppTheme.ink,
               ),
             ),
+            centerTitle: false,
+            actions: [
+              Padding(
+                padding: EdgeInsets.all(isMobile ? 12 : 16),
+                child: Center(
+                  child: CircleAvatar(
+                    backgroundColor: AppTheme.yellow,
+                    radius: isMobile ? 18 : 20,
+                    child: Icon(Icons.person, color: AppTheme.onYellow),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: _selectedTab == 0 ? _buildTranslateTab() : _buildOtherTabs(),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedTab,
-        onTap: (index) {
-          setState(() {
-            _selectedTab = index;
-          });
-        },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.translate),
-            label: 'Translate',
+          body: _selectedTab == 0 ? _buildTranslateTab() : _buildOtherTabs(),
+          bottomNavigationBar: BottomNavigationBar(
+            currentIndex: _selectedTab,
+            onTap: (index) {
+              setState(() {
+                _selectedTab = index;
+              });
+            },
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.translate),
+                label: 'Translate',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.history),
+                label: 'History',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.settings),
+                label: 'Settings',
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: 'History',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 
@@ -118,14 +121,14 @@ class _TranslateScreenState extends State<TranslateScreen> {
     final screenSize = MediaQuery.of(context).size;
     final isMobile = screenSize.width < 600;
     final isTablet = screenSize.width >= 600 && screenSize.width < 1200;
-    
+
     // Responsive sizes
     final labelFontSize = isMobile ? 11.0 : (isTablet ? 12.0 : 13.0);
     final outputFontSize = isMobile ? 20.0 : (isTablet ? 24.0 : 28.0);
     final buttonHeight = isMobile ? 48.0 : (isTablet ? 52.0 : 56.0);
     final horizontalPadding = isMobile ? 14.0 : (isTablet ? 20.0 : 28.0);
     final verticalSpacing = isMobile ? 12.0 : (isTablet ? 16.0 : 20.0);
-    
+
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(horizontalPadding),
@@ -138,7 +141,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
               style: TextStyle(
                 fontSize: labelFontSize,
                 fontWeight: FontWeight.w600,
-                color: Colors.grey,
+                color: AppTheme.muted,
               ),
             ),
             SizedBox(height: verticalSpacing * 0.6),
@@ -163,9 +166,12 @@ class _TranslateScreenState extends State<TranslateScreen> {
               height: buttonHeight,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFF003DA5),
+                  backgroundColor: AppTheme.yellow,
+                  foregroundColor: AppTheme.onYellow,
+                  elevation: 0,
+                  side: BorderSide(color: AppTheme.ink, width: 2),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 onPressed: _loading ? null : _handleTranslate,
@@ -173,8 +179,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
                   _loading ? 'Translating...' : 'Translate',
                   style: TextStyle(
                     fontSize: isMobile ? 14.0 : (isTablet ? 16.0 : 18.0),
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                    fontWeight: FontWeight.w900,
+                    color: AppTheme.onYellow,
+                    letterSpacing: 0.5,
                   ),
                 ),
               ),
@@ -186,7 +193,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 style: TextStyle(
                   fontSize: labelFontSize,
                   fontWeight: FontWeight.w600,
-                  color: Colors.grey,
+                  color: AppTheme.muted,
                 ),
               ),
               SizedBox(height: verticalSpacing * 0.6),
@@ -194,8 +201,18 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(horizontalPadding),
                 decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey[300]!),
-                  borderRadius: BorderRadius.circular(8),
+                  color: Theme.of(context).cardColor,
+                  border: Border.all(color: AppTheme.ink, width: 2),
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.ink.withValues(
+                        alpha: AppTheme.darkMode.value ? 0.35 : 0.85,
+                      ),
+                      offset: const Offset(3, 3),
+                      blurRadius: 0,
+                    ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -204,7 +221,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
                       _output,
                       style: TextStyle(
                         fontSize: outputFontSize,
-                        fontWeight: FontWeight.w500,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.ink,
                       ),
                     ),
                     SizedBox(height: verticalSpacing),
@@ -213,7 +231,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                       child: Row(
                         children: [
                           IconButton(
-                            icon: const Icon(Icons.content_copy),
+                            icon: Icon(Icons.content_copy, color: AppTheme.ink),
                             iconSize: isMobile ? 20 : 24,
                             onPressed: () {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -224,14 +242,17 @@ class _TranslateScreenState extends State<TranslateScreen> {
                             },
                           ),
                           IconButton(
-                            icon: const Icon(Icons.share),
+                            icon: Icon(Icons.share, color: AppTheme.ink),
                             iconSize: isMobile ? 20 : 24,
                             onPressed: () {
                               // TODO: Implement share functionality
                             },
                           ),
                           IconButton(
-                            icon: const Icon(Icons.favorite_border),
+                            icon: Icon(
+                              Icons.favorite_border,
+                              color: AppTheme.ink,
+                            ),
                             iconSize: isMobile ? 20 : 24,
                             onPressed: () {
                               // TODO: Implement save/favorite
@@ -249,9 +270,20 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(horizontalPadding),
                 decoration: BoxDecoration(
-                  color: Colors.orange[50],
-                  border: Border.all(color: Colors.orange[300]!),
-                  borderRadius: BorderRadius.circular(8),
+                  color: AppTheme.green.withValues(
+                    alpha: AppTheme.darkMode.value ? 0.18 : 0.15,
+                  ),
+                  border: Border.all(color: AppTheme.ink, width: 2),
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppTheme.ink.withValues(
+                        alpha: AppTheme.darkMode.value ? 0.35 : 0.85,
+                      ),
+                      offset: const Offset(3, 3),
+                      blurRadius: 0,
+                    ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -260,7 +292,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                       children: [
                         Icon(
                           Icons.info_outline,
-                          color: Colors.orange[700],
+                          color: AppTheme.ink,
                           size: isMobile ? 18 : 20,
                         ),
                         SizedBox(width: verticalSpacing * 0.5),
@@ -268,9 +300,11 @@ class _TranslateScreenState extends State<TranslateScreen> {
                           child: Text(
                             'Ambiguity found for "bar"',
                             style: TextStyle(
-                              fontSize: isMobile ? 12.0 : (isTablet ? 13.0 : 14.0),
+                              fontSize: isMobile
+                                  ? 12.0
+                                  : (isTablet ? 13.0 : 14.0),
                               fontWeight: FontWeight.w600,
-                              color: Colors.orange[700],
+                              color: AppTheme.ink,
                             ),
                           ),
                         ),
@@ -281,7 +315,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                       'Do you mean:',
                       style: TextStyle(
                         fontSize: isMobile ? 11.0 : (isTablet ? 12.0 : 13.0),
-                        color: Colors.grey,
+                        color: AppTheme.muted,
                       ),
                     ),
                     SizedBox(height: verticalSpacing * 0.6),
@@ -291,9 +325,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                           child: _ambiguityButton('បារ (bar - hair)', 0),
                         ),
                         SizedBox(width: verticalSpacing * 0.5),
-                        Expanded(
-                          child: _ambiguityButton('បាទ (bar - yes)', 1),
-                        ),
+                        Expanded(child: _ambiguityButton('បាទ (bar - yes)', 1)),
                       ],
                     ),
                   ],
@@ -309,14 +341,14 @@ class _TranslateScreenState extends State<TranslateScreen> {
                       Icon(
                         Icons.translate,
                         size: isMobile ? 56 : 64,
-                        color: Colors.grey[300],
+                        color: AppTheme.muted.withValues(alpha: 0.35),
                       ),
                       SizedBox(height: verticalSpacing),
                       Text(
                         'Translation will appear here',
                         style: TextStyle(
                           fontSize: isMobile ? 14.0 : (isTablet ? 15.0 : 16.0),
-                          color: Colors.grey[600],
+                          color: AppTheme.muted,
                         ),
                       ),
                     ],
@@ -332,15 +364,15 @@ class _TranslateScreenState extends State<TranslateScreen> {
   Widget _ambiguityButton(String text, int index) {
     final screenSize = MediaQuery.of(context).size;
     final isMobile = screenSize.width < 600;
-    
+
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        side: BorderSide(color: Colors.orange[300]!),
+        backgroundColor: Theme.of(context).cardColor,
+        foregroundColor: AppTheme.ink,
+        elevation: 0,
+        side: BorderSide(color: AppTheme.ink, width: 2),
         padding: EdgeInsets.symmetric(vertical: isMobile ? 10 : 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       ),
       onPressed: () {
         // TODO: Handle ambiguity resolution
@@ -350,8 +382,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
         textAlign: TextAlign.center,
         style: TextStyle(
           fontSize: isMobile ? 11.0 : (screenSize.width >= 1200 ? 13.0 : 12.0),
-          color: Colors.orange[700],
-          fontWeight: FontWeight.w500,
+          color: AppTheme.ink,
+          fontWeight: FontWeight.w600,
         ),
       ),
     );
