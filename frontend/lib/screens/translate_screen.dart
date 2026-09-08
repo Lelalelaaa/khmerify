@@ -231,15 +231,20 @@ class _TranslateScreenState extends State<TranslateScreen> {
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      children: _results.asMap().entries.where((entry) {
-                        return !_deletedResultIndexes.contains(entry.key);
-                      }).map((entry) {
-                        return _buildWordSegment(
-                          entry.value,
-                          index: entry.key,
-                          outputFontSize: outputFontSize,
-                        );
-                      }).toList(),
+                      children: _results
+                          .asMap()
+                          .entries
+                          .where((entry) {
+                            return !_deletedResultIndexes.contains(entry.key);
+                          })
+                          .map((entry) {
+                            return _buildWordSegment(
+                              entry.value,
+                              index: entry.key,
+                              outputFontSize: outputFontSize,
+                            );
+                          })
+                          .toList(),
                     ),
                     SizedBox(height: verticalSpacing),
                     Container(
@@ -375,7 +380,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
     return result.patternFallback ?? result.input;
   }
 
-  List<String> get _sentenceWords => _results.asMap().entries
+  List<String> get _sentenceWords => _results
+      .asMap()
+      .entries
       .where((entry) => !_deletedResultIndexes.contains(entry.key))
       .map((entry) => _sentenceWord(entry.value))
       .toList();
