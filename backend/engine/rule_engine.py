@@ -138,6 +138,16 @@ def confirm_alias(
     conn.close()
 
 
+def delete_word(romanized: str, khmer: str):
+    conn = get_conn()
+    conn.execute(
+        "DELETE FROM words WHERE romanized = ? AND khmer = ?",
+        (romanized.lower(), khmer),
+    )
+    conn.commit()
+    conn.close()
+
+
 def reject_suggestion(input_word: str, suggested_word: str, rejected_by: str = ""):
     conn = get_conn()
     conn.execute(

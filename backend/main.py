@@ -19,6 +19,7 @@ from engine.rule_engine import (
     add_word,
     confirm_alias,
     convert as khmer_convert,
+    delete_word,
     reject_suggestion,
 )
 
@@ -51,6 +52,11 @@ class ConfirmAliasRequest(BaseModel):
 
     gloss: str = ""
     added_by: str = ""
+
+
+class DeleteWordRequest(BaseModel):
+    romanized: str
+    khmer: str
 
 
 class RejectSuggestionRequest(BaseModel):
@@ -88,6 +94,12 @@ def confirm_alias_endpoint(request: ConfirmAliasRequest):
         request.gloss,
         request.added_by,
     )
+    return {"status": "ok"}
+
+
+@app.delete("/words")
+def delete_word_endpoint(request: DeleteWordRequest):
+    delete_word(request.romanized, request.khmer)
     return {"status": "ok"}
 
 

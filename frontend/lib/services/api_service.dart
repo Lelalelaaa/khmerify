@@ -145,6 +145,17 @@ class ApiService {
     }
   }
 
+  static Future<void> deleteWord(String romanized, String khmer) async {
+    final response = await http.delete(
+      Uri.parse("$baseUrl/words"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"romanized": romanized, "khmer": khmer}),
+    );
+    if (response.statusCode != 200) {
+      throw Exception("Failed to delete word: ${response.statusCode}");
+    }
+  }
+
   static Future<void> rejectSuggestion(
     String inputWord,
     String suggestedWord,

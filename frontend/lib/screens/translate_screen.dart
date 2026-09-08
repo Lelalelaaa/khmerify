@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../services/api_service.dart';
 import 'history_screen.dart';
@@ -15,6 +16,7 @@ class TranslateScreen extends StatefulWidget {
 class _TranslateScreenState extends State<TranslateScreen> {
   final TextEditingController _controller = TextEditingController();
   List<WordResult> _results = [];
+  final Set<int> _deletedResultIndexes = {};
   bool _loading = false;
   int _selectedTab = 0;
 
@@ -31,6 +33,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     setState(() {
       _loading = true;
       _results = [];
+      _deletedResultIndexes.clear();
     });
 
     try {
@@ -228,14 +231,36 @@ class _TranslateScreenState extends State<TranslateScreen> {
                     Wrap(
                       spacing: 8,
                       runSpacing: 8,
-                      children: _results
-                          .map(
-                            (result) => _buildWordSegment(
-                              result,
-                              outputFontSize: outputFontSize,
-                            ),
-                          )
-                          .toList(),
+                      children: _results.asMap().entries.where((entry) {
+                        return !_deletedResultIndexes.contains(entry.key);
+                      }).map((entry) {
+                        return _buildWordSegment(
+                          entry.value,
+                          index: entry.key,
+                          outputFontSize: outputFontSize,
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: verticalSpacing),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.all(horizontalPadding),
+                      decoration: BoxDecoration(
+                        color: AppTheme.yellow.withValues(
+                          alpha: AppTheme.darkMode.value ? 0.14 : 0.1,
+                        ),
+                        border: Border.all(color: AppTheme.ink, width: 1.5),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(
+                        _translatedSentence,
+                        style: TextStyle(
+                          fontSize: outputFontSize,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.ink,
+                          height: 1.35,
+                        ),
+                      ),
                     ),
                     SizedBox(height: verticalSpacing),
                     SingleChildScrollView(
@@ -245,7 +270,11 @@ class _TranslateScreenState extends State<TranslateScreen> {
                           IconButton(
                             icon: Icon(Icons.content_copy, color: AppTheme.ink),
                             iconSize: isMobile ? 20 : 24,
-                            onPressed: () {
+                            onPressed: () async {
+                              await Clipboard.setData(
+                                ClipboardData(text: _translatedSentence),
+                              );
+                              if (!mounted) return;
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text('Copied to clipboard'),
@@ -308,16 +337,13 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   Widget _buildWordSegment(
     WordResult result, {
+    required int index,
     required double outputFontSize,
   }) {
-    final label = result.found && result.candidates.isNotEmpty
-        ? result.candidates.first.khmer
-        : result.suggestion == null
-        ? result.patternFallback ?? result.input
-        : result.input;
+    final label = _sentenceWord(result);
     final canChooseAlternate = result.found && result.candidates.length > 1;
 
-    return ActionChip(
+    return InputChip(
       label: Text(
         label,
         style: TextStyle(
@@ -327,6 +353,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
         ),
       ),
       onPressed: () => _handleWordResult(result),
+      onDeleted: () => _removeTranslatedWord(index),
+      deleteIcon: Icon(Icons.close, color: AppTheme.ink),
       avatar: canChooseAlternate
           ? Icon(Icons.more_horiz, color: AppTheme.ink)
           : null,
@@ -335,6 +363,29 @@ class _TranslateScreenState extends State<TranslateScreen> {
           : AppTheme.yellow.withValues(alpha: 0.2),
       side: BorderSide(color: AppTheme.ink, width: 1.5),
     );
+  }
+
+  String _sentenceWord(WordResult result) {
+    if (result.found && result.candidates.isNotEmpty) {
+      return result.candidates.first.khmer;
+    }
+    if (result.suggestion?.options.isNotEmpty ?? false) {
+      return result.suggestion!.options.first.khmer;
+    }
+    return result.patternFallback ?? result.input;
+  }
+
+  List<String> get _sentenceWords => _results.asMap().entries
+      .where((entry) => !_deletedResultIndexes.contains(entry.key))
+      .map((entry) => _sentenceWord(entry.value))
+      .toList();
+
+  String get _translatedSentence => _sentenceWords.join(' ');
+
+  void _removeTranslatedWord(int index) {
+    setState(() {
+      _deletedResultIndexes.add(index);
+    });
   }
 
   Future<void> _handleWordResult(WordResult result) async {
@@ -352,6 +403,14 @@ class _TranslateScreenState extends State<TranslateScreen> {
                     subtitle: candidate.gloss?.isEmpty ?? true
                         ? null
                         : Text(candidate.gloss!),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete_outline),
+                      tooltip: 'Delete this dictionary translation',
+                      onPressed: () => _confirmDeleteDictionaryWord(
+                        result.input,
+                        candidate.khmer,
+                      ),
+                    ),
                   ),
                 )
                 .toList(),
@@ -441,6 +500,45 @@ class _TranslateScreenState extends State<TranslateScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Could not add this word')),
+        );
+      }
+    }
+  }
+
+  Future<void> _confirmDeleteDictionaryWord(
+    String romanized,
+    String khmer,
+  ) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Delete dictionary translation?'),
+        content: Text("Remove '$romanized' -> $khmer from the dictionary?"),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context, false),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, true),
+            child: const Text('Delete'),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) {
+      return;
+    }
+
+    try {
+      await ApiService.deleteWord(romanized, khmer);
+      if (!mounted) return;
+      Navigator.pop(context);
+      await _handleTranslate();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not delete dictionary word')),
         );
       }
     }
