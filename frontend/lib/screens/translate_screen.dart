@@ -391,10 +391,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
             suggestion.options.first.khmer,
           );
         } else if (confirmed == false) {
-          await ApiService.rejectSuggestion(
-            result.input,
-            suggestion.romanized,
-          );
+          await ApiService.rejectSuggestion(result.input, suggestion.romanized);
         } else {
           return;
         }
@@ -425,7 +422,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
             child: const Text('Cancel'),
           ),
           FilledButton(
-            onPressed: () => Navigator.pop(context, khmerController.text.trim()),
+            onPressed: () =>
+                Navigator.pop(context, khmerController.text.trim()),
             child: const Text('Add word'),
           ),
         ],

@@ -1,8 +1,11 @@
 import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 
 import 'dart:io' show Platform;
+
 import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'device_identity.dart';
 
 class WordCandidate {
@@ -10,11 +13,7 @@ class WordCandidate {
   final String? gloss;
   final int weight;
 
-  const WordCandidate({
-    required this.khmer,
-    this.gloss,
-    required this.weight,
-  });
+  const WordCandidate({required this.khmer, this.gloss, required this.weight});
 
   factory WordCandidate.fromJson(Map<String, dynamic> json) {
     return WordCandidate(
@@ -65,9 +64,7 @@ class WordResult {
           .toList(),
       suggestion: json['suggestion'] == null
           ? null
-          : WordSuggestion.fromJson(
-              json['suggestion'] as Map<String, dynamic>,
-            ),
+          : WordSuggestion.fromJson(json['suggestion'] as Map<String, dynamic>),
       patternFallback: json['pattern_fallback'] as String?,
     );
   }
