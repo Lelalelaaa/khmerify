@@ -18,6 +18,9 @@ class _TranslateScreenState extends State<TranslateScreen> {
   bool _loading = false;
   int _selectedTab = 0;
 
+  /// Fuzzy suggestions from the backend for the last typed input.
+  List<String> _suggestions = [];
+
   Future<void> _handleTranslate() async {
     if (_controller.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -26,15 +29,31 @@ class _TranslateScreenState extends State<TranslateScreen> {
       return;
     }
 
+    final input = _controller.text.trim();
+
     setState(() {
       _loading = true;
+      _suggestions = [];
     });
 
     try {
-      final result = await ApiService.convert(_controller.text);
+      final converted = await ApiService.convert(input);
       setState(() {
-        _output = result;
+        _output = converted;
       });
+
+      // Fetch fuzzy suggestions in background (single-word only)
+      final words = input.toLowerCase().split(' ');
+      if (words.length == 1) {
+        final suggestions = await ApiService.getSuggestions(words[0]);
+        if (mounted) {
+          setState(() {
+            _suggestions = suggestions
+                .where((s) => s != words[0])
+                .toList();
+          });
+        }
+      }
     } catch (e) {
       setState(() {
         _output = "Error: could not reach the server";
@@ -197,6 +216,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 ),
               ),
               SizedBox(height: verticalSpacing * 0.6),
+              // ── Output card ──────────────────────────────────────────────
               Container(
                 width: double.infinity,
                 padding: EdgeInsets.all(horizontalPadding),
@@ -264,73 +284,16 @@ class _TranslateScreenState extends State<TranslateScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: verticalSpacing),
-              // Ambiguity Resolution
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(horizontalPadding),
-                decoration: BoxDecoration(
-                  color: AppTheme.green.withValues(
-                    alpha: AppTheme.darkMode.value ? 0.18 : 0.15,
-                  ),
-                  border: Border.all(color: AppTheme.ink, width: 2),
-                  borderRadius: BorderRadius.circular(14),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppTheme.ink.withValues(
-                        alpha: AppTheme.darkMode.value ? 0.35 : 0.85,
-                      ),
-                      offset: const Offset(3, 3),
-                      blurRadius: 0,
-                    ),
-                  ],
+              // ── "Did you mean?" banner (shown only when suggestions exist) ─
+              if (_suggestions.isNotEmpty) ...[
+                SizedBox(height: verticalSpacing),
+                _didYouMeanBanner(
+                  isMobile: isMobile,
+                  isTablet: isTablet,
+                  horizontalPadding: horizontalPadding,
+                  verticalSpacing: verticalSpacing,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.info_outline,
-                          color: AppTheme.ink,
-                          size: isMobile ? 18 : 20,
-                        ),
-                        SizedBox(width: verticalSpacing * 0.5),
-                        Expanded(
-                          child: Text(
-                            'Ambiguity found for "bar"',
-                            style: TextStyle(
-                              fontSize: isMobile
-                                  ? 12.0
-                                  : (isTablet ? 13.0 : 14.0),
-                              fontWeight: FontWeight.w600,
-                              color: AppTheme.ink,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: verticalSpacing),
-                    Text(
-                      'Do you mean:',
-                      style: TextStyle(
-                        fontSize: isMobile ? 11.0 : (isTablet ? 12.0 : 13.0),
-                        color: AppTheme.muted,
-                      ),
-                    ),
-                    SizedBox(height: verticalSpacing * 0.6),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _ambiguityButton('បារ (bar - hair)', 0),
-                        ),
-                        SizedBox(width: verticalSpacing * 0.5),
-                        Expanded(child: _ambiguityButton('បាទ (bar - yes)', 1)),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              ],
             ] else if (!_loading)
               Center(
                 child: Padding(
@@ -361,30 +324,116 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 
-  Widget _ambiguityButton(String text, int index) {
-    final screenSize = MediaQuery.of(context).size;
-    final isMobile = screenSize.width < 600;
-
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).cardColor,
-        foregroundColor: AppTheme.ink,
-        elevation: 0,
-        side: BorderSide(color: AppTheme.ink, width: 2),
-        padding: EdgeInsets.symmetric(vertical: isMobile ? 10 : 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-      ),
-      onPressed: () {
-        // TODO: Handle ambiguity resolution
-      },
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-          fontSize: isMobile ? 11.0 : (screenSize.width >= 1200 ? 13.0 : 12.0),
-          color: AppTheme.ink,
-          fontWeight: FontWeight.w600,
+  Widget _didYouMeanBanner({
+    required bool isMobile,
+    required bool isTablet,
+    required double horizontalPadding,
+    required double verticalSpacing,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.all(horizontalPadding),
+      decoration: BoxDecoration(
+        color: AppTheme.yellow.withValues(
+          alpha: AppTheme.darkMode.value ? 0.18 : 0.15,
         ),
+        border: Border.all(color: AppTheme.ink, width: 2),
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          BoxShadow(
+            color: AppTheme.ink.withValues(
+              alpha: AppTheme.darkMode.value ? 0.35 : 0.85,
+            ),
+            offset: const Offset(3, 3),
+            blurRadius: 0,
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.help_outline,
+                color: AppTheme.ink,
+                size: isMobile ? 18 : 20,
+              ),
+              SizedBox(width: verticalSpacing * 0.5),
+              Expanded(
+                child: Text(
+                  'Did you mean to type:',
+                  style: TextStyle(
+                    fontSize: isMobile ? 12.0 : (isTablet ? 13.0 : 14.0),
+                    fontWeight: FontWeight.w600,
+                    color: AppTheme.ink,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: verticalSpacing * 0.8),
+          ..._suggestions.map((suggestion) {
+            return Padding(
+              padding: EdgeInsets.only(bottom: verticalSpacing * 0.5),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppTheme.ink,
+                        side: BorderSide(color: AppTheme.ink, width: 2),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        padding: EdgeInsets.symmetric(
+                          vertical: isMobile ? 8 : 10,
+                          horizontal: 12,
+                        ),
+                      ),
+                      onPressed: () async {
+                        _controller.text = suggestion;
+                        setState(() => _suggestions = []);
+                        await _handleTranslate();
+                      },
+                      child: Text(
+                        '"$suggestion"',
+                        style: TextStyle(
+                          fontSize: isMobile ? 12.0 : 13.0,
+                          fontWeight: FontWeight.w700,
+                          color: AppTheme.ink,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: verticalSpacing * 0.5),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      foregroundColor: AppTheme.muted,
+                      padding: EdgeInsets.symmetric(
+                        vertical: isMobile ? 8 : 10,
+                        horizontal: 8,
+                      ),
+                    ),
+                    onPressed: () async {
+                      await ApiService.rejectSuggestion(suggestion);
+                      setState(() {
+                        _suggestions.remove(suggestion);
+                      });
+                    },
+                    child: Text(
+                      'Dismiss',
+                      style: TextStyle(
+                        fontSize: isMobile ? 11.0 : 12.0,
+                        color: AppTheme.muted,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
+        ],
       ),
     );
   }

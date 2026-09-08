@@ -16,6 +16,7 @@ class ApiService {
     }
   }
 
+  /// Convert romanised Khmer text to Khmer script.
   static Future<String> convert(String input) async {
     final response = await http.post(
       Uri.parse("$baseUrl/convert"),
@@ -28,6 +29,48 @@ class ApiService {
       return data["output"];
     } else {
       throw Exception("Failed to convert: ${response.statusCode}");
+    }
+  }
+
+  /// Return up to 3 fuzzy-matched spelling suggestions for [input].
+  /// Returns an empty list on any error so callers can degrade gracefully.
+  static Future<List<String>> getSuggestions(String input) async {
+    try {
+      final uri = Uri.parse("$baseUrl/suggest")
+          .replace(queryParameters: {"q": input});
+      final response = await http.get(uri);
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body) as Map<String, dynamic>;
+        return List<String>.from(data["suggestions"] as List);
+      }
+    } catch (_) {
+      // Network unavailable — silently degrade
+    }
+    return [];
+  }
+
+  /// Tell the backend that the user dismissed a suggestion so it won't appear again.
+  static Future<void> rejectSuggestion(String roman) async {
+    try {
+      await http.post(
+        Uri.parse("$baseUrl/suggest/reject"),
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode({"roman": roman}),
+      );
+    } catch (_) {
+      // Best-effort; ignore errors
+    }
+  }
+
+  /// Submit a user-confirmed romanisation → Khmer mapping to the dictionary.
+  static Future<void> submitWord(String roman, String khmer) async {
+    final response = await http.post(
+      Uri.parse("$baseUrl/words"),
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode({"roman": roman, "khmer": khmer}),
+    );
+    if (response.statusCode != 201) {
+      throw Exception("Failed to submit word: ${response.statusCode}");
     }
   }
 }

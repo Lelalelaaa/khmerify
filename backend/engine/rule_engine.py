@@ -3,6 +3,16 @@
 
 import json
 import os
+import difflib
+
+from engine import db as _db
+
+# Initialise DB (creates tables + seeds from words.json) once at import time.
+_db.init_db()
+
+# ---------------------------------------------------------------------------
+# Phoneme maps — DO NOT MODIFY
+# ---------------------------------------------------------------------------
 
 CONSONANTS = {
     "k": "ក",
@@ -46,6 +56,9 @@ WORDS_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "words.json")
 
 with open(WORDS_PATH, "r", encoding="utf-8") as f:
     WORDS = json.load(f)
+# ---------------------------------------------------------------------------
+# Pattern-based fallback converter — DO NOT MODIFY
+# ---------------------------------------------------------------------------
 
 
 def convert_by_pattern(text: str) -> str:
@@ -81,12 +94,39 @@ def convert_by_pattern(text: str) -> str:
     return "".join(result)
 
 
+# ---------------------------------------------------------------------------
+# DB-backed lookup & fuzzy suggestion
+# ---------------------------------------------------------------------------
+
+def lookup(roman: str) -> str | None:
+    """Return the Khmer string for an exact romanisation, or None."""
+    return _db.lookup(roman)
+
+
+def fuzzy_suggest(roman: str, n: int = 3, cutoff: float = 0.6) -> list[str]:
+    """Return up to *n* close romanisation suggestions from the DB.
+
+    Suggestions that the user has previously rejected are excluded.
+    """
+    candidates = _db.all_romans()
+    matches = difflib.get_close_matches(roman.lower(), candidates, n=n, cutoff=cutoff)
+    # Filter out the exact input itself and any user-rejected suggestions
+    return [m for m in matches if m != roman.lower() and not _db.is_rejected(m)]
+
+
+# ---------------------------------------------------------------------------
+# Public converter — same signature as before
+# ---------------------------------------------------------------------------
+
 def convert(text: str) -> str:
     words = text.lower().split(" ")
     result = []
     for word in words:
         if word in WORDS:
             result.append(WORDS[word])
+        hit = lookup(word)
+        if hit is not None:
+            result.append(hit)
         else:
             result.append(convert_by_pattern(word))
     return " ".join(result)
