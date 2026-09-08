@@ -1,9 +1,7 @@
 # uvicorn main:app --port 8000 --reload
 
 from fastapi import FastAPI
-from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import Response
 from pydantic import BaseModel
 
 app = FastAPI()
@@ -16,26 +14,49 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-from engine.rule_engine import convert as khmer_convert
-from engine.rule_engine import convert as khmer_convert, fuzzy_suggest
-from engine import db as _db
+from engine.db import get_conn, init_db
+from engine.rule_engine import (
+    add_word,
+    confirm_alias,
+    convert as khmer_convert,
+    reject_suggestion,
+)
 
 
 # ---------------------------------------------------------------------------
 # Models
 # ---------------------------------------------------------------------------
 
+
+@app.on_event("startup")
+def on_startup():
+    init_db()
+
 class ConvertRequest(BaseModel):
     input: str
+    user_id: str = ""
 
 
-class RejectRequest(BaseModel):
-    roman: str
-
-
-class SubmitWordRequest(BaseModel):
-    roman: str
+class AddWordRequest(BaseModel):
+    romanized: str
     khmer: str
+    gloss: str = ""
+    source: str = "user"
+    added_by: str = ""
+
+
+class ConfirmAliasRequest(BaseModel):
+    new_spelling: str
+    khmer: str
+
+    gloss: str = ""
+    added_by: str = ""
+
+
+class RejectSuggestionRequest(BaseModel):
+    input_word: str
+    suggested_word: str
+    user_id: str = ""
 
 
 # ---------------------------------------------------------------------------
@@ -44,34 +65,49 @@ class SubmitWordRequest(BaseModel):
 
 @app.post("/convert")
 def convert(request: ConvertRequest):
-    """Convert romanised Khmer to Khmer script. Unchanged behaviour."""
-    return {"output": khmer_convert(request.input)}
-    
+    return {"results": khmer_convert(request.input, request.user_id)}
 
 
-@app.get("/suggest")
-def suggest(q: str = Query(..., min_length=1)):
-    """Return up to 3 fuzzy-matched spelling suggestions for *q*.
-
-    Suggestions the user has already rejected are excluded automatically.
-    """
-    suggestions = fuzzy_suggest(q)
-    return {"suggestions": suggestions}
-
-
-@app.post("/suggest/reject", status_code=204)
-def reject_suggestion(request: RejectRequest):
-    """Record that the user dismissed a 'did you mean?' suggestion."""
-    _db.reject(request.roman)
-    return Response(status_code=204)
+@app.post("/words")
+def submit_word(request: AddWordRequest):
+    add_word(
+        request.romanized,
+        request.khmer,
+        request.gloss,
+        request.source,
+        request.added_by,
+    )
+    return {"status": "ok"}
 
 
-@app.post("/words", status_code=201)
-def submit_word(request: SubmitWordRequest):
-    """Add a user-submitted romanisation → Khmer mapping to the dictionary."""
-    roman = request.roman.strip().lower()
-    khmer = request.khmer.strip()
-    if not roman or not khmer:
-        raise HTTPException(status_code=422, detail="roman and khmer must be non-empty")
-    _db.insert_word(roman, khmer, source="user")
-    return {"roman": roman, "khmer": khmer}
+@app.post("/words/confirm-alias")
+def confirm_alias_endpoint(request: ConfirmAliasRequest):
+    confirm_alias(
+        request.new_spelling,
+        request.khmer,
+        request.gloss,
+        request.added_by,
+    )
+    return {"status": "ok"}
+
+
+@app.post("/words/reject-suggestion")
+def reject_suggestion_endpoint(request: RejectSuggestionRequest):
+    reject_suggestion(request.input_word, request.suggested_word, request.user_id)
+    return {"status": "ok"}
+
+
+@app.get("/admin/rejection-stats")
+def rejection_stats():
+    conn = get_conn()
+    rows = conn.execute(
+        """
+        SELECT input_word, suggested_word, COUNT(*) as rejection_count
+        FROM rejected_suggestions
+        GROUP BY input_word, suggested_word
+        ORDER BY rejection_count DESC
+        LIMIT 50
+        """
+    ).fetchall()
+    conn.close()
+    return {"top_rejected_pairs": [dict(row) for row in rows]}

@@ -14,12 +14,9 @@ class TranslateScreen extends StatefulWidget {
 
 class _TranslateScreenState extends State<TranslateScreen> {
   final TextEditingController _controller = TextEditingController();
-  String _output = "";
+  List<WordResult> _results = [];
   bool _loading = false;
   int _selectedTab = 0;
-
-  /// Fuzzy suggestions from the backend for the last typed input.
-  List<String> _suggestions = [];
 
   Future<void> _handleTranslate() async {
     if (_controller.text.isEmpty) {
@@ -33,40 +30,31 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
     setState(() {
       _loading = true;
-      _suggestions = [];
+      _results = [];
     });
 
     try {
-      final converted = await ApiService.convert(input);
-      setState(() {
-        _output = converted;
-      });
-
-      // Fetch fuzzy suggestions in background (single-word only)
-      final words = input.toLowerCase().split(' ');
-      if (words.length == 1) {
-        final suggestions = await ApiService.getSuggestions(words[0]);
-        if (mounted) {
-          setState(() {
-            _suggestions = suggestions
-                .where((s) => s != words[0])
-                .toList();
-          });
-        }
+      final results = await ApiService.convert(input);
+      if (mounted) {
+        setState(() {
+          _results = results;
+        });
       }
     } catch (e) {
-      setState(() {
-        _output = "Error: could not reach the server";
-      });
       if (mounted) {
+        setState(() {
+          _results = [];
+        });
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Error: could not reach the server')),
         );
       }
     } finally {
-      setState(() {
-        _loading = false;
-      });
+      if (mounted) {
+        setState(() {
+          _loading = false;
+        });
+      }
     }
   }
 
@@ -206,7 +194,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
               ),
             ),
             SizedBox(height: verticalSpacing * 1.5),
-            if (_output.isNotEmpty) ...[
+            if (_results.isNotEmpty) ...[
               Text(
                 'KHMER SCRIPT',
                 style: TextStyle(
@@ -237,13 +225,17 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      _output,
-                      style: TextStyle(
-                        fontSize: outputFontSize,
-                        fontWeight: FontWeight.w700,
-                        color: AppTheme.ink,
-                      ),
+                    Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: _results
+                          .map(
+                            (result) => _buildWordSegment(
+                              result,
+                              outputFontSize: outputFontSize,
+                            ),
+                          )
+                          .toList(),
                     ),
                     SizedBox(height: verticalSpacing),
                     SingleChildScrollView(
@@ -284,16 +276,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
                   ],
                 ),
               ),
-              // ── "Did you mean?" banner (shown only when suggestions exist) ─
-              if (_suggestions.isNotEmpty) ...[
-                SizedBox(height: verticalSpacing),
-                _didYouMeanBanner(
-                  isMobile: isMobile,
-                  isTablet: isTablet,
-                  horizontalPadding: horizontalPadding,
-                  verticalSpacing: verticalSpacing,
-                ),
-              ],
             ] else if (!_loading)
               Center(
                 child: Padding(
@@ -324,118 +306,146 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 
-  Widget _didYouMeanBanner({
-    required bool isMobile,
-    required bool isTablet,
-    required double horizontalPadding,
-    required double verticalSpacing,
+  Widget _buildWordSegment(
+    WordResult result, {
+    required double outputFontSize,
   }) {
-    return Container(
-      width: double.infinity,
-      padding: EdgeInsets.all(horizontalPadding),
-      decoration: BoxDecoration(
-        color: AppTheme.yellow.withValues(
-          alpha: AppTheme.darkMode.value ? 0.18 : 0.15,
+    final label = result.found && result.candidates.isNotEmpty
+        ? result.candidates.first.khmer
+        : result.suggestion == null
+        ? result.patternFallback ?? result.input
+        : result.input;
+    final canChooseAlternate = result.found && result.candidates.length > 1;
+
+    return ActionChip(
+      label: Text(
+        label,
+        style: TextStyle(
+          fontSize: outputFontSize,
+          fontWeight: FontWeight.w700,
+          color: AppTheme.ink,
         ),
-        border: Border.all(color: AppTheme.ink, width: 2),
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.ink.withValues(
-              alpha: AppTheme.darkMode.value ? 0.35 : 0.85,
-            ),
-            offset: const Offset(3, 3),
-            blurRadius: 0,
-          ),
-        ],
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.help_outline,
-                color: AppTheme.ink,
-                size: isMobile ? 18 : 20,
-              ),
-              SizedBox(width: verticalSpacing * 0.5),
-              Expanded(
-                child: Text(
-                  'Did you mean to type:',
-                  style: TextStyle(
-                    fontSize: isMobile ? 12.0 : (isTablet ? 13.0 : 14.0),
-                    fontWeight: FontWeight.w600,
-                    color: AppTheme.ink,
+      onPressed: () => _handleWordResult(result),
+      avatar: canChooseAlternate
+          ? Icon(Icons.more_horiz, color: AppTheme.ink)
+          : null,
+      backgroundColor: result.found
+          ? Theme.of(context).cardColor
+          : AppTheme.yellow.withValues(alpha: 0.2),
+      side: BorderSide(color: AppTheme.ink, width: 1.5),
+    );
+  }
+
+  Future<void> _handleWordResult(WordResult result) async {
+    if (result.found && result.candidates.length > 1) {
+      await showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: Text('Alternate translations for ${result.input}'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: result.candidates
+                .map(
+                  (candidate) => ListTile(
+                    title: Text(candidate.khmer),
+                    subtitle: candidate.gloss?.isEmpty ?? true
+                        ? null
+                        : Text(candidate.gloss!),
                   ),
-                ),
-              ),
-            ],
+                )
+                .toList(),
           ),
-          SizedBox(height: verticalSpacing * 0.8),
-          ..._suggestions.map((suggestion) {
-            return Padding(
-              padding: EdgeInsets.only(bottom: verticalSpacing * 0.5),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: OutlinedButton(
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: AppTheme.ink,
-                        side: BorderSide(color: AppTheme.ink, width: 2),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: EdgeInsets.symmetric(
-                          vertical: isMobile ? 8 : 10,
-                          horizontal: 12,
-                        ),
-                      ),
-                      onPressed: () async {
-                        _controller.text = suggestion;
-                        setState(() => _suggestions = []);
-                        await _handleTranslate();
-                      },
-                      child: Text(
-                        '"$suggestion"',
-                        style: TextStyle(
-                          fontSize: isMobile ? 12.0 : 13.0,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.ink,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: verticalSpacing * 0.5),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      foregroundColor: AppTheme.muted,
-                      padding: EdgeInsets.symmetric(
-                        vertical: isMobile ? 8 : 10,
-                        horizontal: 8,
-                      ),
-                    ),
-                    onPressed: () async {
-                      await ApiService.rejectSuggestion(suggestion);
-                      setState(() {
-                        _suggestions.remove(suggestion);
-                      });
-                    },
-                    child: Text(
-                      'Dismiss',
-                      style: TextStyle(
-                        fontSize: isMobile ? 11.0 : 12.0,
-                        color: AppTheme.muted,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
+        ),
+      );
+      return;
+    }
+
+    final suggestion = result.suggestion;
+    if (suggestion != null && suggestion.options.isNotEmpty) {
+      final confirmed = await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Did you mean?'),
+          content: Text(
+            "Did you mean '${suggestion.romanized}' "
+            '-> ${suggestion.options.first.khmer}?',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text("No, it's different"),
+            ),
+            FilledButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Yes'),
+            ),
+          ],
+        ),
+      );
+
+      try {
+        if (confirmed == true) {
+          await ApiService.confirmAlias(
+            result.input,
+            suggestion.options.first.khmer,
+          );
+        } else if (confirmed == false) {
+          await ApiService.rejectSuggestion(
+            result.input,
+            suggestion.romanized,
+          );
+        } else {
+          return;
+        }
+        await _handleTranslate();
+      } catch (_) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Could not update this word')),
+          );
+        }
+      }
+      return;
+    }
+
+    final khmerController = TextEditingController();
+    final khmer = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('Add "${result.input}"'),
+        content: TextField(
+          controller: khmerController,
+          autofocus: true,
+          decoration: const InputDecoration(hintText: 'Correct Khmer script'),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () => Navigator.pop(context, khmerController.text.trim()),
+            child: const Text('Add word'),
+          ),
         ],
       ),
     );
+    khmerController.dispose();
+
+    if (khmer == null || khmer.isEmpty) {
+      return;
+    }
+    try {
+      await ApiService.addWord(result.input, khmer);
+      await _handleTranslate();
+    } catch (_) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Could not add this word')),
+        );
+      }
+    }
   }
 
   Widget _buildOtherTabs() {
