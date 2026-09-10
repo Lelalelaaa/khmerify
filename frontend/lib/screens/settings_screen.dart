@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'landing_screen.dart';
+import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -377,7 +378,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Text('Cancel', style: TextStyle(color: AppTheme.muted)),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
+              // Actually log out of Firebase
+              await AuthService.signOut();
+              
+              if (!context.mounted) return;
               Navigator.pop(context);
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const LandingScreen()),

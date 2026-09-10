@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../services/api_service.dart';
 import '../services/app_data.dart';
+import '../services/database_service.dart';
 import 'library_screen.dart';
 import 'history_screen.dart';
 import 'settings_screen.dart';
+import 'login_screen.dart';
 import '../theme/app_theme.dart';
 
 class TranslateScreen extends StatefulWidget {
@@ -50,6 +53,12 @@ class _TranslateScreenState extends State<TranslateScreen> {
             romanized: input,
             khmer: results.map(_sentenceWord).join(' '),
           );
+        }
+        
+        final db = DatabaseService();
+        final fullKhmerText = results.map((r) => _sentenceWord(r)).join(' ');
+        if (fullKhmerText.trim().isNotEmpty) {
+          await db.saveTranslation(input, fullKhmerText);
         }
       }
     } catch (e) {
@@ -96,15 +105,36 @@ class _TranslateScreenState extends State<TranslateScreen> {
             ),
             centerTitle: false,
             actions: [
-              Padding(
-                padding: EdgeInsets.all(isMobile ? 12 : 16),
-                child: Center(
-                  child: CircleAvatar(
-                    backgroundColor: AppTheme.yellow,
-                    radius: isMobile ? 18 : 20,
-                    child: Icon(Icons.person, color: AppTheme.onYellow),
-                  ),
-                ),
+              StreamBuilder<User?>(
+                stream: FirebaseAuth.instance.authStateChanges(),
+                builder: (context, snapshot) {
+                  final user = snapshot.data;
+                  return Padding(
+                    padding: EdgeInsets.all(isMobile ? 12 : 16),
+                    child: Center(
+                      child: GestureDetector(
+                        onTap: () {
+                          // Navigate to the Settings tab (index 3)
+                          setState(() => _selectedTab = 3);
+                        },
+                        child: CircleAvatar(
+                          backgroundColor: AppTheme.yellow,
+                          radius: isMobile ? 18 : 20,
+                          child: user?.photoURL != null
+                              ? ClipOval(
+                                  child: Image.network(
+                                    user!.photoURL!,
+                                    width: isMobile ? 36 : 40,
+                                    height: isMobile ? 36 : 40,
+                                    fit: BoxFit.cover,
+                                  ),
+                                )
+                              : Icon(Icons.person, color: AppTheme.onYellow),
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -170,6 +200,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
             SizedBox(height: verticalSpacing * 0.6),
             TextField(
               controller: _controller,
+              style: TextStyle(color: AppTheme.ink),
               decoration: InputDecoration(
                 hintText: 'Type romanized khmer here (e.g., suosdey)',
                 border: OutlineInputBorder(
@@ -225,7 +256,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(horizontalPadding),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).cardColor,
+                  color: AppTheme.darkMode.value ? const Color(0xFF292725) : Colors.white,
                   border: Border.all(color: AppTheme.ink, width: 2),
                   borderRadius: BorderRadius.circular(14),
                   boxShadow: [
@@ -255,6 +286,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
                               entry.value,
                               index: entry.key,
                               outputFontSize: outputFontSize,
+                              isDark: AppTheme.darkMode.value,
                             );
                           })
                           .toList(),
@@ -357,6 +389,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     WordResult result, {
     required int index,
     required double outputFontSize,
+    required bool isDark,
   }) {
     final label = _sentenceWord(result, index: index);
     final canChooseAlternate = result.found && result.candidates.length > 1;
@@ -377,7 +410,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
           ? Icon(Icons.more_horiz, color: AppTheme.ink)
           : null,
       backgroundColor: result.found
-          ? Theme.of(context).cardColor
+          ? (isDark ? const Color(0xFF191817) : Colors.white)
           : AppTheme.yellow.withValues(alpha: 0.2),
       side: BorderSide(color: AppTheme.ink, width: 1.5),
     );
@@ -524,7 +557,6 @@ class _TranslateScreenState extends State<TranslateScreen> {
         ],
       ),
     );
-    khmerController.dispose();
 
     if (khmer == null || khmer.isEmpty) {
       return;

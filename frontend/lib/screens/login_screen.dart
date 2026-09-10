@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'translate_screen.dart';
 import '../services/auth_service.dart';
@@ -15,6 +16,65 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  bool _isLoading = false;
+
+  Future<void> _handleEmailLogin() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter your email and password.')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const TranslateScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'user-not-found':
+          message = 'No account found with this email.';
+          break;
+        case 'wrong-password':
+        case 'invalid-credential':
+          message = 'Incorrect email or password. Please try again.';
+          break;
+        case 'invalid-email':
+          message = 'Please enter a valid email address.';
+          break;
+        case 'user-disabled':
+          message = 'This account has been disabled.';
+          break;
+        case 'too-many-requests':
+          message = 'Too many failed attempts. Please try again later.';
+          break;
+        default:
+          message = 'Login failed. Please check your credentials.';
+      }
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -80,6 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 TextField(
                   controller: _emailController,
                   style: TextStyle(color: AppTheme.ink),
+                  keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
                     hintText: 'Enter your email',
                     contentPadding: EdgeInsets.symmetric(
@@ -157,22 +218,26 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (context) => const TranslateScreen(),
-                        ),
-                      );
-                    },
-                    child: Text(
-                      'LOG IN',
-                      style: TextStyle(
-                        fontSize: isMobile ? 14.0 : (isTablet ? 16.0 : 18.0),
-                        fontWeight: FontWeight.w900,
-                        color: AppTheme.onYellow,
-                        letterSpacing: 0.5,
-                      ),
-                    ),
+                    onPressed: _isLoading ? null : _handleEmailLogin,
+                    child: _isLoading
+                        ? SizedBox(
+                            height: 20,
+                            width: 20,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppTheme.onYellow,
+                            ),
+                          )
+                        : Text(
+                            'LOG IN',
+                            style: TextStyle(
+                              fontSize:
+                                  isMobile ? 14.0 : (isTablet ? 16.0 : 18.0),
+                              fontWeight: FontWeight.w900,
+                              color: AppTheme.onYellow,
+                              letterSpacing: 0.5,
+                            ),
+                          ),
                   ),
                 ),
                 SizedBox(height: verticalSpacing),
@@ -205,9 +270,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 ),
                 SizedBox(height: verticalSpacing),
-                // Social Login Buttons
+                // Social Login Buttons — Google, Facebook, Twitter only (no Apple)
                 Row(
                   children: [
+                    // Google
                     Expanded(
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
@@ -221,32 +287,45 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onPressed: () async {
-                          // Trigger Google Login
-                          final user = await AuthService.signInWithGoogle();
-
-                          // If login was successful, go to the Translate Screen!
-                          if (user != null && context.mounted) {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (context) => const TranslateScreen(),
-                              ),
-                            );
-                          }
-                        },
+                        onPressed: _isLoading
+                            ? null
+                            : () async {
+                                setState(() => _isLoading = true);
+                                final user =
+                                    await AuthService.signInWithGoogle();
+                                if (mounted) {
+                                  setState(() => _isLoading = false);
+                                  if (user != null) {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const TranslateScreen(),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content:
+                                            Text('Google sign-in failed. Please try again.'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
                         child: Text(
                           'G',
                           style: TextStyle(
-                            fontSize: isMobile
-                                ? 16.0
-                                : (isTablet ? 18.0 : 20.0),
+                            fontSize:
+                                isMobile ? 16.0 : (isTablet ? 18.0 : 20.0),
                             fontWeight: FontWeight.bold,
                             color: AppTheme.ink,
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(width: verticalSpacing * 0.6),
+                    SizedBox(width: verticalSpacing * 0.4),
+                    // Facebook
                     Expanded(
                       child: OutlinedButton(
                         style: OutlinedButton.styleFrom(
@@ -260,11 +339,88 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: _isLoading
+                            ? null
+                            : () async {
+                                setState(() => _isLoading = true);
+                                final user =
+                                    await AuthService.signInWithFacebook();
+                                if (mounted) {
+                                  setState(() => _isLoading = false);
+                                  if (user != null) {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const TranslateScreen(),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Facebook sign-in failed. Please try again.'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
                         child: Icon(
-                          Icons.apple,
+                          Icons.facebook,
                           size: isMobile ? 22.0 : (isTablet ? 24.0 : 26.0),
                           color: AppTheme.ink,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: verticalSpacing * 0.4),
+                    // Twitter / X
+                    Expanded(
+                      child: OutlinedButton(
+                        style: OutlinedButton.styleFrom(
+                          backgroundColor: Theme.of(context).cardColor,
+                          foregroundColor: AppTheme.ink,
+                          padding: EdgeInsets.symmetric(
+                            vertical: buttonHeight * 0.35,
+                          ),
+                          side: BorderSide(color: AppTheme.ink, width: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        onPressed: _isLoading
+                            ? null
+                            : () async {
+                                setState(() => _isLoading = true);
+                                final user =
+                                    await AuthService.signInWithTwitter();
+                                if (mounted) {
+                                  setState(() => _isLoading = false);
+                                  if (user != null) {
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const TranslateScreen(),
+                                      ),
+                                    );
+                                  } else {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                            'Twitter sign-in failed. Please try again.'),
+                                        backgroundColor: Colors.red,
+                                      ),
+                                    );
+                                  }
+                                }
+                              },
+                        child: Text(
+                          '𝕏',
+                          style: TextStyle(
+                            fontSize:
+                                isMobile ? 18.0 : (isTablet ? 20.0 : 22.0),
+                            fontWeight: FontWeight.bold,
+                            color: AppTheme.ink,
+                          ),
                         ),
                       ),
                     ),
@@ -284,9 +440,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextSpan(
                           text: 'Sign up',
                           style: TextStyle(
-                            fontSize: isMobile
-                                ? 12.0
-                                : (isTablet ? 13.0 : 14.0),
+                            fontSize:
+                                isMobile ? 12.0 : (isTablet ? 13.0 : 14.0),
                             color: AppTheme.ink,
                             fontWeight: FontWeight.bold,
                           ),

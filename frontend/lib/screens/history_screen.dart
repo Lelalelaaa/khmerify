@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/services.dart';
 
-import '../services/app_data.dart';
 import '../theme/app_theme.dart';
+import '../services/database_service.dart';
 
 class HistoryScreen extends StatefulWidget {
   final bool showAppBar;
@@ -13,6 +16,8 @@ class HistoryScreen extends StatefulWidget {
 }
 
 class _HistoryScreenState extends State<HistoryScreen> {
+  final DatabaseService _databaseService = DatabaseService();
+
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
@@ -36,46 +41,89 @@ class _HistoryScreenState extends State<HistoryScreen> {
         ? 12.0
         : (screenSize.width >= 1200 ? 24.0 : 16.0);
 
-    return ValueListenableBuilder<List<HistoryEntry>>(
-      valueListenable: AppData.history,
-      builder: (context, history, child) {
-        return ValueListenableBuilder<bool>(
-          valueListenable: AppTheme.darkMode,
-          builder: (context, isDark, child) {
-            return Scaffold(
-              backgroundColor: AppTheme.paper,
-              appBar: widget.showAppBar
-                  ? AppBar(
-                      backgroundColor: AppTheme.paper,
-                      elevation: 0,
-                      title: Text(
-                        'Khmerify',
-                        style: TextStyle(
-                          fontSize: appBarTitleSize,
-                          fontWeight: FontWeight.bold,
-                          color: AppTheme.ink,
+    return ValueListenableBuilder<bool>(
+      valueListenable: AppTheme.darkMode,
+      builder: (context, isDark, child) {
+        // Card color that respects dark mode
+        final cardColor = isDark ? const Color(0xFF292725) : Colors.white;
+
+        return Scaffold(
+          backgroundColor: AppTheme.paper,
+          appBar: widget.showAppBar
+              ? AppBar(
+                  backgroundColor: AppTheme.paper,
+                  elevation: 0,
+                  title: Text(
+                    'Khmerify',
+                    style: TextStyle(
+                      fontSize: appBarTitleSize,
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.ink,
+                    ),
+                  ),
+                  centerTitle: false,
+                  actions: [
+                    Padding(
+                      padding: EdgeInsets.all(isMobile ? 12 : 16),
+                      child: Center(
+                        child: CircleAvatar(
+                          backgroundColor: AppTheme.yellow,
+                          radius: isMobile ? 18 : 20,
+                          child: Icon(Icons.person, color: AppTheme.onYellow),
                         ),
                       ),
-                      centerTitle: false,
-                      actions: [
-                        Padding(
-                          padding: EdgeInsets.all(isMobile ? 12 : 16),
-                          child: Center(
-                            child: CircleAvatar(
-                              backgroundColor: AppTheme.yellow,
-                              radius: isMobile ? 18 : 20,
-                              child: Icon(
-                                Icons.person,
-                                color: AppTheme.onYellow,
-                              ),
-                            ),
-                          ),
+                    ),
+                  ],
+                )
+              : null,
+          body: StreamBuilder<User?>(
+            stream: FirebaseAuth.instance.authStateChanges(),
+            builder: (context, authSnapshot) {
+              final user = authSnapshot.data;
+
+              // Not logged in — show a prompt to log in
+              if (user == null) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.lock_outline,
+                        size: isMobile ? 56 : 64,
+                        color: AppTheme.muted.withValues(alpha: 0.5),
+                      ),
+                      SizedBox(height: isMobile ? 12 : 16),
+                      Text(
+                        'Sign in to see your history',
+                        style: TextStyle(
+                          fontSize: isMobile
+                              ? 14.0
+                              : (screenSize.width >= 1200 ? 18.0 : 16.0),
+                          color: AppTheme.muted,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    )
-                  : null,
-              body: history.isEmpty
-                  ? Center(
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              // Logged in — show Firestore history
+              return StreamBuilder<QuerySnapshot>(
+                stream: _databaseService.getHistory(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  }
+
+                  final docs = snapshot.data?.docs ?? [];
+
+                  if (docs.isEmpty) {
+                    return Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -97,151 +145,185 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           ),
                         ],
                       ),
-                    )
-                  : ListView.builder(
-                      itemCount: history.length,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: horizontalPadding,
-                        vertical: isMobile ? 8 : 12,
-                      ),
-                      itemBuilder: (context, index) {
-                        final item = history[index];
-                        final timestamp = _dateLabel(item.createdAt);
-                        return Column(
-                          children: [
-                            if (index == 0 ||
-                                _dateLabel(history[index - 1].createdAt) !=
-                                    timestamp)
-                              Padding(
-                                padding: EdgeInsets.symmetric(
-                                  vertical: isMobile ? 8 : 12,
+                    );
+                  }
+
+                  // Pre-calculate formatted timestamps
+                  List<HistoryItem> historyItems = docs.map((doc) {
+                    final data = doc.data() as Map<String, dynamic>;
+                    return HistoryItem(
+                      id: doc.id,
+                      romanizedText: data['romanizedText'] ?? '',
+                      khmerText: data['khmerText'] ?? '',
+                      timestamp: DatabaseService.formatTimestamp(
+                          data['timestamp'] as Timestamp?),
+                    );
+                  }).toList();
+
+                  return ListView.builder(
+                    itemCount: historyItems.length,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: horizontalPadding,
+                      vertical: isMobile ? 8 : 12,
+                    ),
+                    itemBuilder: (context, index) {
+                      final item = historyItems[index];
+
+                      return Column(
+                        children: [
+                          if (index == 0 ||
+                              historyItems[index - 1].timestamp !=
+                                  item.timestamp)
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: isMobile ? 8 : 12,
+                              ),
+                              child: Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  item.timestamp,
+                                  style: TextStyle(
+                                    fontSize: dateHeaderSize,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppTheme.muted,
+                                  ),
                                 ),
-                                child: Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Text(
-                                    timestamp,
+                              ),
+                            ),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: cardColor,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: AppTheme.ink, width: 2),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppTheme.ink.withValues(
+                                    alpha: isDark ? 0.35 : 0.85,
+                                  ),
+                                  offset: const Offset(3, 3),
+                                  blurRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(isMobile ? 12 : 14),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              'ROMANIZED KHMER',
+                                              style: TextStyle(
+                                                fontSize: labelSize,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppTheme.muted,
+                                              ),
+                                            ),
+                                            SizedBox(height: isMobile ? 3 : 4),
+                                            Text(
+                                              item.romanizedText,
+                                              style: TextStyle(
+                                                fontSize: romanizedTextSize,
+                                                fontWeight: FontWeight.w600,
+                                                color: AppTheme.ink,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Row(
+                                        children: [
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.content_copy,
+                                              size: isMobile ? 18 : 20,
+                                              color: AppTheme.ink,
+                                            ),
+                                            onPressed: () {
+                                              Clipboard.setData(ClipboardData(
+                                                  text: item.khmerText));
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
+                                                const SnackBar(
+                                                  content: Text(
+                                                      'Copied to clipboard'),
+                                                ),
+                                              );
+                                            },
+                                          ),
+                                          IconButton(
+                                            icon: Icon(
+                                              Icons.delete_outline,
+                                              size: isMobile ? 18 : 20,
+                                              color: Colors.red,
+                                            ),
+                                            onPressed: () {
+                                              _databaseService
+                                                  .deleteHistoryItem(item.id);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                  Divider(
+                                    height: isMobile ? 16 : 20,
+                                    color: AppTheme.ink.withValues(alpha: 0.3),
+                                  ),
+                                  Text(
+                                    'KHMER SCRIPT',
                                     style: TextStyle(
-                                      fontSize: dateHeaderSize,
+                                      fontSize: labelSize,
                                       fontWeight: FontWeight.w600,
                                       color: AppTheme.muted,
                                     ),
                                   ),
-                                ),
-                              ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).cardColor,
-                                borderRadius: BorderRadius.circular(12),
-                                border: Border.all(
-                                  color: AppTheme.ink,
-                                  width: 2,
-                                ),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: AppTheme.ink.withValues(
-                                      alpha: isDark ? 0.35 : 0.85,
+                                  SizedBox(height: isMobile ? 3 : 4),
+                                  Text(
+                                    item.khmerText,
+                                    style: TextStyle(
+                                      fontSize: khmerTextSize,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppTheme.ink,
                                     ),
-                                    offset: const Offset(3, 3),
-                                    blurRadius: 0,
                                   ),
                                 ],
                               ),
-                              child: Padding(
-                                padding: EdgeInsets.all(isMobile ? 12 : 14),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                'ROMANIZED KHMER',
-                                                style: TextStyle(
-                                                  fontSize: labelSize,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: AppTheme.muted,
-                                                ),
-                                              ),
-                                              SizedBox(
-                                                height: isMobile ? 3 : 4,
-                                              ),
-                                              Text(
-                                                item.romanizedText,
-                                                style: TextStyle(
-                                                  fontSize: romanizedTextSize,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: AppTheme.ink,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.content_copy,
-                                            size: isMobile ? 18 : 20,
-                                            color: AppTheme.ink,
-                                          ),
-                                          onPressed: () {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                                  const SnackBar(
-                                                    content: Text(
-                                                      'Copied to clipboard',
-                                                    ),
-                                                  ),
-                                                );
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                    Divider(height: isMobile ? 16 : 20),
-                                    Text(
-                                      'KHMER SCRIPT',
-                                      style: TextStyle(
-                                        fontSize: labelSize,
-                                        fontWeight: FontWeight.w600,
-                                        color: AppTheme.muted,
-                                      ),
-                                    ),
-                                    SizedBox(height: isMobile ? 3 : 4),
-                                    Text(
-                                      item.khmerText,
-                                      style: TextStyle(
-                                        fontSize: khmerTextSize,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppTheme.ink,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
                             ),
-                            SizedBox(height: isMobile ? 10 : 14),
-                          ],
-                        );
-                      },
-                    ),
-            );
-          },
+                          ),
+                          SizedBox(height: isMobile ? 10 : 14),
+                        ],
+                      );
+                    },
+                  );
+                },
+              );
+            },
+          ),
         );
       },
     );
   }
+}
 
-  String _dateLabel(DateTime date) {
-    final now = DateTime.now();
-    final today = DateTime(now.year, now.month, now.day);
-    final entryDay = DateTime(date.year, date.month, date.day);
-    final difference = today.difference(entryDay).inDays;
-    if (difference == 0) return 'Today';
-    if (difference == 1) return 'Yesterday';
-    return '${date.day}/${date.month}/${date.year}';
-  }
+class HistoryItem {
+  final String id;
+  final String romanizedText;
+  final String khmerText;
+  final String timestamp;
+
+  HistoryItem({
+    required this.id,
+    required this.romanizedText,
+    required this.khmerText,
+    required this.timestamp,
+  });
 }
