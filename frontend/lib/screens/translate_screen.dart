@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../services/api_service.dart';
+import '../services/app_data.dart';
+import 'library_screen.dart';
 import 'history_screen.dart';
 import 'settings_screen.dart';
 import '../theme/app_theme.dart';
@@ -17,6 +19,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
   final TextEditingController _controller = TextEditingController();
   List<WordResult> _results = [];
   final Set<int> _deletedResultIndexes = {};
+  final Map<String, int> _selectedCandidateIndexes = {};
   bool _loading = false;
   int _selectedTab = 0;
 
@@ -42,6 +45,12 @@ class _TranslateScreenState extends State<TranslateScreen> {
         setState(() {
           _results = results;
         });
+        if (results.isNotEmpty) {
+          AppData.addHistory(
+            romanized: input,
+            khmer: results.map(_sentenceWord).join(' '),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {
@@ -115,6 +124,10 @@ class _TranslateScreenState extends State<TranslateScreen> {
               BottomNavigationBarItem(
                 icon: Icon(Icons.history),
                 label: 'History',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.menu_book),
+                label: 'Library',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.settings),
@@ -345,7 +358,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
     required int index,
     required double outputFontSize,
   }) {
-    final label = _sentenceWord(result);
+    final label = _sentenceWord(result, index: index);
     final canChooseAlternate = result.found && result.candidates.length > 1;
 
     return InputChip(
@@ -370,9 +383,12 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 
-  String _sentenceWord(WordResult result) {
+  String _sentenceWord(WordResult result, {int? index}) {
     if (result.found && result.candidates.isNotEmpty) {
-      return result.candidates.first.khmer;
+      final selectedIndex = _selectedCandidateIndexes[result.input] ?? 0;
+      return result
+          .candidates[selectedIndex.clamp(0, result.candidates.length - 1)]
+          .khmer;
     }
     if (result.suggestion?.options.isNotEmpty ?? false) {
       return result.suggestion!.options.first.khmer;
@@ -397,33 +413,46 @@ class _TranslateScreenState extends State<TranslateScreen> {
 
   Future<void> _handleWordResult(WordResult result) async {
     if (result.found && result.candidates.length > 1) {
-      await showDialog<void>(
+      final selectedIndex = _selectedCandidateIndexes[result.input] ?? 0;
+      final chosenIndex = await showDialog<int>(
         context: context,
         builder: (context) => AlertDialog(
           title: Text('Alternate translations for ${result.input}'),
           content: Column(
             mainAxisSize: MainAxisSize.min,
-            children: result.candidates
-                .map(
-                  (candidate) => ListTile(
-                    title: Text(candidate.khmer),
-                    subtitle: candidate.gloss?.isEmpty ?? true
-                        ? null
-                        : Text(candidate.gloss!),
-                    trailing: IconButton(
-                      icon: const Icon(Icons.delete_outline),
-                      tooltip: 'Delete this dictionary translation',
-                      onPressed: () => _confirmDeleteDictionaryWord(
-                        result.input,
-                        candidate.khmer,
-                      ),
-                    ),
+            children: result.candidates.asMap().entries.map((entry) {
+              final index = entry.key;
+              final candidate = entry.value;
+              return ListTile(
+                onTap: () => Navigator.pop(context, index),
+                leading: Icon(
+                  index == selectedIndex
+                      ? Icons.radio_button_checked
+                      : Icons.radio_button_unchecked,
+                  color: AppTheme.ink,
+                ),
+                title: Text(candidate.khmer),
+                subtitle: candidate.gloss?.isEmpty ?? true
+                    ? null
+                    : Text(candidate.gloss!),
+                trailing: IconButton(
+                  icon: const Icon(Icons.delete_outline),
+                  tooltip: 'Delete this dictionary translation',
+                  onPressed: () => _confirmDeleteDictionaryWord(
+                    result.input,
+                    candidate.khmer,
                   ),
-                )
-                .toList(),
+                ),
+              );
+            }).toList(),
           ),
         ),
       );
+      if (chosenIndex != null && mounted) {
+        setState(() {
+          _selectedCandidateIndexes[result.input] = chosenIndex;
+        });
+      }
       return;
     }
 
@@ -555,6 +584,8 @@ class _TranslateScreenState extends State<TranslateScreen> {
     if (_selectedTab == 1) {
       return const HistoryScreen(showAppBar: false);
     } else if (_selectedTab == 2) {
+      return const LibraryScreen(showAppBar: false);
+    } else if (_selectedTab == 3) {
       return const SettingsScreen(showAppBar: false);
     }
     return const SizedBox.shrink();

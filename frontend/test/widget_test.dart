@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:khmerify/screens/landing_screen.dart';
+import 'package:khmerify/screens/history_screen.dart';
+import 'package:khmerify/screens/library_screen.dart';
 import 'package:khmerify/screens/settings_screen.dart';
+import 'package:khmerify/services/app_data.dart';
 import 'package:khmerify/screens/translate_screen.dart';
 import 'package:khmerify/theme/app_theme.dart';
 
@@ -42,5 +45,27 @@ void main() {
 
     expect(find.text('ROMANIZED KHMER'), findsOneWidget);
     expect(find.text('Translate'), findsNWidgets(2));
+  });
+
+  testWidgets('HistoryScreen starts empty', (WidgetTester tester) async {
+    AppData.history.value = [];
+    await tester.pumpWidget(
+      MaterialApp(theme: AppTheme.light(), home: const HistoryScreen()),
+    );
+
+    expect(find.text('No translations yet'), findsOneWidget);
+  });
+
+  testWidgets('LibraryScreen renders seeded words', (
+    WidgetTester tester,
+  ) async {
+    await AppData.initialize();
+    await tester.pumpWidget(
+      MaterialApp(theme: AppTheme.light(), home: const LibraryScreen()),
+    );
+
+    expect(find.text('Library'), findsOneWidget);
+    expect(find.text('dochchea'), findsOneWidget);
+    expect(find.text('ដូចជា'), findsOneWidget);
   });
 }
