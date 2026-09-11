@@ -32,7 +32,6 @@
 ---
 
 ## Workflow
-1. Never push directly to `main`.
-2. Work on your designated branch (`frontend`, `rule-engine`, `backend-auth`, or `data`).
-3. Open a **Pull Request (PR)** to merge into `main`.
-4. Get at least **1 review approval** before merging.
+1. Direct pushes to `main` are allowed.
+2. Feature branches (`frontend`, `rule-engine`, `backend-auth`, or `data`) can still be used for organizing large changes.
+3. Coordinate with each other before major pushes to avoid merge conflicts.
