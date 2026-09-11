@@ -1,4 +1,4 @@
-﻿# Khmerify — Frontend (Flutter App)
+# Khmerify — Frontend (Flutter App)
 
 > The Flutter (Dart) mobile & desktop app for Khmerify.
 > Runs on Android, iOS, Windows, macOS, Linux, and Web.
@@ -19,18 +19,18 @@ Run `flutter doctor` after installation to confirm your environment is ready.
 
 ## Install Dependencies
 
-`ash
+```bash
 cd frontend
 flutter pub get
-`
+```
 
 ---
 
 ## Running the App
 
-> **Important:** The [backend server](../backend/README.md) must be running at http://localhost:8000 before launching the app.
+> **Important:** The [backend server](../backend/README.md) must be running at `http://localhost:8000` before launching the app.
 >
-> If running on a **physical device**, update the API URL in `lib/services/api_service.dart` to your computer's local IP address (e.g. http://192.168.x.x:8000).
+> If running on a **physical device**, update the API URL in `lib/services/api_service.dart` to your computer's local IP address (e.g. `http://192.168.x.x:8000`).
 
 ---
 
@@ -38,55 +38,55 @@ flutter pub get
 
 1. Start an emulator in Android Studio, or connect a physical Android device with USB debugging on.
 2. Run:
-   `ash
+   ```bash
    flutter run
-   `
+   ```
 
 ### iOS (macOS only)
 
 1. Start an iOS simulator in Xcode, or connect a physical iPhone.
 2. First time only — install CocoaPods dependencies:
-   `ash
+   ```bash
    cd ios && pod install && cd ..
-   `
+   ```
 3. Run:
-   `ash
+   ```bash
    flutter run
-   `
+   ```
 
 ### Windows Desktop
 
-`powershell
+```powershell
 flutter config --enable-windows-desktop
 flutter run -d windows
-`
+```
 
 ### macOS Desktop
 
-`ash
+```bash
 flutter config --enable-macos-desktop
 flutter run -d macos
-`
+```
 
 ### Linux Desktop
 
-`ash
+```bash
 flutter config --enable-linux-desktop
 flutter run -d linux
-`
+```
 
 ### Web (Chrome)
 
-`ash
+```bash
 flutter config --enable-web
 flutter run -d chrome
-`
+```
 
 ---
 
 ## Build for Release
 
-`ash
+```bash
 # Android APK
 flutter build apk --release
 
@@ -104,13 +104,13 @@ flutter build macos --release
 
 # Web
 flutter build web --release
-`
+```
 
 ---
 
 ## Project Structure
 
-`
+```text
 lib/
 ├── main.dart               # App entry point & Firebase init
 ├── firebase_options.dart   # Auto-generated Firebase config
@@ -130,7 +130,7 @@ lib/
 │   └── device_identity.dart
 └── theme/
     └── app_theme.dart      # Colors, typography, dark mode
-`
+```
 
 ---
 
@@ -138,13 +138,13 @@ lib/
 
 | Package | Purpose |
 |---------|---------|
-| irebase_auth | User authentication |
-| cloud_firestore | Cloud history & library sync |
-| google_sign_in | Google OAuth |
-| lutter_facebook_auth | Facebook OAuth |
-| http | REST calls to the Python backend |
-| shared_preferences | Persistent settings & device ID |
-| intl | Date formatting |
+| `firebase_auth` | User authentication |
+| `cloud_firestore` | Cloud history & library sync |
+| `google_sign_in` | Google OAuth |
+| `flutter_facebook_auth` | Facebook OAuth |
+| `http` | REST calls to the Python backend |
+| `shared_preferences` | Persistent settings & device ID |
+| `intl` | Date formatting |
 
 ---
 

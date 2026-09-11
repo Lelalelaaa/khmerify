@@ -1,8 +1,7 @@
-﻿# Khmerify
+# Khmerify
 
 > Type Khmer phonetically using Latin letters — get accurate Khmer Unicode script in real-time.
->
-> Example: 	ngai nis mek kdav nas → **ថ្ងៃនិស្ស័យក្ដៅណាស់**
+> Example: `tngai nis mek kdav nas` → **ថ្ងៃនិស្ស័យក្ដៅណាស់**
 
 ---
 
@@ -29,7 +28,7 @@
 
 ## Project Structure
 
-`
+```text
 khmerify/
 ├── backend/          # Python FastAPI rule engine & dictionary
 │   ├── engine/       # Transliteration logic & DB access
@@ -41,7 +40,7 @@ khmerify/
     │   ├── services/ # API, Auth, Firestore, AppData
     │   └── theme/    # App theming
     └── android/      # Android-specific native code
-`
+```
 
 ---
 
@@ -68,38 +67,38 @@ The backend is a Python FastAPI server that handles phonetic transliteration and
 
 ### Windows
 
-`powershell
+```powershell
 # From the repo root
 py -3 -m venv backend\.venv
 backend\.venv\Scripts\python.exe -m pip install -r backend\requirements.txt
 backend\.venv\Scripts\python.exe -m uvicorn main:app --app-dir backend --host 0.0.0.0 --port 8000 --reload
-`
+```
 
 ### macOS / Linux
 
-`ash
+```bash
 # From the repo root
 python3 -m venv backend/.venv
 source backend/.venv/bin/activate
 pip install -r backend/requirements.txt
 uvicorn main:app --app-dir backend --host 0.0.0.0 --port 8000 --reload
-`
+```
 
 ### Verify it's working
 
-`ash
+```bash
 # macOS / Linux
 curl -X POST http://127.0.0.1:8000/convert \
   -H "Content-Type: application/json" \
   -d '{"input": "sursdey"}'
-`
+```
 
-`powershell
+```powershell
 # Windows PowerShell
 Invoke-RestMethod http://127.0.0.1:8000/convert -Method Post -ContentType "application/json" -Body '{"input":"sursdey"}'
-`
+```
 
-The server will be available at http://localhost:8000. **Keep this terminal open** while running the Flutter app.
+The server will be available at `http://localhost:8000`. **Keep this terminal open** while running the Flutter app.
 
 ---
 
@@ -115,10 +114,10 @@ After installation, run `flutter doctor` to confirm everything is set up correct
 
 ### Install dependencies
 
-`ash
+```bash
 cd frontend
 flutter pub get
-`
+```
 
 ---
 
@@ -128,13 +127,13 @@ flutter pub get
 
 1. Open Android Studio and start an emulator, **or** plug in a physical Android device with USB debugging enabled.
 2. Run:
-   `ash
+   ```bash
    cd frontend
    flutter run
-   `
+   ```
 3. Select your device when prompted.
 
-> **Physical device tip:** Make sure your phone and computer are on the same Wi-Fi network. Update the API base URL in `lib/services/api_service.dart` to your machine's local IP (e.g. http://192.168.x.x:8000) instead of localhost.
+> **Physical device tip:** Make sure your phone and computer are on the same Wi-Fi network. Update the API base URL in `lib/services/api_service.dart` to your machine's local IP (e.g. `http://192.168.x.x:8000`) instead of `localhost`.
 
 ### iOS (macOS only)
 
@@ -142,48 +141,48 @@ flutter pub get
 
 1. Open Xcode and set up a simulator, or connect a physical iPhone.
 2. Install iOS pods (first time only):
-   `ash
+   ```bash
    cd frontend/ios && pod install && cd ../..
-   `
+   ```
 3. Run:
-   `ash
+   ```bash
    cd frontend
    flutter run
-   `
+   ```
 
 > **First time setup:** You may need to run `sudo xcode-select --switch /Applications/Xcode.app` and accept the Xcode license agreement.
 
 ### Windows Desktop
 
-`powershell
+```powershell
 cd frontend
 flutter config --enable-windows-desktop
 flutter run -d windows
-`
+```
 
 ### macOS Desktop
 
-`ash
+```bash
 cd frontend
 flutter config --enable-macos-desktop
 flutter run -d macos
-`
+```
 
 ### Linux Desktop
 
-`ash
+```bash
 cd frontend
 flutter config --enable-linux-desktop
 flutter run -d linux
-`
+```
 
 ### Web (Browser)
 
-`ash
+```bash
 cd frontend
 flutter config --enable-web
 flutter run -d chrome
-`
+```
 
 > **Note:** Firebase social sign-ins (Google, Facebook, Twitter) may behave differently on web. Email/password login works on all platforms.
 
@@ -196,15 +195,15 @@ The app uses Firebase for authentication and Firestore. The `google-services.jso
 If you need to re-configure Firebase from scratch:
 
 1. Install the Firebase CLI:
-   `ash
+   ```bash
    npm install -g firebase-tools
    firebase login
-   `
+   ```
 2. From the `frontend/` directory:
-   `ash
+   ```bash
    dart pub global activate flutterfire_cli
    flutterfire configure
-   `
+   ```
 3. Follow the prompts to link to the Khmerify Firebase project.
 
 ---
