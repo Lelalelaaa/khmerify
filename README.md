@@ -14,18 +14,20 @@
 
 ## Branching Strategy
 - `main`: Production-ready & tested stable code
-- `frontend`: UI screens, input components, suggestion chips, auth & history UI
-- `rule-engine`: Phonetic transliteration algorithms & mapping logic
-- `backend-auth`: Firebase Auth, Cloud Firestore history sync & services
-- `data`: Khmer word lists, dictionary data, and test fixtures
+- `frontend`: UI screens (Landing, Login, Signup, Translate, History, Library, Settings), input components, auth UI
+- `rule-engine`: Phonetic transliteration algorithms & mapping logic (Python/FastAPI)
+- `backend-auth`: Firebase Auth, Cloud Firestore history & library sync, services
+- `data`: Khmer word lists, dictionary data (`common_words_with_romanization.json`)
 
 ---
 
 ## Tech Stack
 - **Frontend**: Flutter (Dart)
-- **Engine**: On-device Dart phonetic conversion
-- **Auth & Database**: Firebase Auth + Cloud Firestore
-- **Tools**: VS Code / Android Studio, Git, GitHub Desktop
+- **Rule Engine**: Python FastAPI backend with SQLite dictionary (called via HTTP from Flutter)
+- **Auth**: Firebase Auth (Email/Password, Google, Facebook, Twitter)
+- **Cloud Database**: Cloud Firestore (user history & personal library)
+- **Local Storage**: SQLite (word dictionary), shared_preferences (settings & device ID)
+- **Tools**: VS Code / Android Studio, Git, GitHub Desktop, Firebase CLI
 
 ---
 
@@ -34,5 +36,3 @@
 2. Work on your designated branch (`frontend`, `rule-engine`, `backend-auth`, or `data`).
 3. Open a **Pull Request (PR)** to merge into `main`.
 4. Get at least **1 review approval** before merging.
-
-
