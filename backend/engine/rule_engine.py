@@ -116,9 +116,9 @@ def add_word(
     status = "approved" if source == "user" else "pending"
     conn.execute(
         "INSERT OR IGNORE INTO words "
-        "(romanized, khmer, gloss, source, status, added_by) "
-        "VALUES (?, ?, ?, ?, ?, ?)",
-        (romanized.lower(), khmer, gloss, source, status, added_by),
+        "(romanized, khmer, gloss, source, status, added_by, weight) "
+        "VALUES (?, ?, ?, ?, ?, ?, (SELECT IFNULL(MAX(weight), 0) + 1 FROM words WHERE romanized = ?))",
+        (romanized.lower(), khmer, gloss, source, status, added_by, romanized.lower()),
     )
     conn.commit()
     conn.close()

@@ -8,7 +8,6 @@ import '../services/database_service.dart';
 import 'library_screen.dart';
 import 'history_screen.dart';
 import 'settings_screen.dart';
-import 'login_screen.dart';
 import '../theme/app_theme.dart';
 
 class TranslateScreen extends StatefulWidget {

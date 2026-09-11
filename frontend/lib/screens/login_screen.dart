@@ -1,7 +1,9 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'translate_screen.dart';
+import 'signup_screen.dart';
 import '../services/auth_service.dart';
 import '../theme/app_theme.dart';
 
@@ -36,7 +38,7 @@ class _LoginScreenState extends State<LoginScreen> {
         email: email,
         password: password,
       );
-      if (mounted) {
+      if (context.mounted) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const TranslateScreen()),
         );
@@ -63,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
         default:
           message = 'Login failed. Please check your credentials.';
       }
-      if (mounted) {
+      if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(message),
@@ -72,7 +74,64 @@ class _LoginScreenState extends State<LoginScreen> {
         );
       }
     } finally {
-      if (mounted) setState(() => _isLoading = false);
+      if (context.mounted) setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _handleEmailSignUp() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter an email and password to sign up.')),
+      );
+      return;
+    }
+    if (password.length < 6) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Password must be at least 6 characters.')),
+      );
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      if (context.mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const TranslateScreen()),
+        );
+      }
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'email-already-in-use':
+          message = 'An account already exists for this email.';
+          break;
+        case 'invalid-email':
+          message = 'Please enter a valid email address.';
+          break;
+        case 'weak-password':
+          message = 'Password is too weak. Please use a stronger password.';
+          break;
+        default:
+          message = 'Sign up failed: ${e.message}';
+      }
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(message),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (context.mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -293,7 +352,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(() => _isLoading = true);
                                 final user =
                                     await AuthService.signInWithGoogle();
-                                if (mounted) {
+                                if (context.mounted) {
                                   setState(() => _isLoading = false);
                                   if (user != null) {
                                     Navigator.of(context).pushReplacement(
@@ -345,7 +404,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(() => _isLoading = true);
                                 final user =
                                     await AuthService.signInWithFacebook();
-                                if (mounted) {
+                                if (context.mounted) {
                                   setState(() => _isLoading = false);
                                   if (user != null) {
                                     Navigator.of(context).pushReplacement(
@@ -393,7 +452,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 setState(() => _isLoading = true);
                                 final user =
                                     await AuthService.signInWithTwitter();
-                                if (mounted) {
+                                if (context.mounted) {
                                   setState(() => _isLoading = false);
                                   if (user != null) {
                                     Navigator.of(context).pushReplacement(
@@ -445,7 +504,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: AppTheme.ink,
                             fontWeight: FontWeight.bold,
                           ),
-                          recognizer: null, // TODO: Implement sign up
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const SignUpScreen(),
+                                ),
+                              );
+                            },
                         ),
                       ],
                     ),

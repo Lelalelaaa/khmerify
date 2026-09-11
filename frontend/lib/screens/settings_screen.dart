@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'landing_screen.dart';
 import '../services/auth_service.dart';
@@ -122,14 +123,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         leading: CircleAvatar(
                           backgroundColor: AppTheme.yellow,
                           radius: isMobile ? 22 : 26,
-                          child: Icon(
-                            Icons.person,
-                            color: AppTheme.onYellow,
-                            size: isMobile ? 18 : 22,
-                          ),
+                          backgroundImage: FirebaseAuth.instance.currentUser?.photoURL != null
+                              ? NetworkImage(FirebaseAuth.instance.currentUser!.photoURL!)
+                              : null,
+                          child: FirebaseAuth.instance.currentUser?.photoURL == null
+                              ? Icon(
+                                  Icons.person,
+                                  color: AppTheme.onYellow,
+                                  size: isMobile ? 18 : 22,
+                                )
+                              : null,
                         ),
                         title: Text(
-                          'Example',
+                          FirebaseAuth.instance.currentUser?.displayName ?? 'Khmerify User',
                           style: TextStyle(
                             fontSize: titleSize,
                             fontWeight: FontWeight.w600,
@@ -137,7 +143,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                           ),
                         ),
                         subtitle: Text(
-                          'user@example.com',
+                          FirebaseAuth.instance.currentUser?.email ?? 'Guest Account',
                           style: TextStyle(
                             fontSize: isMobile ? 11.0 : 12.0,
                             color: AppTheme.muted,
@@ -319,7 +325,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 Padding(
                   padding: EdgeInsets.all(horizontalPadding),
                   child: Text(
-                    'Khmerify Version 2.4.0',
+                    'Khmerify Version 1.0.0',
                     style: TextStyle(
                       fontSize: isMobile ? 10.0 : 12.0,
                       color: AppTheme.muted,

@@ -36,8 +36,10 @@ class AuthService {
   // Simple function to trigger Facebook Login
   static Future<UserCredential?> signInWithFacebook() async {
     try {
-      // Trigger the native Facebook login prompt
-      final LoginResult result = await FacebookAuth.instance.login();
+      // Trigger the native Facebook login prompt, requesting only public profile to avoid email scope errors
+      final LoginResult result = await FacebookAuth.instance.login(
+        permissions: ['public_profile'],
+      );
       
       if (result.status == LoginStatus.success) {
         // Create a credential from the access token
