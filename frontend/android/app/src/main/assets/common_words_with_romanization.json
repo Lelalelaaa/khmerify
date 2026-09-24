@@ -1,0 +1,3656 @@
+[
+  {
+    "rank": 1,
+    "khmer": "ដូចជា",
+    "romanized": "dochchea",
+    "aliases": [
+      "dochjea"
+    ]
+  },
+  {
+    "rank": 2,
+    "khmer": "ខ្ញុំ",
+    "romanized": "k'nhom",
+    "aliases": [
+      "knhom",
+      "khnom",
+      "nhom",
+      "k'nh",
+      "knh",
+      "nh"
+    ]
+  },
+  {
+    "rank": 4,
+    "khmer": "ថា",
+    "romanized": "tha",
+    "aliases": [
+      "ta"
+    ]
+  },
+  {
+    "rank": 6,
+    "khmer": "គឺ",
+    "romanized": "kir",
+    "aliases": [
+      "keu",
+      "kue"
+    ]
+  },
+  {
+    "rank": 7,
+    "khmer": "សម្រាប់",
+    "romanized": "somrab",
+    "aliases": []
+  },
+  {
+    "rank": 9,
+    "khmer": "មាន",
+    "romanized": "mean",
+    "aliases": []
+  },
+  {
+    "rank": 11,
+    "khmer": "ពួកគេ",
+    "romanized": "puokke",
+    "aliases": []
+  },
+  {
+    "rank": 13,
+    "khmer": "នៅ",
+    "romanized": "nov",
+    "aliases": [
+      "nv"
+    ]
+  },
+  {
+    "rank": 14,
+    "khmer": "មួយ",
+    "romanized": "muoy",
+    "aliases": [
+      "mouy",
+      "muy"
+    ]
+  },
+  {
+    "rank": 15,
+    "khmer": "នេះ",
+    "romanized": "neh",
+    "aliases": [
+      "nis",
+      "nes"
+    ]
+  },
+  {
+    "rank": 16,
+    "khmer": "ពី",
+    "romanized": "pi",
+    "aliases": []
+  },
+  {
+    "rank": 17,
+    "khmer": "ដោយ",
+    "romanized": "doay",
+    "aliases": [
+      "doy"
+    ]
+  },
+  {
+    "rank": 19,
+    "khmer": "ពាក្យ",
+    "romanized": "peak",
+    "aliases": []
+  },
+  {
+    "rank": 23,
+    "khmer": "វា",
+    "romanized": "vea",
+    "aliases": []
+  },
+  {
+    "rank": 24,
+    "khmer": "អ្នក",
+    "romanized": "neak",
+    "aliases": [
+      "nek",
+      "nak"
+    ]
+  },
+  {
+    "rank": 25,
+    "khmer": "ឬ",
+    "romanized": "rir",
+    "aliases": []
+  },
+  {
+    "rank": 26,
+    "khmer": "នៃ",
+    "romanized": "nei",
+    "aliases": [
+      "ney"
+    ]
+  },
+  {
+    "rank": 27,
+    "khmer": "ដើម្បី",
+    "romanized": "dermbie",
+    "aliases": [
+      "dermbey",
+      "derm3"
+    ]
+  },
+  {
+    "rank": 28,
+    "khmer": "និង",
+    "romanized": "nung",
+    "aliases": [
+      "ning",
+      "nong",
+      "neng",
+      "ng"
+    ]
+  },
+  {
+    "rank": 30,
+    "khmer": "យើង",
+    "romanized": "yg",
+    "aliases": [
+      "yerng"
+    ]
+  },
+  {
+    "rank": 31,
+    "khmer": "អាច",
+    "romanized": "arch",
+    "aliases": [
+      "ach"
+    ]
+  },
+  {
+    "rank": 32,
+    "khmer": "ចេញ",
+    "romanized": "jenh",
+    "aliases": []
+  },
+  {
+    "rank": 34,
+    "khmer": "នាក់",
+    "romanized": "neak",
+    "aliases": [
+      "nek"
+    ]
+  },
+  {
+    "rank": 35,
+    "khmer": "ដែល",
+    "romanized": "del",
+    "aliases": [
+      "dl"
+    ]
+  },
+  {
+    "rank": 39,
+    "khmer": "ប្រសិនបើ",
+    "romanized": "brasenbaeu",
+    "aliases": [
+      "brosenbaeu"
+    ]
+  },
+  {
+    "rank": 40,
+    "khmer": "នឹង",
+    "romanized": "neng",
+    "aliases": [
+      "nong",
+      "nung",
+      "ning",
+      "ng"
+    ]
+  },
+  {
+    "rank": 41,
+    "khmer": "របៀប",
+    "romanized": "ror beab",
+    "aliases": [
+      "r'beab",
+      "lbeab"
+    ]
+  },
+  {
+    "rank": 43,
+    "khmer": "គ្នា",
+    "romanized": "knea",
+    "aliases": []
+  },
+  {
+    "rank": 44,
+    "khmer": "ប្រាប់",
+    "romanized": "prab",
+    "aliases": [
+      "brab"
+    ]
+  },
+  {
+    "rank": 45,
+    "khmer": "មិន",
+    "romanized": "mirn",
+    "aliases": [
+      "min",
+      "men"
+    ]
+  },
+  {
+    "rank": 46,
+    "khmer": "សំណុំ",
+    "romanized": "samnoam",
+    "aliases": []
+  },
+  {
+    "rank": 48,
+    "khmer": "ចង់បាន",
+    "romanized": "chongban",
+    "aliases": [
+      "changban"
+    ]
+  },
+  {
+    "rank": 49,
+    "khmer": "ខ្យល់",
+    "romanized": "kjol",
+    "aliases": []
+  },
+  {
+    "rank": 50,
+    "khmer": "ល្អ",
+    "romanized": "laor",
+    "aliases": []
+  },
+  {
+    "rank": 51,
+    "khmer": "ក៏",
+    "romanized": "kor",
+    "aliases": [
+      "kr"
+    ]
+  },
+  {
+    "rank": 52,
+    "khmer": "លេង",
+    "romanized": "leng",
+    "aliases": [
+      "lg"
+    ]
+  },
+  {
+    "rank": 53,
+    "khmer": "តូច",
+    "romanized": "touch",
+    "aliases": [
+      "toch"
+    ]
+  },
+  {
+    "rank": 55,
+    "khmer": "ដាក់",
+    "romanized": "dak",
+    "aliases": []
+  },
+  {
+    "rank": 56,
+    "khmer": "ផ្ទះ",
+    "romanized": "phteh",
+    "aliases": [
+      "phtes",
+      "pteas",
+      "ptaeh",
+      "ptas",
+      "teas",
+      "ptah",
+      "pteh"
+    ]
+  },
+  {
+    "rank": 57,
+    "khmer": "អាន",
+    "romanized": "arn",
+    "aliases": []
+  },
+  {
+    "rank": 58,
+    "khmer": "ដៃ",
+    "romanized": "dai",
+    "aliases": []
+  },
+  {
+    "rank": 61,
+    "khmer": "អក្ខរាវិរុទ្ធ",
+    "romanized": "akkharavirut",
+    "aliases": [
+      "akharavirut",
+      "akaravirut"
+    ]
+  },
+  {
+    "rank": 62,
+    "khmer": "បន្ថែម",
+    "romanized": "bon thaem",
+    "aliases": [
+      "pthaem"
+    ]
+  },
+  {
+    "rank": 64,
+    "khmer": "ដី",
+    "romanized": "dei",
+    "aliases": [
+      "dey"
+    ]
+  },
+  {
+    "rank": 66,
+    "khmer": "ត្រូវ",
+    "romanized": "trov",
+    "aliases": [
+      "thov"
+    ]
+  },
+  {
+    "rank": 67,
+    "khmer": "ធំ",
+    "romanized": "thom",
+    "aliases": [
+      "thum"
+    ]
+  },
+  {
+    "rank": 68,
+    "khmer": "ខ្ពស់",
+    "romanized": "kpous",
+    "aliases": []
+  },
+  {
+    "rank": 69,
+    "khmer": "ដូច",
+    "romanized": "doch",
+    "aliases": []
+  },
+  {
+    "rank": 70,
+    "khmer": "តាម",
+    "romanized": "tam",
+    "aliases": []
+  },
+  {
+    "rank": 71,
+    "khmer": "សកម្មភាព",
+    "romanized": "sakampheap",
+    "aliases": []
+  },
+  {
+    "rank": 73,
+    "khmer": "សួរ",
+    "romanized": "sour",
+    "aliases": [
+      "sur"
+    ]
+  },
+  {
+    "rank": 74,
+    "khmer": "បុរស",
+    "romanized": "boros",
+    "aliases": []
+  },
+  {
+    "rank": 77,
+    "khmer": "ពន្លឺ",
+    "romanized": "punler",
+    "aliases": [
+      "punleu"
+    ]
+  },
+  {
+    "rank": 78,
+    "khmer": "ប្រភេទ",
+    "romanized": "prophet",
+    "aliases": [
+      "brophet"
+    ]
+  },
+  {
+    "rank": 79,
+    "khmer": "បិទ",
+    "romanized": "bit",
+    "aliases": []
+  },
+  {
+    "rank": 80,
+    "khmer": "ត្រូវការ",
+    "romanized": "trovkar",
+    "aliases": []
+  },
+  {
+    "rank": 81,
+    "khmer": "រូបភាព",
+    "romanized": "rub pheap",
+    "aliases": []
+  },
+  {
+    "rank": 82,
+    "khmer": "ព្យាយាម",
+    "romanized": "pjeayeam",
+    "aliases": []
+  },
+  {
+    "rank": 85,
+    "khmer": "សត្វ",
+    "romanized": "sat",
+    "aliases": []
+  },
+  {
+    "rank": 86,
+    "khmer": "ចំណុច",
+    "romanized": "jomnuch",
+    "aliases": [
+      "jnuch"
+    ]
+  },
+  {
+    "rank": 88,
+    "khmer": "ពិភពលោក",
+    "romanized": "piphoplouk",
+    "aliases": [
+      "pipoplouk",
+      "piphoplok",
+      "pipoplok"
+    ]
+  },
+  {
+    "rank": 90,
+    "khmer": "កសាង",
+    "romanized": "kasang",
+    "aliases": [
+      "kosang"
+    ]
+  },
+  {
+    "rank": 92,
+    "khmer": "ផែនដី",
+    "romanized": "phaendey",
+    "aliases": [
+      "phaendei"
+    ]
+  },
+  {
+    "rank": 93,
+    "khmer": "ឪពុក",
+    "romanized": "ov puk",
+    "aliases": []
+  },
+  {
+    "rank": 95,
+    "khmer": "ថ្មី",
+    "romanized": "thmey",
+    "aliases": [
+      "thmei",
+      "tmey",
+      "tmei"
+    ]
+  },
+  {
+    "rank": 98,
+    "khmer": "យក",
+    "romanized": "yok",
+    "aliases": [
+      "yor",
+      "yr",
+      "yk"
+    ]
+  },
+  {
+    "rank": 100,
+    "khmer": "កន្លែង",
+    "romanized": "konlaeng",
+    "aliases": [
+      "konleng",
+      "klaeng",
+      "klg"
+    ]
+  },
+  {
+    "rank": 104,
+    "khmer": "បន្ទាប់ពី",
+    "romanized": "banteabapi",
+    "aliases": [
+      "bonteabopi"
+    ]
+  },
+  {
+    "rank": 108,
+    "khmer": "ជុំ",
+    "romanized": "chum",
+    "aliases": [
+      "jom",
+      "jum"
+    ]
+  },
+  {
+    "rank": 118,
+    "khmer": "ឈ្មោះ",
+    "romanized": "chhmous",
+    "aliases": [
+      "chmous",
+      "jmous"
+    ]
+  },
+  {
+    "rank": 121,
+    "khmer": "គ្រាន់តែ",
+    "romanized": "kreantae",
+    "aliases": []
+  },
+  {
+    "rank": 125,
+    "khmer": "គិត",
+    "romanized": "kit",
+    "aliases": []
+  },
+  {
+    "rank": 126,
+    "khmer": "និយាយ",
+    "romanized": "niyey",
+    "aliases": [
+      "yey",
+      "yy"
+    ]
+  },
+  {
+    "rank": 127,
+    "khmer": "ជួយ",
+    "romanized": "chouy",
+    "aliases": [
+      "jouy"
+    ]
+  },
+  {
+    "rank": 128,
+    "khmer": "ទាប",
+    "romanized": "teab",
+    "aliases": []
+  },
+  {
+    "rank": 129,
+    "khmer": "បន្ទាត់",
+    "romanized": "banteat",
+    "aliases": [
+      "bonteat"
+    ]
+  },
+  {
+    "rank": 131,
+    "khmer": "វេន",
+    "romanized": "ven",
+    "aliases": []
+  },
+  {
+    "rank": 132,
+    "khmer": "មូលហេតុ",
+    "romanized": "moulhaet",
+    "aliases": []
+  },
+  {
+    "rank": 133,
+    "khmer": "ច្រើន",
+    "romanized": "jrern",
+    "aliases": [
+      "jren"
+    ]
+  },
+  {
+    "rank": 136,
+    "khmer": "សិទ្ធិ",
+    "romanized": "sirt",
+    "aliases": [
+      "sethik",
+      "seth"
+    ]
+  },
+  {
+    "rank": 138,
+    "khmer": "អាយុ",
+    "romanized": "ah yuk",
+    "aliases": [
+      "ayuk"
+    ]
+  },
+  {
+    "rank": 142,
+    "khmer": "ទាំងអស់",
+    "romanized": "teangs",
+    "aliases": []
+  },
+  {
+    "rank": 144,
+    "khmer": "ពេល",
+    "romanized": "pel",
+    "aliases": []
+  },
+  {
+    "rank": 145,
+    "khmer": "ឡើង",
+    "romanized": "lerng",
+    "aliases": []
+  },
+  {
+    "rank": 146,
+    "khmer": "ប្រើ",
+    "romanized": "brer",
+    "aliases": [
+      "prer"
+    ]
+  },
+  {
+    "rank": 148,
+    "khmer": "វិធី",
+    "romanized": "vithi",
+    "aliases": [
+      "vithy"
+    ]
+  },
+  {
+    "rank": 149,
+    "khmer": "អំពី",
+    "romanized": "orm pi",
+    "aliases": [
+      "ompi"
+    ]
+  },
+  {
+    "rank": 150,
+    "khmer": "ជាច្រើន",
+    "romanized": "cheajrern",
+    "aliases": [
+      "jea jrern"
+    ]
+  },
+  {
+    "rank": 152,
+    "khmer": "សរសេរ",
+    "romanized": "sorse",
+    "aliases": [
+      "s'se"
+    ]
+  },
+  {
+    "rank": 153,
+    "khmer": "ដូច្នេះ",
+    "romanized": "dochchnis",
+    "aliases": [
+      "dochchnes"
+    ]
+  },
+  {
+    "rank": 158,
+    "khmer": "រឿង",
+    "romanized": "rirng",
+    "aliases": [
+      "rueng",
+      "reung",
+      "rerng",
+      "rg"
+    ]
+  },
+  {
+    "rank": 162,
+    "khmer": "មើល",
+    "romanized": "merl",
+    "aliases": [
+      "mer",
+      "ml"
+    ]
+  },
+  {
+    "rank": 164,
+    "khmer": "ថ្ងៃ",
+    "romanized": "thngai",
+    "aliases": [
+      "tgai",
+      "ngai"
+    ]
+  },
+  {
+    "rank": 167,
+    "khmer": "មក",
+    "romanized": "mok",
+    "aliases": [
+      "mor"
+    ]
+  },
+  {
+    "rank": 168,
+    "khmer": "ធ្វើ",
+    "romanized": "ther",
+    "aliases": [
+      "tver",
+      "ter"
+    ]
+  },
+  {
+    "rank": 169,
+    "khmer": "ចំនួន",
+    "romanized": "chomnoun",
+    "aliases": [
+      "chomnuon",
+      "jomnoun",
+      "jomnuon"
+    ]
+  },
+  {
+    "rank": 170,
+    "khmer": "សំឡេង",
+    "romanized": "somleng",
+    "aliases": [
+      "samleng",
+      "sleng"
+    ]
+  },
+  {
+    "rank": 171,
+    "khmer": "គ្មាន",
+    "romanized": "kmean",
+    "aliases": []
+  },
+  {
+    "rank": 175,
+    "khmer": "ជាង",
+    "romanized": "cheang",
+    "aliases": [
+      "jeang",
+      "jg"
+    ]
+  },
+  {
+    "rank": 176,
+    "khmer": "ដឹង",
+    "romanized": "derng",
+    "aliases": [
+      "deng",
+      "dg"
+    ]
+  },
+  {
+    "rank": 177,
+    "khmer": "ទឹក",
+    "romanized": "terk",
+    "aliases": [
+      "tirk",
+      "tuek",
+      "teuk"
+    ]
+  },
+  {
+    "rank": 180,
+    "khmer": "ចុះ",
+    "romanized": "chos",
+    "aliases": [
+      "jos"
+    ]
+  },
+  {
+    "rank": 182,
+    "khmer": "បាន",
+    "romanized": "ban",
+    "aliases": []
+  },
+  {
+    "rank": 185,
+    "khmer": "ក្បាល",
+    "romanized": "kbal",
+    "aliases": []
+  },
+  {
+    "rank": 186,
+    "khmer": "ឈរ",
+    "romanized": "chhor",
+    "aliases": []
+  },
+  {
+    "rank": 188,
+    "khmer": "ទំព័រ",
+    "romanized": "tumpor",
+    "aliases": [
+      "tompor"
+    ]
+  },
+  {
+    "rank": 189,
+    "khmer": "គួរ",
+    "romanized": "kour",
+    "aliases": [
+      "kuor",
+      "kur"
+    ]
+  },
+  {
+    "rank": 190,
+    "khmer": "ប្រទេស",
+    "romanized": "proteh",
+    "aliases": [
+      "protes",
+      "p'tes",
+      "p'teh"
+    ]
+  },
+  {
+    "rank": 192,
+    "khmer": "ចម្លើយ",
+    "romanized": "chamlauy",
+    "aliases": [
+      "chomlauy"
+    ]
+  },
+  {
+    "rank": 193,
+    "khmer": "សាលារៀន",
+    "romanized": "salearien",
+    "aliases": [
+      "salarein",
+      "salarean",
+      "salarien"
+    ]
+  },
+  {
+    "rank": 197,
+    "khmer": "រៀន",
+    "romanized": "rien",
+    "aliases": [
+      "rean"
+    ]
+  },
+  {
+    "rank": 199,
+    "khmer": "គម្រប",
+    "romanized": "komrob",
+    "aliases": []
+  },
+  {
+    "rank": 200,
+    "khmer": "អាហារ",
+    "romanized": "ah ha",
+    "aliases": [
+      "ahha",
+      "aaha"
+    ]
+  },
+  {
+    "rank": 201,
+    "khmer": "ព្រះអាទិត្យ",
+    "romanized": "preahaatirt",
+    "aliases": [
+      "preahartit",
+      "preahaatit",
+      "preahatit"
+    ]
+  },
+  {
+    "rank": 203,
+    "khmer": "រវាង",
+    "romanized": "roveang",
+    "aliases": []
+  },
+  {
+    "rank": 204,
+    "khmer": "រដ្ឋ",
+    "romanized": "roth",
+    "aliases": [
+      "rath"
+    ]
+  },
+  {
+    "rank": 205,
+    "khmer": "រក្សា",
+    "romanized": "reksa",
+    "aliases": []
+  },
+  {
+    "rank": 206,
+    "khmer": "ភ្នែក",
+    "romanized": "phnek",
+    "aliases": [
+      "pnek"
+    ]
+  },
+  {
+    "rank": 208,
+    "khmer": "ចុងក្រោយ",
+    "romanized": "chongkraoy",
+    "aliases": []
+  },
+  {
+    "rank": 211,
+    "khmer": "ទីក្រុង",
+    "romanized": "tikrong",
+    "aliases": []
+  },
+  {
+    "rank": 212,
+    "khmer": "ដើម",
+    "romanized": "derm",
+    "aliases": []
+  },
+  {
+    "rank": 217,
+    "khmer": "ឃើញ",
+    "romanized": "khernh",
+    "aliases": [
+      "kh"
+    ]
+  },
+  {
+    "rank": 218,
+    "khmer": "ឆ្ងាយ",
+    "romanized": "chngay",
+    "aliases": [
+      "chgay",
+      "jgay"
+    ]
+  },
+  {
+    "rank": 220,
+    "khmer": "គូរ",
+    "romanized": "ku",
+    "aliases": []
+  },
+  {
+    "rank": 222,
+    "khmer": "ចុង",
+    "romanized": "chong",
+    "aliases": [
+      "chung",
+      "jong",
+      "jung"
+    ]
+  },
+  {
+    "rank": 228,
+    "khmer": "យប់",
+    "romanized": "yub",
+    "aliases": []
+  },
+  {
+    "rank": 229,
+    "khmer": "ពិតប្រាកដ",
+    "romanized": "pitbrakod",
+    "aliases": [
+      "pitbrakad"
+    ]
+  },
+  {
+    "rank": 230,
+    "khmer": "ជីវិត",
+    "romanized": "chivit",
+    "aliases": [
+      "jivit"
+    ]
+  },
+  {
+    "rank": 231,
+    "khmer": "ប៉ុន្មាន",
+    "romanized": "pun marn",
+    "aliases": [
+      "p’man",
+      "marn"
+    ]
+  },
+  {
+    "rank": 233,
+    "khmer": "សៀវភៅ",
+    "romanized": "sievophov",
+    "aliases": [
+      "seavphov"
+    ]
+  },
+  {
+    "rank": 234,
+    "khmer": "អនុវត្ត",
+    "romanized": "anuvath",
+    "aliases": [
+      "anuvat"
+    ]
+  },
+  {
+    "rank": 237,
+    "khmer": "បរិភោគ",
+    "romanized": "bariphouk",
+    "aliases": [
+      "boriphouk",
+      "boriphok"
+    ]
+  },
+  {
+    "rank": 238,
+    "khmer": "បន្ទប់",
+    "romanized": "bontub",
+    "aliases": [
+      "ptub"
+    ]
+  },
+  {
+    "rank": 241,
+    "khmer": "គំនិត",
+    "romanized": "komnirt",
+    "aliases": [
+      "komnit",
+      "kumnit",
+      "knit"
+    ]
+  },
+  {
+    "rank": 242,
+    "khmer": "ត្រី",
+    "romanized": "trey",
+    "aliases": [
+      "trei"
+    ]
+  },
+  {
+    "rank": 243,
+    "khmer": "ភ្នំ",
+    "romanized": "phnom",
+    "aliases": [
+      "phnum"
+    ]
+  },
+  {
+    "rank": 244,
+    "khmer": "បញ្ឈប់",
+    "romanized": "banh chub",
+    "aliases": []
+  },
+  {
+    "rank": 248,
+    "khmer": "សេះ",
+    "romanized": "ses",
+    "aliases": [
+      "seh"
+    ]
+  },
+  {
+    "rank": 249,
+    "khmer": "កាត់",
+    "romanized": "kat",
+    "aliases": []
+  },
+  {
+    "rank": 251,
+    "khmer": "ពណ៌",
+    "romanized": "por",
+    "aliases": []
+  },
+  {
+    "rank": 252,
+    "khmer": "មុខ",
+    "romanized": "muk",
+    "aliases": [
+      "mok"
+    ]
+  },
+  {
+    "rank": 253,
+    "khmer": "ឈើ",
+    "romanized": "chher",
+    "aliases": []
+  },
+  {
+    "rank": 260,
+    "khmer": "កុមារ",
+    "romanized": "koma",
+    "aliases": []
+  },
+  {
+    "rank": 261,
+    "khmer": "ដើរ",
+    "romanized": "der",
+    "aliases": []
+  },
+  {
+    "rank": 264,
+    "khmer": "ក្រដាស",
+    "romanized": "krodas",
+    "aliases": [
+      "kradas"
+    ]
+  },
+  {
+    "rank": 265,
+    "khmer": "ក្រុម",
+    "romanized": "krom",
+    "aliases": [
+      "krum"
+    ]
+  },
+  {
+    "rank": 266,
+    "khmer": "តែងតែ",
+    "romanized": "taengotae",
+    "aliases": []
+  },
+  {
+    "rank": 267,
+    "khmer": "តន្ត្រី",
+    "romanized": "dontrei",
+    "aliases": [
+      "dontrey"
+    ]
+  },
+  {
+    "rank": 270,
+    "khmer": "សញ្ញា",
+    "romanized": "sanha",
+    "aliases": []
+  },
+  {
+    "rank": 272,
+    "khmer": "លិខិត",
+    "romanized": "likhet",
+    "aliases": []
+  },
+  {
+    "rank": 276,
+    "khmer": "រថយន្ត",
+    "romanized": "ruth yun",
+    "aliases": [
+      "rut yun"
+    ]
+  },
+  {
+    "rank": 277,
+    "khmer": "ជើង",
+    "romanized": "cherng",
+    "aliases": [
+      "jerng"
+    ]
+  },
+  {
+    "rank": 281,
+    "khmer": "ធម្មតា",
+    "romanized": "thomda",
+    "aliases": [
+      "tomda"
+    ]
+  },
+  {
+    "rank": 283,
+    "khmer": "វ័យក្មេង",
+    "romanized": "veikmeng",
+    "aliases": [
+      "veykmeng"
+    ]
+  },
+  {
+    "rank": 285,
+    "khmer": "ខាងលើ",
+    "romanized": "khangler",
+    "aliases": []
+  },
+  {
+    "rank": 288,
+    "khmer": "បញ្ជី",
+    "romanized": "banhchi",
+    "aliases": [
+      "banh ji"
+    ]
+  },
+  {
+    "rank": 289,
+    "khmer": "ទោះបីជា",
+    "romanized": "tuohbeychea",
+    "aliases": []
+  },
+  {
+    "rank": 291,
+    "khmer": "ការពិភាក្សា",
+    "romanized": "karpipheaksa",
+    "aliases": []
+  },
+  {
+    "rank": 292,
+    "khmer": "បក្សី",
+    "romanized": "baksei",
+    "aliases": [
+      "boksei"
+    ]
+  },
+  {
+    "rank": 293,
+    "khmer": "ឆាប់",
+    "romanized": "chhab",
+    "aliases": []
+  },
+  {
+    "rank": 295,
+    "khmer": "ឆ្កែ",
+    "romanized": "chkae",
+    "aliases": [
+      "jkae"
+    ]
+  },
+  {
+    "rank": 298,
+    "khmer": "បង្ក",
+    "romanized": "bongkor",
+    "aliases": [
+      "pkor"
+    ]
+  },
+  {
+    "rank": 300,
+    "khmer": "បទចម្រៀង",
+    "romanized": "botochomrieng",
+    "aliases": [
+      "batochamrieng"
+    ]
+  },
+  {
+    "rank": 301,
+    "khmer": "វាស់",
+    "romanized": "veas",
+    "aliases": []
+  },
+  {
+    "rank": 302,
+    "khmer": "ទ្វារ",
+    "romanized": "tvea",
+    "aliases": []
+  },
+  {
+    "rank": 303,
+    "khmer": "ផលិតផល",
+    "romanized": "porlirtaporl",
+    "aliases": [
+      "phalitaphal",
+      "pholitophol"
+    ]
+  },
+  {
+    "rank": 305,
+    "khmer": "ខ្លី",
+    "romanized": "khley",
+    "aliases": [
+      "khlei",
+      "klei"
+    ]
+  },
+  {
+    "rank": 306,
+    "khmer": "លេខ",
+    "romanized": "lek",
+    "aliases": []
+  },
+  {
+    "rank": 307,
+    "khmer": "ថ្នាក់",
+    "romanized": "thnak",
+    "aliases": [
+      "tnak"
+    ]
+  },
+  {
+    "rank": 308,
+    "khmer": "សំណួរ",
+    "romanized": "samnuor",
+    "aliases": []
+  },
+  {
+    "rank": 311,
+    "khmer": "នាវា",
+    "romanized": "neavea",
+    "aliases": []
+  },
+  {
+    "rank": 312,
+    "khmer": "តំបន់",
+    "romanized": "domborn",
+    "aliases": [
+      "dombon"
+    ]
+  },
+  {
+    "rank": 316,
+    "khmer": "ភ្លើង",
+    "romanized": "plerng",
+    "aliases": []
+  },
+  {
+    "rank": 318,
+    "khmer": "បញ្ហា",
+    "romanized": "panh ha",
+    "aliases": [
+      "panha"
+    ]
+  },
+  {
+    "rank": 319,
+    "khmer": "ដុំ",
+    "romanized": "dom",
+    "aliases": [
+      "dum"
+    ]
+  },
+  {
+    "rank": 322,
+    "khmer": "ហុច",
+    "romanized": "hoch",
+    "aliases": []
+  },
+  {
+    "rank": 324,
+    "khmer": "កំពូល",
+    "romanized": "kampul",
+    "aliases": [
+      "kompul"
+    ]
+  },
+  {
+    "rank": 325,
+    "khmer": "ទាំងមូល",
+    "romanized": "tangmoul",
+    "aliases": []
+  },
+  {
+    "rank": 329,
+    "khmer": "គុណ",
+    "romanized": "kun",
+    "aliases": []
+  },
+  {
+    "rank": 333,
+    "khmer": "កង់",
+    "romanized": "korngg",
+    "aliases": [
+      "kongg"
+    ]
+  },
+  {
+    "rank": 334,
+    "khmer": "កម្លាំង",
+    "romanized": "komlang",
+    "aliases": []
+  },
+  {
+    "rank": 335,
+    "khmer": "ខៀវ",
+    "romanized": "khiev",
+    "aliases": [
+      "kheav",
+      "khiv"
+    ]
+  },
+  {
+    "rank": 336,
+    "khmer": "វត្ថុ",
+    "romanized": "vathok",
+    "aliases": [
+      "vothok"
+    ]
+  },
+  {
+    "rank": 338,
+    "khmer": "ផ្ទៃ",
+    "romanized": "ptey",
+    "aliases": [
+      "ptei"
+    ]
+  },
+  {
+    "rank": 339,
+    "khmer": "ជ្រៅ",
+    "romanized": "chrov",
+    "aliases": [
+      "jrov"
+    ]
+  },
+  {
+    "rank": 341,
+    "khmer": "កោះ",
+    "romanized": "koh",
+    "aliases": [
+      "kos"
+    ]
+  },
+  {
+    "rank": 342,
+    "khmer": "ប្រព័ន្ធ",
+    "romanized": "prapoin",
+    "aliases": [
+      "praporn",
+      "propoin",
+      "proporn"
+    ]
+  },
+  {
+    "rank": 343,
+    "khmer": "រវល់",
+    "romanized": "rovol",
+    "aliases": [
+      "bc"
+    ]
+  },
+  {
+    "rank": 346,
+    "khmer": "ទូក",
+    "romanized": "touk",
+    "aliases": [
+      "tuk"
+    ]
+  },
+  {
+    "rank": 348,
+    "khmer": "មាស",
+    "romanized": "meas",
+    "aliases": []
+  },
+  {
+    "rank": 349,
+    "khmer": "យន្តហោះ",
+    "romanized": "yontohaoh",
+    "aliases": []
+  },
+  {
+    "rank": 350,
+    "khmer": "ជំនួស",
+    "romanized": "jumnous",
+    "aliases": [
+      "jnous"
+    ]
+  },
+  {
+    "rank": 351,
+    "khmer": "ស្ងួត",
+    "romanized": "sgourt",
+    "aliases": [
+      "snguot",
+      "sgout"
+    ]
+  },
+  {
+    "rank": 352,
+    "khmer": "ឆ្ងល់",
+    "romanized": "chhngal",
+    "aliases": [
+      "chhngol",
+      "chgol"
+    ]
+  },
+  {
+    "rank": 353,
+    "khmer": "សើច",
+    "romanized": "serch",
+    "aliases": [
+      "serj"
+    ]
+  },
+  {
+    "rank": 355,
+    "khmer": "មុន",
+    "romanized": "mun",
+    "aliases": [
+      "mon"
+    ]
+  },
+  {
+    "rank": 356,
+    "khmer": "រត់",
+    "romanized": "rut",
+    "aliases": []
+  },
+  {
+    "rank": 359,
+    "khmer": "រូបរាង",
+    "romanized": "ruboreang",
+    "aliases": [
+      "rubareang"
+    ]
+  },
+  {
+    "rank": 360,
+    "khmer": "ស្មើ",
+    "romanized": "smer",
+    "aliases": []
+  },
+  {
+    "rank": 361,
+    "khmer": "បាត់",
+    "romanized": "bat",
+    "aliases": []
+  },
+  {
+    "rank": 364,
+    "khmer": "ព្រិល",
+    "romanized": "pril",
+    "aliases": []
+  },
+  {
+    "rank": 366,
+    "khmer": "បាទ",
+    "romanized": "bart",
+    "aliases": [
+      "bat"
+    ]
+  },
+  {
+    "rank": 367,
+    "khmer": "បំពេញ",
+    "romanized": "bom penh",
+    "aliases": []
+  },
+  {
+    "rank": 368,
+    "khmer": "ខាងកើត",
+    "romanized": "khangkaeut",
+    "aliases": [
+      "khangkert"
+    ]
+  },
+  {
+    "rank": 369,
+    "khmer": "ភាសា",
+    "romanized": "pheasa",
+    "aliases": []
+  },
+  {
+    "rank": 371,
+    "khmer": "អង្គភាព",
+    "romanized": "aangkopheap",
+    "aliases": [
+      "aongkopheap"
+    ]
+  },
+  {
+    "rank": 372,
+    "khmer": "អំណាច",
+    "romanized": "aamnach",
+    "aliases": []
+  },
+  {
+    "rank": 377,
+    "khmer": "នាំ",
+    "romanized": "norm",
+    "aliases": []
+  },
+  {
+    "rank": 378,
+    "khmer": "យំ",
+    "romanized": "yum",
+    "aliases": [
+      "yom"
+    ]
+  },
+  {
+    "rank": 379,
+    "khmer": "ងងឹត",
+    "romanized": "ngonguet",
+    "aliases": []
+  },
+  {
+    "rank": 380,
+    "khmer": "ម៉ាស៊ីន",
+    "romanized": "machine",
+    "aliases": [
+      "masin"
+    ]
+  },
+  {
+    "rank": 381,
+    "khmer": "ចំណាំ",
+    "romanized": "chamnam",
+    "aliases": []
+  },
+  {
+    "rank": 383,
+    "khmer": "ផែនការ",
+    "romanized": "phaenkar",
+    "aliases": [
+      "phenkar"
+    ]
+  },
+  {
+    "rank": 384,
+    "khmer": "តួលេខ",
+    "romanized": "tuolekh",
+    "aliases": []
+  },
+  {
+    "rank": 385,
+    "khmer": "តារា",
+    "romanized": "dara",
+    "aliases": []
+  },
+  {
+    "rank": 386,
+    "khmer": "ប្រអប់",
+    "romanized": "bro aob",
+    "aliases": [
+      "bra aob",
+      "bra ob",
+      "bro ob"
+    ]
+  },
+  {
+    "rank": 387,
+    "khmer": "នាម",
+    "romanized": "neam",
+    "aliases": []
+  },
+  {
+    "rank": 388,
+    "khmer": "វាល",
+    "romanized": "veal",
+    "aliases": []
+  },
+  {
+    "rank": 392,
+    "khmer": "សម្រស់",
+    "romanized": "somros",
+    "aliases": []
+  },
+  {
+    "rank": 395,
+    "khmer": "បង្រៀន",
+    "romanized": "bongrean",
+    "aliases": [
+      "prean"
+    ]
+  },
+  {
+    "rank": 400,
+    "khmer": "រហ័ស",
+    "romanized": "rohas",
+    "aliases": [
+      "r'has",
+      "l'has"
+    ]
+  },
+  {
+    "rank": 403,
+    "khmer": "នាទី",
+    "romanized": "neati",
+    "aliases": [
+      "neaty"
+    ]
+  },
+  {
+    "rank": 404,
+    "khmer": "ពិសេស",
+    "romanized": "pises",
+    "aliases": []
+  },
+  {
+    "rank": 405,
+    "khmer": "ចិត្ត",
+    "romanized": "chet",
+    "aliases": [
+      "jet",
+      "jit"
+    ]
+  },
+  {
+    "rank": 407,
+    "khmer": "ច្បាស់លាស់",
+    "romanized": "chbasleas",
+    "aliases": [
+      "chbaslos"
+    ]
+  },
+  {
+    "rank": 408,
+    "khmer": "កន្ទុយ",
+    "romanized": "kontuy",
+    "aliases": [
+      "kantuy"
+    ]
+  },
+  {
+    "rank": 411,
+    "khmer": "ចន្លោះ",
+    "romanized": "chunlos",
+    "aliases": [
+      "junlos",
+      "jlos"
+    ]
+  },
+  {
+    "rank": 413,
+    "khmer": "ម៉ោង",
+    "romanized": "moang",
+    "aliases": [
+      "morng"
+    ]
+  },
+  {
+    "rank": 416,
+    "khmer": "រយ",
+    "romanized": "roy",
+    "aliases": []
+  },
+  {
+    "rank": 417,
+    "khmer": "ប្រាំ",
+    "romanized": "bram",
+    "aliases": []
+  },
+  {
+    "rank": 418,
+    "khmer": "ចងចាំ",
+    "romanized": "changcham",
+    "aliases": [
+      "chongcham"
+    ]
+  },
+  {
+    "rank": 419,
+    "khmer": "ជំហាន",
+    "romanized": "chumhean",
+    "aliases": [
+      "jumhean",
+      "chumhan"
+    ]
+  },
+  {
+    "rank": 420,
+    "khmer": "កាន់",
+    "romanized": "kan",
+    "aliases": []
+  },
+  {
+    "rank": 422,
+    "khmer": "ការប្រាក់",
+    "romanized": "karbrak",
+    "aliases": [
+      "karprak"
+    ]
+  },
+  {
+    "rank": 425,
+    "khmer": "កិរិយាសព្ទ",
+    "romanized": "keriyasop",
+    "aliases": [
+      "keriyasap"
+    ]
+  },
+  {
+    "rank": 426,
+    "khmer": "ច្រៀង",
+    "romanized": "chreang",
+    "aliases": [
+      "jreang"
+    ]
+  },
+  {
+    "rank": 429,
+    "khmer": "តារាង",
+    "romanized": "tareang",
+    "aliases": []
+  },
+  {
+    "rank": 431,
+    "khmer": "តិច",
+    "romanized": "tech",
+    "aliases": [
+      "tic"
+    ]
+  },
+  {
+    "rank": 432,
+    "khmer": "ព្រឹក",
+    "romanized": "prerk",
+    "aliases": [
+      "prek"
+    ]
+  },
+  {
+    "rank": 433,
+    "khmer": "ដប់",
+    "romanized": "dab",
+    "aliases": [
+      "dob"
+    ]
+  },
+  {
+    "rank": 434,
+    "khmer": "សាមញ្ញ",
+    "romanized": "samonh",
+    "aliases": [
+      "samanh",
+      "smanh"
+    ]
+  },
+  {
+    "rank": 435,
+    "khmer": "ស្រៈ",
+    "romanized": "srak",
+    "aliases": []
+  },
+  {
+    "rank": 439,
+    "khmer": "គំរូ",
+    "romanized": "kumru",
+    "aliases": []
+  },
+  {
+    "rank": 440,
+    "khmer": "យឺត",
+    "romanized": "yueut",
+    "aliases": []
+  },
+  {
+    "rank": 444,
+    "khmer": "លុយ",
+    "romanized": "luy",
+    "aliases": []
+  },
+  {
+    "rank": 445,
+    "khmer": "បម្រើ",
+    "romanized": "bomrer",
+    "aliases": []
+  },
+  {
+    "rank": 446,
+    "khmer": "លេចឡើង",
+    "romanized": "lecholaeung",
+    "aliases": [
+      "lechalaeung"
+    ]
+  },
+  {
+    "rank": 447,
+    "khmer": "ផ្លូវ",
+    "romanized": "plov",
+    "aliases": []
+  },
+  {
+    "rank": 448,
+    "khmer": "ផែនទី",
+    "romanized": "phaenti",
+    "aliases": []
+  },
+  {
+    "rank": 449,
+    "khmer": "ភ្លៀង",
+    "romanized": "pleang",
+    "aliases": []
+  },
+  {
+    "rank": 450,
+    "khmer": "ច្បាប់",
+    "romanized": "chbab",
+    "aliases": [
+      "jbab"
+    ]
+  },
+  {
+    "rank": 452,
+    "khmer": "ទាញ",
+    "romanized": "teanh",
+    "aliases": []
+  },
+  {
+    "rank": 456,
+    "khmer": "ថាមពល",
+    "romanized": "thamopol",
+    "aliases": []
+  },
+  {
+    "rank": 457,
+    "khmer": "ប្រមាញ់",
+    "romanized": "bromeanh",
+    "aliases": [
+      "brameanh",
+      "bromanh",
+      "bramanh"
+    ]
+  },
+  {
+    "rank": 458,
+    "khmer": "ទំនង",
+    "romanized": "tomnorng",
+    "aliases": [
+      "tumnong",
+      "tnong",
+      "tng"
+    ]
+  },
+  {
+    "rank": 459,
+    "khmer": "គ្រែ",
+    "romanized": "kreae",
+    "aliases": []
+  },
+  {
+    "rank": 461,
+    "khmer": "ស៊ុត",
+    "romanized": "sot",
+    "aliases": [
+      "sut"
+    ]
+  },
+  {
+    "rank": 462,
+    "khmer": "ជិះ",
+    "romanized": "jis",
+    "aliases": []
+  },
+  {
+    "rank": 464,
+    "khmer": "ជឿ",
+    "romanized": "jir",
+    "aliases": []
+  },
+  {
+    "rank": 466,
+    "khmer": "រំពេច",
+    "romanized": "rumpech",
+    "aliases": []
+  },
+  {
+    "rank": 467,
+    "khmer": "រាប់",
+    "romanized": "rorb",
+    "aliases": []
+  },
+  {
+    "rank": 468,
+    "khmer": "ការ៉េ",
+    "romanized": "kare",
+    "aliases": []
+  },
+  {
+    "rank": 469,
+    "khmer": "ប្រវែង",
+    "romanized": "brorveng",
+    "aliases": [
+      "proveng",
+      "broveng"
+    ]
+  },
+  {
+    "rank": 470,
+    "khmer": "តំណាង",
+    "romanized": "domnang",
+    "aliases": []
+  },
+  {
+    "rank": 473,
+    "khmer": "ទំហំ",
+    "romanized": "tumhum",
+    "aliases": []
+  },
+  {
+    "rank": 476,
+    "khmer": "ទូទៅ",
+    "romanized": "tutov",
+    "aliases": []
+  },
+  {
+    "rank": 477,
+    "khmer": "ទឹកកក",
+    "romanized": "tuekkok",
+    "aliases": [
+      "terkkok"
+    ]
+  },
+  {
+    "rank": 478,
+    "khmer": "រង្វង់",
+    "romanized": "rongvong",
+    "aliases": []
+  },
+  {
+    "rank": 479,
+    "khmer": "គូ",
+    "romanized": "ku",
+    "aliases": []
+  },
+  {
+    "rank": 481,
+    "khmer": "ចេក",
+    "romanized": "chek",
+    "aliases": []
+  },
+  {
+    "rank": 482,
+    "khmer": "ព្យាង្គ",
+    "romanized": "pyeangkor",
+    "aliases": []
+  },
+  {
+    "rank": 483,
+    "khmer": "បាល់",
+    "romanized": "bal",
+    "aliases": []
+  },
+  {
+    "rank": 485,
+    "khmer": "រលក",
+    "romanized": "rolok",
+    "aliases": []
+  },
+  {
+    "rank": 486,
+    "khmer": "បេះដូង",
+    "romanized": "besdong",
+    "aliases": []
+  },
+  {
+    "rank": 487,
+    "khmer": "បច្ចុប្បន្ន",
+    "romanized": "pach chobon",
+    "aliases": [
+      "pachobon"
+    ]
+  },
+  {
+    "rank": 488,
+    "khmer": "ធ្ងន់",
+    "romanized": "thgun",
+    "aliases": [
+      "tgun"
+    ]
+  },
+  {
+    "rank": 490,
+    "khmer": "ទីតាំង",
+    "romanized": "titang",
+    "aliases": []
+  },
+  {
+    "rank": 491,
+    "khmer": "ទូលាយ",
+    "romanized": "tuleay",
+    "aliases": []
+  },
+  {
+    "rank": 495,
+    "khmer": "ព្រៃឈើ",
+    "romanized": "preychhau",
+    "aliases": [
+      "preichhau",
+      "preycher",
+      "preicher"
+    ]
+  },
+  {
+    "rank": 496,
+    "khmer": "អង្គុយ",
+    "romanized": "orngkuy",
+    "aliases": [
+      "angkuy",
+      "ongkuy"
+    ]
+  },
+  {
+    "rank": 498,
+    "khmer": "បង្អួច",
+    "romanized": "bangauoch",
+    "aliases": [
+      "bongauoch"
+    ]
+  },
+  {
+    "rank": 499,
+    "khmer": "ហាង",
+    "romanized": "hang",
+    "aliases": []
+  },
+  {
+    "rank": 501,
+    "khmer": "រថភ្លើង",
+    "romanized": "rothophlaung",
+    "aliases": [
+      "rothaphlaung",
+      "rothophlerng",
+      "rothphlerng"
+    ]
+  },
+  {
+    "rank": 503,
+    "khmer": "បង្ហាញ",
+    "romanized": "bonghanh",
+    "aliases": [
+      "p'hanh",
+      "b'hanh"
+    ]
+  },
+  {
+    "rank": 504,
+    "khmer": "តែ",
+    "romanized": "te",
+    "aliases": [
+      "tae"
+    ]
+  },
+  {
+    "rank": 506,
+    "khmer": "ជញ្ជាំង",
+    "romanized": "chonhcheang",
+    "aliases": []
+  },
+  {
+    "rank": 507,
+    "khmer": "ចាប់",
+    "romanized": "chab",
+    "aliases": [
+      "jab"
+    ]
+  },
+  {
+    "rank": 509,
+    "khmer": "មេឃ",
+    "romanized": "mekh",
+    "aliases": []
+  },
+  {
+    "rank": 515,
+    "khmer": "ព្រៃ",
+    "romanized": "prei",
+    "aliases": [
+      "prey"
+    ]
+  },
+  {
+    "rank": 516,
+    "khmer": "ឧបករណ៍",
+    "romanized": "ubokoron",
+    "aliases": [
+      "ubakaron"
+    ]
+  },
+  {
+    "rank": 518,
+    "khmer": "កញ្ចក់",
+    "romanized": "kanhchork",
+    "aliases": [
+      "kanhjork",
+      "kanhjob",
+      "kjork"
+    ]
+  },
+  {
+    "rank": 519,
+    "khmer": "ស្មៅ",
+    "romanized": "smau",
+    "aliases": []
+  },
+  {
+    "rank": 520,
+    "khmer": "គោ",
+    "romanized": "ko",
+    "aliases": []
+  },
+  {
+    "rank": 521,
+    "khmer": "ការងារ",
+    "romanized": "kangea",
+    "aliases": []
+  },
+  {
+    "rank": 522,
+    "khmer": "គែម",
+    "romanized": "keaem",
+    "aliases": []
+  },
+  {
+    "rank": 525,
+    "khmer": "ទន់",
+    "romanized": "tun",
+    "aliases": [
+      "ton"
+    ]
+  },
+  {
+    "rank": 527,
+    "khmer": "ភ្លឺ",
+    "romanized": "phleu",
+    "aliases": [
+      "pleu"
+    ]
+  },
+  {
+    "rank": 529,
+    "khmer": "អាកាសធាតុ",
+    "romanized": "aakastheato",
+    "aliases": []
+  },
+  {
+    "rank": 530,
+    "khmer": "ខែ",
+    "romanized": "khea",
+    "aliases": [
+      "khae",
+      "khe"
+    ]
+  },
+  {
+    "rank": 533,
+    "khmer": "បញ្ចប់",
+    "romanized": "banh job",
+    "aliases": [
+      "pjob"
+    ]
+  },
+  {
+    "rank": 534,
+    "khmer": "រីករាយ",
+    "romanized": "rikareay",
+    "aliases": [
+      "rikoreay"
+    ]
+  },
+  {
+    "rank": 535,
+    "khmer": "សង្ឃឹម",
+    "romanized": "songkherm",
+    "aliases": [
+      "songkerm"
+    ]
+  },
+  {
+    "rank": 536,
+    "khmer": "ផ្កា",
+    "romanized": "phka",
+    "aliases": [
+      "pka"
+    ]
+  },
+  {
+    "rank": 538,
+    "khmer": "ចម្លែក",
+    "romanized": "jomlaek",
+    "aliases": [
+      "jomlek"
+    ]
+  },
+  {
+    "rank": 540,
+    "khmer": "ពាណិជ្ជកម្ម",
+    "romanized": "peanechchkam",
+    "aliases": [
+      "peanech jkam"
+    ]
+  },
+  {
+    "rank": 544,
+    "khmer": "មាត់",
+    "romanized": "mort",
+    "aliases": []
+  },
+  {
+    "rank": 546,
+    "khmer": "ស្លាប់",
+    "romanized": "slab",
+    "aliases": []
+  },
+  {
+    "rank": 550,
+    "khmer": "ពូជ",
+    "romanized": "puch",
+    "aliases": []
+  },
+  {
+    "rank": 552,
+    "khmer": "ចូលរួម",
+    "romanized": "choulruom",
+    "aliases": [
+      "jolroum"
+    ]
+  },
+  {
+    "rank": 554,
+    "khmer": "ស្អាត",
+    "romanized": "z'art",
+    "aliases": [
+      "sart"
+    ]
+  },
+  {
+    "rank": 555,
+    "khmer": "សម្រាក",
+    "romanized": "somrak",
+    "aliases": []
+  },
+  {
+    "rank": 556,
+    "khmer": "ស្ត្រី",
+    "romanized": "strey",
+    "aliases": [
+      "strei"
+    ]
+  },
+  {
+    "rank": 558,
+    "khmer": "កើនឡើង",
+    "romanized": "kernlerng",
+    "aliases": []
+  },
+  {
+    "rank": 559,
+    "khmer": "អាក្រក់",
+    "romanized": "ah krork",
+    "aliases": [
+      "akrork",
+      "akrok",
+      "akk"
+    ]
+  },
+  {
+    "rank": 561,
+    "khmer": "ប្រេង",
+    "romanized": "preng",
+    "aliases": []
+  },
+  {
+    "rank": 562,
+    "khmer": "ឈាម",
+    "romanized": "chheam",
+    "aliases": [
+      "cheam"
+    ]
+  },
+  {
+    "rank": 563,
+    "khmer": "ប៉ះ",
+    "romanized": "pas",
+    "aliases": []
+  },
+  {
+    "rank": 565,
+    "khmer": "លាយ",
+    "romanized": "leay",
+    "aliases": []
+  },
+  {
+    "rank": 567,
+    "khmer": "លួស",
+    "romanized": "luos",
+    "aliases": []
+  },
+  {
+    "rank": 569,
+    "khmer": "បាត់បង់",
+    "romanized": "batabang",
+    "aliases": [
+      "batobong"
+    ]
+  },
+  {
+    "rank": 570,
+    "khmer": "ត្នោត",
+    "romanized": "tnaot",
+    "aliases": []
+  },
+  {
+    "rank": 571,
+    "khmer": "ពាក់",
+    "romanized": "peak",
+    "aliases": []
+  },
+  {
+    "rank": 572,
+    "khmer": "សួន",
+    "romanized": "soun",
+    "aliases": []
+  },
+  {
+    "rank": 576,
+    "khmer": "សម",
+    "romanized": "som",
+    "aliases": []
+  },
+  {
+    "rank": 577,
+    "khmer": "ហូរ",
+    "romanized": "ho",
+    "aliases": []
+  },
+  {
+    "rank": 578,
+    "khmer": "យុត្តិធម៌",
+    "romanized": "yuttethomr",
+    "aliases": []
+  },
+  {
+    "rank": 579,
+    "khmer": "ធនាគារ",
+    "romanized": "thoneakea",
+    "aliases": []
+  },
+  {
+    "rank": 580,
+    "khmer": "ប្រមូល",
+    "romanized": "brormoul",
+    "aliases": [
+      "brormol",
+      "pramol",
+      "promol",
+      "p'mol"
+    ]
+  },
+  {
+    "rank": 583,
+    "khmer": "ត្រចៀក",
+    "romanized": "trochiek",
+    "aliases": [
+      "trachiek"
+    ]
+  },
+  {
+    "rank": 584,
+    "khmer": "បាក់",
+    "romanized": "bak",
+    "aliases": []
+  },
+  {
+    "rank": 585,
+    "khmer": "ករណី",
+    "romanized": "kakrornei",
+    "aliases": [
+      "karoney",
+      "kaknei"
+    ]
+  },
+  {
+    "rank": 586,
+    "khmer": "សម្លាប់",
+    "romanized": "somlab",
+    "aliases": []
+  },
+  {
+    "rank": 588,
+    "khmer": "បឹង",
+    "romanized": "beoung",
+    "aliases": [
+      "beung",
+      "berng"
+    ]
+  },
+  {
+    "rank": 589,
+    "khmer": "ខ្នាត",
+    "romanized": "khnat",
+    "aliases": []
+  },
+  {
+    "rank": 590,
+    "khmer": "ខ្លាំង",
+    "romanized": "khlang",
+    "aliases": [
+      "klang"
+    ]
+  },
+  {
+    "rank": 592,
+    "khmer": "សង្កេត",
+    "romanized": "songket",
+    "aliases": []
+  },
+  {
+    "rank": 594,
+    "khmer": "ត្រង់",
+    "romanized": "trong",
+    "aliases": []
+  },
+  {
+    "rank": 595,
+    "khmer": "ព្យញ្ជនៈ",
+    "romanized": "pyonhchoneak",
+    "aliases": [
+      "pyonhchonek"
+    ]
+  },
+  {
+    "rank": 596,
+    "khmer": "វចនានុក្រម",
+    "romanized": "vochaneanukram",
+    "aliases": [
+      "vochoneanukrom"
+    ]
+  },
+  {
+    "rank": 598,
+    "khmer": "ល្បឿន",
+    "romanized": "lbern",
+    "aliases": [
+      "lbeun"
+    ]
+  },
+  {
+    "rank": 601,
+    "khmer": "បង់",
+    "romanized": "bong",
+    "aliases": []
+  },
+  {
+    "rank": 602,
+    "khmer": "ផ្នែក",
+    "romanized": "phnek",
+    "aliases": [
+      "pnaek",
+      "pnek"
+    ]
+  },
+  {
+    "rank": 604,
+    "khmer": "ពពក",
+    "romanized": "popok",
+    "aliases": []
+  },
+  {
+    "rank": 606,
+    "khmer": "ស្ងាត់",
+    "romanized": "sngat",
+    "aliases": [
+      "sgat"
+    ]
+  },
+  {
+    "rank": 608,
+    "khmer": "ត្រជាក់",
+    "romanized": "tracheak",
+    "aliases": [
+      "trocheak",
+      "tjaek"
+    ]
+  },
+  {
+    "rank": 609,
+    "khmer": "ការរចនា",
+    "romanized": "karrachana",
+    "aliases": [
+      "karrochona",
+      "karrochana"
+    ]
+  },
+  {
+    "rank": 611,
+    "khmer": "ពិសោធន៍",
+    "romanized": "pisort",
+    "aliases": []
+  },
+  {
+    "rank": 612,
+    "khmer": "បាត",
+    "romanized": "bart",
+    "aliases": [
+      "bat"
+    ]
+  },
+  {
+    "rank": 613,
+    "khmer": "គន្លឹះ",
+    "romanized": "konlueeah",
+    "aliases": []
+  },
+  {
+    "rank": 617,
+    "khmer": "ម្ភៃ",
+    "romanized": "mphey",
+    "aliases": []
+  },
+  {
+    "rank": 618,
+    "khmer": "ស្បែក",
+    "romanized": "sbaek",
+    "aliases": [
+      "sbek"
+    ]
+  },
+  {
+    "rank": 620,
+    "khmer": "ផ្នត់",
+    "romanized": "phnat",
+    "aliases": [
+      "phnot"
+    ]
+  },
+  {
+    "rank": 621,
+    "khmer": "រន្ធ",
+    "romanized": "ronthor",
+    "aliases": []
+  },
+  {
+    "rank": 622,
+    "khmer": "លោត",
+    "romanized": "lout",
+    "aliases": []
+  },
+  {
+    "rank": 623,
+    "khmer": "ទារក",
+    "romanized": "tearouk",
+    "aliases": [
+      "baby"
+    ]
+  },
+  {
+    "rank": 624,
+    "khmer": "ប្រាំបី",
+    "romanized": "brambey",
+    "aliases": [
+      "brambei"
+    ]
+  },
+  {
+    "rank": 625,
+    "khmer": "ភូមិ",
+    "romanized": "phumi",
+    "aliases": [
+      "phum"
+    ]
+  },
+  {
+    "rank": 626,
+    "khmer": "ជួប",
+    "romanized": "choub",
+    "aliases": [
+      "joub"
+    ]
+  },
+  {
+    "rank": 628,
+    "khmer": "ទិញ",
+    "romanized": "tinh",
+    "aliases": []
+  },
+  {
+    "rank": 629,
+    "khmer": "បង្កើន",
+    "romanized": "bong kern",
+    "aliases": []
+  },
+  {
+    "rank": 630,
+    "khmer": "ដែក",
+    "romanized": "daek",
+    "aliases": []
+  },
+  {
+    "rank": 635,
+    "khmer": "ទីបី",
+    "romanized": "tibei",
+    "aliases": []
+  },
+  {
+    "rank": 636,
+    "khmer": "លើក",
+    "romanized": "lerk",
+    "aliases": [
+      "leuk"
+    ]
+  },
+  {
+    "rank": 637,
+    "khmer": "សក់",
+    "romanized": "sork",
+    "aliases": []
+  },
+  {
+    "rank": 638,
+    "khmer": "ពិពណ៌នា",
+    "romanized": "pipnrnea",
+    "aliases": []
+  },
+  {
+    "rank": 640,
+    "khmer": "ជាន់",
+    "romanized": "jorn",
+    "aliases": []
+  },
+  {
+    "rank": 641,
+    "khmer": "ទាំង",
+    "romanized": "taeng",
+    "aliases": [
+      "teang",
+      "tang",
+      "tg"
+    ]
+  },
+  {
+    "rank": 642,
+    "khmer": "លទ្ធផល",
+    "romanized": "lertphol",
+    "aliases": [
+      "litphol"
+    ]
+  },
+  {
+    "rank": 643,
+    "khmer": "ដុត",
+    "romanized": "dot",
+    "aliases": []
+  },
+  {
+    "rank": 645,
+    "khmer": "ឆ្មា",
+    "romanized": "chhma",
+    "aliases": [
+      "chma"
+    ]
+  },
+  {
+    "rank": 646,
+    "khmer": "សតវត្សរ៍",
+    "romanized": "satavotsar",
+    "aliases": [
+      "sotovotsor"
+    ]
+  },
+  {
+    "rank": 647,
+    "khmer": "ពិចារណា",
+    "romanized": "picharona",
+    "aliases": []
+  },
+  {
+    "rank": 648,
+    "khmer": "បន្តិច",
+    "romanized": "bon tech",
+    "aliases": [
+      "bon tic"
+    ]
+  },
+  {
+    "rank": 649,
+    "khmer": "ឆ្នេរ",
+    "romanized": "chhne",
+    "aliases": [
+      "chne"
+    ]
+  },
+  {
+    "rank": 651,
+    "khmer": "ឃ្លា",
+    "romanized": "khlea",
+    "aliases": []
+  },
+  {
+    "rank": 652,
+    "khmer": "ស្ងៀម",
+    "romanized": "sngeam",
+    "aliases": [
+      "sngiem"
+    ]
+  },
+  {
+    "rank": 653,
+    "khmer": "កម្ពស់",
+    "romanized": "kompous",
+    "aliases": [
+      "k'pous"
+    ]
+  },
+  {
+    "rank": 659,
+    "khmer": "តម្លៃ",
+    "romanized": "domlai",
+    "aliases": [
+      "tlai"
+    ]
+  },
+  {
+    "rank": 661,
+    "khmer": "កុហក",
+    "romanized": "kohok",
+    "aliases": []
+  },
+  {
+    "rank": 663,
+    "khmer": "រំភើប",
+    "romanized": "rumpherb",
+    "aliases": [
+      "rompherb"
+    ]
+  },
+  {
+    "rank": 664,
+    "khmer": "ធម្មជាតិ",
+    "romanized": "thomcheat",
+    "aliases": []
+  },
+  {
+    "rank": 665,
+    "khmer": "ទិដ្ឋភាព",
+    "romanized": "tidthapheap",
+    "aliases": [
+      "tidthopheap",
+      "titapheap",
+      "titpheap"
+    ]
+  },
+  {
+    "rank": 666,
+    "khmer": "យល់",
+    "romanized": "yol",
+    "aliases": [
+      "yul"
+    ]
+  },
+  {
+    "rank": 669,
+    "khmer": "កៅអី",
+    "romanized": "kauaei",
+    "aliases": [
+      "kauey"
+    ]
+  },
+  {
+    "rank": 673,
+    "khmer": "ក្រាស់",
+    "romanized": "kras",
+    "aliases": []
+  },
+  {
+    "rank": 674,
+    "khmer": "ទាហាន",
+    "romanized": "teahan",
+    "aliases": []
+  },
+  {
+    "rank": 675,
+    "khmer": "ដំណើរការ",
+    "romanized": "damnaeurkar",
+    "aliases": []
+  },
+  {
+    "rank": 676,
+    "khmer": "ប្រតិបត្តិការ",
+    "romanized": "brortaebatka",
+    "aliases": [
+      "brataebatka",
+      "brotaebatka",
+      "brortebatka",
+      "brotebatka",
+      "bratebatka"
+    ]
+  },
+  {
+    "rank": 678,
+    "khmer": "ដោយឡែក",
+    "romanized": "daoylaek",
+    "aliases": []
+  },
+  {
+    "rank": 679,
+    "khmer": "គ្រូពេទ្យ",
+    "romanized": "krupet",
+    "aliases": []
+  },
+  {
+    "rank": 680,
+    "khmer": "សូម",
+    "romanized": "sum",
+    "aliases": [
+      "som"
+    ]
+  },
+  {
+    "rank": 681,
+    "khmer": "ការពារ",
+    "romanized": "kapea",
+    "aliases": []
+  },
+  {
+    "rank": 682,
+    "khmer": "ថ្ងៃត្រង់",
+    "romanized": "thngaitrang",
+    "aliases": [
+      "thngaitrong"
+    ]
+  },
+  {
+    "rank": 683,
+    "khmer": "ដំណាំ",
+    "romanized": "damnam",
+    "aliases": []
+  },
+  {
+    "rank": 685,
+    "khmer": "ធាតុ",
+    "romanized": "theat",
+    "aliases": []
+  },
+  {
+    "rank": 686,
+    "khmer": "បុក",
+    "romanized": "bok",
+    "aliases": []
+  },
+  {
+    "rank": 687,
+    "khmer": "សិស្ស",
+    "romanized": "sers",
+    "aliases": []
+  },
+  {
+    "rank": 688,
+    "khmer": "ជ្រុង",
+    "romanized": "chrung",
+    "aliases": []
+  },
+  {
+    "rank": 689,
+    "khmer": "គណបក្ស",
+    "romanized": "kaknakpak",
+    "aliases": [
+      "konabak",
+      "konobok"
+    ]
+  },
+  {
+    "rank": 691,
+    "khmer": "ចិញ្ចៀន",
+    "romanized": "chenhchien",
+    "aliases": []
+  },
+  {
+    "rank": 694,
+    "khmer": "ចាប់បាន",
+    "romanized": "chabban",
+    "aliases": []
+  },
+  {
+    "rank": 697,
+    "khmer": "វិទ្យុ",
+    "romanized": "vityu",
+    "aliases": []
+  },
+  {
+    "rank": 699,
+    "khmer": "មនុស្ស",
+    "romanized": "monus",
+    "aliases": [
+      "mnus"
+    ]
+  },
+  {
+    "rank": 704,
+    "khmer": "ឆ្អឹង",
+    "romanized": "ch'erng",
+    "aliases": [
+      "ch'eung",
+      "j'eung",
+      "j'erng"
+    ]
+  },
+  {
+    "rank": 706,
+    "khmer": "ស្រមៃ",
+    "romanized": "sramey",
+    "aliases": [
+      "sromey",
+      "sromei"
+    ]
+  },
+  {
+    "rank": 712,
+    "khmer": "ទាយ",
+    "romanized": "teay",
+    "aliases": []
+  },
+  {
+    "rank": 713,
+    "khmer": "ចាំបាច់",
+    "romanized": "chambach",
+    "aliases": []
+  },
+  {
+    "rank": 714,
+    "khmer": "ស្រួច",
+    "romanized": "srouch",
+    "aliases": [
+      "sruoch"
+    ]
+  },
+  {
+    "rank": 715,
+    "khmer": "ស្លាប",
+    "romanized": "slarb",
+    "aliases": [
+      "slab"
+    ]
+  },
+  {
+    "rank": 716,
+    "khmer": "បង្កើត",
+    "romanized": "bong kert",
+    "aliases": [
+      "pkert"
+    ]
+  },
+  {
+    "rank": 720,
+    "khmer": "ជា",
+    "romanized": "chea",
+    "aliases": [
+      "jea"
+    ]
+  },
+  {
+    "rank": 722,
+    "khmer": "ពោត",
+    "romanized": "pout",
+    "aliases": []
+  },
+  {
+    "rank": 724,
+    "khmer": "កំណាព្យ",
+    "romanized": "komnap",
+    "aliases": [
+      "kamnap"
+    ]
+  },
+  {
+    "rank": 726,
+    "khmer": "កណ្ដឹង",
+    "romanized": "kondoeng",
+    "aliases": [
+      "kandoeng"
+    ]
+  },
+  {
+    "rank": 727,
+    "khmer": "អាស្រ័យ",
+    "romanized": "aasrai",
+    "aliases": []
+  },
+  {
+    "rank": 728,
+    "khmer": "សាច់",
+    "romanized": "sach",
+    "aliases": []
+  },
+  {
+    "rank": 729,
+    "khmer": "លុប",
+    "romanized": "lob",
+    "aliases": [
+      "lub"
+    ]
+  },
+  {
+    "rank": 730,
+    "khmer": "បំពង់",
+    "romanized": "bampong",
+    "aliases": []
+  },
+  {
+    "rank": 739,
+    "khmer": "ប្រញាប់",
+    "romanized": "branheab",
+    "aliases": [
+      "bronheab",
+      "pnhab"
+    ]
+  },
+  {
+    "rank": 740,
+    "khmer": "ប្រធាន",
+    "romanized": "prathean",
+    "aliases": [
+      "prothean"
+    ]
+  },
+  {
+    "rank": 741,
+    "khmer": "អាណានិគម",
+    "romanized": "aananikom",
+    "aliases": []
+  },
+  {
+    "rank": 742,
+    "khmer": "នាឡិកា",
+    "romanized": "nealeka",
+    "aliases": []
+  },
+  {
+    "rank": 744,
+    "khmer": "ចូល",
+    "romanized": "jol",
+    "aliases": []
+  },
+  {
+    "rank": 746,
+    "khmer": "ស្រស់",
+    "romanized": "sros",
+    "aliases": []
+  },
+  {
+    "rank": 747,
+    "khmer": "ផ្ញើ",
+    "romanized": "pnher",
+    "aliases": []
+  },
+  {
+    "rank": 748,
+    "khmer": "លឿង",
+    "romanized": "loeang",
+    "aliases": []
+  },
+  {
+    "rank": 749,
+    "khmer": "កាំភ្លើង",
+    "romanized": "kamplerng",
+    "aliases": []
+  },
+  {
+    "rank": 752,
+    "khmer": "ឈុត",
+    "romanized": "chhut",
+    "aliases": []
+  },
+  {
+    "rank": 755,
+    "khmer": "មេ",
+    "romanized": "me",
+    "aliases": []
+  },
+  {
+    "rank": 756,
+    "khmer": "បទ",
+    "romanized": "bot",
+    "aliases": []
+  },
+  {
+    "rank": 757,
+    "khmer": "ច្រាំង",
+    "romanized": "chrang",
+    "aliases": []
+  },
+  {
+    "rank": 758,
+    "khmer": "សន្លឹក",
+    "romanized": "son lerk",
+    "aliases": [
+      "slerk"
+    ]
+  },
+  {
+    "rank": 759,
+    "khmer": "សារធាតុ",
+    "romanized": "sartheat",
+    "aliases": [
+      "sa theat"
+    ]
+  },
+  {
+    "rank": 760,
+    "khmer": "អនុគ្រោះ",
+    "romanized": "aonukruoh",
+    "aliases": [
+      "aanukruoh"
+    ]
+  },
+  {
+    "rank": 762,
+    "khmer": "ក្រោយ",
+    "romanized": "kroy",
+    "aliases": []
+  },
+  {
+    "rank": 763,
+    "khmer": "ចំណាយ",
+    "romanized": "chomnay",
+    "aliases": [
+      "jomnay",
+      "jnay"
+    ]
+  },
+  {
+    "rank": 766,
+    "khmer": "ចំណែក",
+    "romanized": "chomnek",
+    "aliases": [
+      "jomnek"
+    ]
+  },
+  {
+    "rank": 769,
+    "khmer": "សាក",
+    "romanized": "sark",
+    "aliases": [
+      "sak"
+    ]
+  },
+  {
+    "rank": 771,
+    "khmer": "របារ",
+    "romanized": "robar",
+    "aliases": []
+  },
+  {
+    "rank": 773,
+    "khmer": "ចម្រៀក",
+    "romanized": "chamriek",
+    "aliases": [
+      "chomriek"
+    ]
+  },
+  {
+    "rank": 774,
+    "khmer": "ទាសករ",
+    "romanized": "teasokor",
+    "aliases": [
+      "teasakar"
+    ]
+  },
+  {
+    "rank": 775,
+    "khmer": "ទា",
+    "romanized": "tea",
+    "aliases": []
+  },
+  {
+    "rank": 776,
+    "khmer": "បន្ទាន់",
+    "romanized": "bontorn",
+    "aliases": [
+      "ptorn"
+    ]
+  },
+  {
+    "rank": 779,
+    "khmer": "ផ្ទុក",
+    "romanized": "ptuk",
+    "aliases": [
+      "ptok"
+    ]
+  },
+  {
+    "rank": 782,
+    "khmer": "សត្រូវ",
+    "romanized": "satrouv",
+    "aliases": [
+      "sotrouv"
+    ]
+  },
+  {
+    "rank": 783,
+    "khmer": "ឆ្លើយតប",
+    "romanized": "chhlaeuytob",
+    "aliases": [
+      "chhlaeuytab"
+    ]
+  },
+  {
+    "rank": 788,
+    "khmer": "ជួរ",
+    "romanized": "chour",
+    "aliases": [
+      "jour"
+    ]
+  },
+  {
+    "rank": 789,
+    "khmer": "ចំហាយ",
+    "romanized": "chamhay",
+    "aliases": []
+  },
+  {
+    "rank": 790,
+    "khmer": "ចលនា",
+    "romanized": "chalona",
+    "aliases": [
+      "cholona"
+    ]
+  },
+  {
+    "rank": 791,
+    "khmer": "រាវ",
+    "romanized": "reav",
+    "aliases": []
+  },
+  {
+    "rank": 793,
+    "khmer": "ធ្មេញ",
+    "romanized": "thmenh",
+    "aliases": [
+      "tmenh"
+    ]
+  },
+  {
+    "rank": 799,
+    "khmer": "ជំនាញ",
+    "romanized": "chum neanh",
+    "aliases": [
+      "jum neanh",
+      "jneanh"
+    ]
+  },
+  {
+    "rank": 802,
+    "khmer": "មេដែក",
+    "romanized": "medaek",
+    "aliases": []
+  },
+  {
+    "rank": 803,
+    "khmer": "ប្រាក់",
+    "romanized": "brak",
+    "aliases": [
+      "prak"
+    ]
+  },
+  {
+    "rank": 805,
+    "khmer": "សាខា",
+    "romanized": "sakha",
+    "aliases": []
+  },
+  {
+    "rank": 807,
+    "khmer": "បច្ច័យ",
+    "romanized": "bachchai",
+    "aliases": [
+      "bochchai"
+    ]
+  },
+  {
+    "rank": 808,
+    "khmer": "ជាពិសេស",
+    "romanized": "cheapises",
+    "aliases": []
+  },
+  {
+    "rank": 809,
+    "khmer": "ល្វា",
+    "romanized": "lvea",
+    "aliases": []
+  },
+  {
+    "rank": 810,
+    "khmer": "ខ្លាច",
+    "romanized": "khlach",
+    "aliases": [
+      "klach"
+    ]
+  },
+  {
+    "rank": 814,
+    "khmer": "ពិភាក្សា",
+    "romanized": "pipheaksa",
+    "aliases": []
+  },
+  {
+    "rank": 817,
+    "khmer": "ណែនាំ",
+    "romanized": "naenoam",
+    "aliases": []
+  },
+  {
+    "rank": 819,
+    "khmer": "ពិន្ទុ",
+    "romanized": "pintuk",
+    "aliases": [
+      "p'tuk"
+    ]
+  },
+  {
+    "rank": 821,
+    "khmer": "ដឹកនាំ",
+    "romanized": "derknorm",
+    "aliases": [
+      "dirknorm"
+    ]
+  },
+  {
+    "rank": 824,
+    "khmer": "កាត",
+    "romanized": "card",
+    "aliases": [
+      "kat"
+    ]
+  },
+  {
+    "rank": 827,
+    "khmer": "ជ័យជម្នះ",
+    "romanized": "cheychomnes",
+    "aliases": []
+  },
+  {
+    "rank": 829,
+    "khmer": "ល្ងាច",
+    "romanized": "lngeach",
+    "aliases": [
+      "lgeach",
+      "lgech"
+    ]
+  },
+  {
+    "rank": 830,
+    "khmer": "លក្ខខណ្ឌ",
+    "romanized": "lokkhakhandar",
+    "aliases": [
+      "lokkhokhondor"
+    ]
+  },
+  {
+    "rank": 833,
+    "khmer": "ក្លិន",
+    "romanized": "klen",
+    "aliases": []
+  },
+  {
+    "rank": 837,
+    "khmer": "បន្ត",
+    "romanized": "bantor",
+    "aliases": [
+      "bontor",
+      "p'tor",
+      "ptor"
+    ]
+  },
+  {
+    "rank": 838,
+    "khmer": "ប្លុក",
+    "romanized": "plok",
+    "aliases": [
+      "blok"
+    ]
+  },
+  {
+    "rank": 839,
+    "khmer": "មួក",
+    "romanized": "muok",
+    "aliases": []
+  },
+  {
+    "rank": 840,
+    "khmer": "លក់",
+    "romanized": "louk",
+    "aliases": []
+  },
+  {
+    "rank": 842,
+    "khmer": "ក្រុមហ៊ុន",
+    "romanized": "krumhun",
+    "aliases": [
+      "kromhun"
+    ]
+  },
+  {
+    "rank": 843,
+    "khmer": "ដក",
+    "romanized": "dork",
+    "aliases": []
+  },
+  {
+    "rank": 844,
+    "khmer": "ព្រឹត្តិការណ៍",
+    "romanized": "prertika",
+    "aliases": [
+      "prertka"
+    ]
+  },
+  {
+    "rank": 847,
+    "khmer": "រយៈពេល",
+    "romanized": "royeakpel",
+    "aliases": []
+  },
+  {
+    "rank": 848,
+    "khmer": "ផ្ទុយ",
+    "romanized": "phtui",
+    "aliases": [
+      "phtoy"
+    ]
+  },
+  {
+    "rank": 849,
+    "khmer": "ប្រពន្ធ",
+    "romanized": "prapun",
+    "aliases": [
+      "propun",
+      "p'pun"
+    ]
+  },
+  {
+    "rank": 850,
+    "khmer": "ស្បែកជើង",
+    "romanized": "sbaekachaung",
+    "aliases": [
+      "sbaekochaung"
+    ]
+  },
+  {
+    "rank": 851,
+    "khmer": "ស្មា",
+    "romanized": "sma",
+    "aliases": []
+  },
+  {
+    "rank": 853,
+    "khmer": "រៀបចំ",
+    "romanized": "reab jom",
+    "aliases": [
+      "reabjom",
+      "riebjom"
+    ]
+  },
+  {
+    "rank": 854,
+    "khmer": "ជំរំ",
+    "romanized": "chumrum",
+    "aliases": []
+  },
+  {
+    "rank": 856,
+    "khmer": "កប្បាស",
+    "romanized": "kobbas",
+    "aliases": [
+      "kabbas"
+    ]
+  },
+  {
+    "rank": 857,
+    "khmer": "កើត",
+    "romanized": "kert",
+    "aliases": []
+  },
+  {
+    "rank": 858,
+    "khmer": "កំណត់",
+    "romanized": "komnot",
+    "aliases": [
+      "knot"
+    ]
+  },
+  {
+    "rank": 860,
+    "khmer": "ប្រាំបួន",
+    "romanized": "brambuon",
+    "aliases": [
+      "bramboun"
+    ]
+  },
+  {
+    "rank": 861,
+    "khmer": "ឡាន",
+    "romanized": "larn",
+    "aliases": [
+      "lan"
+    ]
+  },
+  {
+    "rank": 863,
+    "khmer": "កម្រិត",
+    "romanized": "komrit",
+    "aliases": []
+  },
+  {
+    "rank": 864,
+    "khmer": "ឱកាស",
+    "romanized": "orkah",
+    "aliases": [
+      "orkas",
+      "aokas"
+    ]
+  },
+  {
+    "rank": 866,
+    "khmer": "កំណាត់",
+    "romanized": "kamnat",
+    "aliases": [
+      "komnat"
+    ]
+  },
+  {
+    "rank": 867,
+    "khmer": "បោះ",
+    "romanized": "bos",
+    "aliases": []
+  },
+  {
+    "rank": 872,
+    "khmer": "ជ្រើស",
+    "romanized": "chraus",
+    "aliases": [
+      "jrers"
+    ]
+  },
+  {
+    "rank": 873,
+    "khmer": "ខុស",
+    "romanized": "khos",
+    "aliases": []
+  },
+  {
+    "rank": 878,
+    "khmer": "អំបិល",
+    "romanized": "aambel",
+    "aliases": []
+  },
+  {
+    "rank": 879,
+    "khmer": "ច្រមុះ",
+    "romanized": "chromuh",
+    "aliases": [
+      "chramuh"
+    ]
+  },
+  {
+    "rank": 881,
+    "khmer": "កំហឹង",
+    "romanized": "komhoeng",
+    "aliases": [
+      "kamhoeng"
+    ]
+  },
+  {
+    "rank": 883,
+    "khmer": "ទ្វីប",
+    "romanized": "tvib",
+    "aliases": []
+  }
+]

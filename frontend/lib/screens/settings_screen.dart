@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 import 'landing_screen.dart';
 import '../services/auth_service.dart';
+import '../services/keyboard_service.dart';
 import '../theme/app_theme.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -14,9 +15,39 @@ class SettingsScreen extends StatefulWidget {
   State<SettingsScreen> createState() => _SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObserver {
   bool _autoSaveHistory = true;
   String _appLanguage = 'English';
+  bool _isKeyboardEnabled = false;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    _checkKeyboardStatus();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      _checkKeyboardStatus();
+    }
+  }
+
+  Future<void> _checkKeyboardStatus() async {
+    final enabled = await KeyboardService.isKeyboardEnabled();
+    if (mounted) {
+      setState(() {
+        _isKeyboardEnabled = enabled;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -253,6 +284,126 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         onTap: () {
                           _showLanguageDialog();
                         },
+                      ),
+                    ],
+                  ),
+                ),
+                const Divider(),
+                // Keyboard Section
+                Padding(
+                  padding: EdgeInsets.all(horizontalPadding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'KHMERIFY KEYBOARD',
+                            style: TextStyle(
+                              fontSize: sectionLabelSize,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.muted,
+                            ),
+                          ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: _isKeyboardEnabled
+                                  ? AppTheme.green.withValues(alpha: 0.2)
+                                  : AppTheme.muted.withValues(alpha: 0.2),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: _isKeyboardEnabled
+                                        ? AppTheme.green
+                                        : AppTheme.muted,
+                                  ),
+                                ),
+                                const SizedBox(width: 5),
+                                Text(
+                                  _isKeyboardEnabled ? 'Active' : 'Disabled',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.bold,
+                                    color: _isKeyboardEnabled
+                                        ? AppTheme.green
+                                        : AppTheme.muted,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: isMobile ? 8 : 10),
+                      Text(
+                        'Type phonetically in any app (Telegram, Messenger, Chrome) and pick Khmer word suggestions from the candidate strip.',
+                        style: TextStyle(
+                          fontSize: isMobile ? 12.0 : 13.0,
+                          color: AppTheme.muted,
+                        ),
+                      ),
+                      SizedBox(height: isMobile ? 12 : 16),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton.icon(
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: AppTheme.ink,
+                                side: BorderSide(color: AppTheme.ink, width: 1.5),
+                                padding: EdgeInsets.symmetric(vertical: isMobile ? 10 : 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              onPressed: () async {
+                                await KeyboardService.openKeyboardSettings();
+                              },
+                              icon: const Icon(Icons.settings, size: 18),
+                              label: Text(
+                                'Manage Keyboards',
+                                style: TextStyle(
+                                  fontSize: isMobile ? 11.0 : 13.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Expanded(
+                            child: ElevatedButton.icon(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppTheme.yellow,
+                                foregroundColor: AppTheme.onYellow,
+                                side: BorderSide(color: AppTheme.ink, width: 1.5),
+                                elevation: 0,
+                                padding: EdgeInsets.symmetric(vertical: isMobile ? 10 : 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
+                              onPressed: () async {
+                                await KeyboardService.showKeyboardPicker();
+                              },
+                              icon: const Icon(Icons.keyboard, size: 18),
+                              label: Text(
+                                'Switch Keyboard',
+                                style: TextStyle(
+                                  fontSize: isMobile ? 11.0 : 13.0,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ],
                   ),

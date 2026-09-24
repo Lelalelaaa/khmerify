@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="#181824"
+    android:paddingTop="2dp"
+    android:paddingBottom="8dp"
+    android:paddingHorizontal="4dp">
+
+    <!-- Candidate / Suggestion Bar (Pinyin style candidate strip) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="#1E1F2E"
+        android:paddingHorizontal="4dp"
+        android:layout_marginBottom="4dp">
+
+        <!-- Composing Text Preview / Brand Indicator -->
+        <TextView
+            android:id="@+id/tv_composing_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🇰🇭"
+            android:textColor="#E0AF68"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            android:paddingHorizontal="6dp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="24dp"
+            android:background="#36384E"
+            android:layout_marginEnd="6dp" />
+
+        <!-- Candidate Chips Scroll View -->
+        <HorizontalScrollView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:scrollbars="none"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:id="@+id/candidate_container"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingEnd="12dp" />
+        </HorizontalScrollView>
+    </LinearLayout>
+
+    <!-- Dynamic Keyboard Keys Rows -->
+    <LinearLayout
+        android:id="@+id/keyboard_rows"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+</LinearLayout>
