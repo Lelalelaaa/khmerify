@@ -1,13 +1,82 @@
 # Khmerify
 
-> Type Khmer phonetically using Latin letters — get accurate Khmer Unicode script in real-time.
-> Example: `tngai nis mek kdav nas` → **ថ្ងៃនិស្ស័យក្ដៅណាស់**
+> Type Khmer phonetically using Latin letters — get accurate Khmer Unicode script in real-time, powered by AI.
+> Example: `knh saob neak nas` → **ខ្ញុំស្អប់អ្នកណាស់**
+
+---
+
+## 📖 User Guide
+
+### How to Translate
+
+1. Open the app and go to the **Translate** tab.
+2. Type romanized (phonetic) Khmer text into the input box.
+   - You can use standard romanizations **or** informal shorthands that Cambodians use when texting:
+
+     | Shorthand | Khmer | Meaning |
+     |-----------|-------|---------|
+     | `knh` | ខ្ញុំ | I / me |
+     | `hz` | ហើយ | already / done |
+     | `te` | ទេ | no / not |
+     | `neak` | នាក់ | you (informal) |
+     | `oun` | អូន | younger sibling / dear |
+
+3. Tap **Translate**. The AI reads the whole sentence for context and returns the correct Khmer script.
+
+### Reading the Result
+
+- The **top chips** show each word individually.
+- The **bottom box** shows the full sentence joined together (no spaces — this is natural Khmer style).
+
+### Correcting a Wrong Word
+
+If the AI gets a word wrong:
+1. **Tap the chip** for that word.
+2. A dialog will appear — type in the correct Khmer script.
+3. Tap **Add word** — the correction is saved to the dictionary permanently.
+4. Next time you type that word, the dictionary answer is used instantly (no AI needed).
+
+### Removing a Word from the Output
+
+Tap the **✕** on any chip to remove that word from the final sentence.
+
+### Copying & Sharing
+
+Use the icons at the bottom of the result card to **copy** the Khmer text to your clipboard or **share** it.
+
+---
+
+### History
+
+Every translation you make is automatically saved. Tap the **History** tab to review past translations.
+
+> You must be signed in to use History — it is synced to your account.
+
+---
+
+### Library (Personal Dictionary)
+
+The **Library** tab is your personal word bank:
+- Tap **＋** to manually add a new romanized → Khmer word pair.
+- Tap the **⋮** menu on any word to **Edit** or **Delete** it.
+- Words you add here are used to power future translations.
+- Use the **search bar** to quickly find a word.
+
+> You must be signed in to use Library — it is synced to your account.
+
+---
+
+### Settings
+
+- Toggle **Dark Mode** on or off.
+- **Sign in** with Google, Facebook, Twitter, or Email.
+- **Sign out** from the Settings tab.
 
 ---
 
 ## Team
 | Role | Members |
-|------|---------|
+|------|---------| 
 | Frontend | Sok Kimpheng, Chau Senghong |
 | Backend & Rule Engine | So Phumin, Chhim Pheaktra |
 | QA & Data | Eang Soputhik |
@@ -19,6 +88,7 @@
 |-------|-----------|
 | Frontend | Flutter (Dart) |
 | Rule Engine | Python + FastAPI + SQLite |
+| AI Translation | Google Gemini API (`gemini-3.6-flash`) |
 | Auth | Firebase Auth (Email, Google, Facebook, Twitter) |
 | Cloud DB | Cloud Firestore (history & library sync) |
 | Local Storage | `shared_preferences` (settings & device ID) |
@@ -48,10 +118,8 @@ khmerify/
 
 ### Prerequisites
 
-Make sure you have the following installed before running the project:
-
 | Tool | Required Version | Download |
-|------|-----------------|---------|
+|------|-----------------|---------| 
 | Python | 3.10+ | https://python.org |
 | Flutter SDK | 3.x (Dart >= 3.13) | https://flutter.dev/docs/get-started/install |
 | Git | Any | https://git-scm.com |
@@ -63,7 +131,15 @@ Make sure you have the following installed before running the project:
 
 ## 1 — Backend Setup (Rule Engine)
 
-The backend is a Python FastAPI server that handles phonetic transliteration and the word dictionary. It must be running before the Flutter app can convert text.
+The backend is a Python FastAPI server that handles AI translation and the word dictionary. It must be running before the Flutter app can convert text.
+
+### Create your `.env` file
+
+Create a file at `backend/.env` with your Gemini API key (get one free at https://aistudio.google.com/app/apikey):
+
+```
+GEMINI_API_KEY=your_key_here
+```
 
 ### Windows
 
@@ -86,16 +162,16 @@ uvicorn main:app --app-dir backend --host 0.0.0.0 --port 8000 --reload
 
 ### Verify it's working
 
+```powershell
+# Windows PowerShell
+Invoke-RestMethod http://127.0.0.1:8000/convert -Method Post -ContentType "application/json" -Body '{"input":"sursdey"}'
+```
+
 ```bash
 # macOS / Linux
 curl -X POST http://127.0.0.1:8000/convert \
   -H "Content-Type: application/json" \
   -d '{"input": "sursdey"}'
-```
-
-```powershell
-# Windows PowerShell
-Invoke-RestMethod http://127.0.0.1:8000/convert -Method Post -ContentType "application/json" -Body '{"input":"sursdey"}'
 ```
 
 The server will be available at `http://localhost:8000`. **Keep this terminal open** while running the Flutter app.
@@ -135,47 +211,6 @@ flutter pub get
 
 > **Physical device tip:** Make sure your phone and computer are on the same Wi-Fi network. Update the API base URL in `lib/services/api_service.dart` to your machine's local IP (e.g. `http://192.168.x.x:8000`) instead of `localhost`.
 
-### iOS (macOS only)
-
-> Requires macOS with Xcode installed.
-
-1. Open Xcode and set up a simulator, or connect a physical iPhone.
-2. Install iOS pods (first time only):
-   ```bash
-   cd frontend/ios && pod install && cd ../..
-   ```
-3. Run:
-   ```bash
-   cd frontend
-   flutter run
-   ```
-
-> **First time setup:** You may need to run `sudo xcode-select --switch /Applications/Xcode.app` and accept the Xcode license agreement.
-
-### Windows Desktop
-
-```powershell
-cd frontend
-flutter config --enable-windows-desktop
-flutter run -d windows
-```
-
-### macOS Desktop
-
-```bash
-cd frontend
-flutter config --enable-macos-desktop
-flutter run -d macos
-```
-
-### Linux Desktop
-
-```bash
-cd frontend
-flutter config --enable-linux-desktop
-flutter run -d linux
-```
-
 ### Web (Browser)
 
 ```bash
@@ -184,13 +219,11 @@ flutter config --enable-web
 flutter run -d chrome
 ```
 
-> **Note:** Firebase social sign-ins (Google, Facebook, Twitter) may behave differently on web. Email/password login works on all platforms.
-
 ---
 
 ## 4 — Firebase Setup (First-Time Only)
 
-The app uses Firebase for authentication and Firestore. The `google-services.json` (Android) and `GoogleService-Info.plist` (iOS) config files are already included for team use.
+The app uses Firebase for authentication and Firestore. The `google-services.json` (Android) config file is already included for team use.
 
 If you need to re-configure Firebase from scratch:
 
@@ -210,10 +243,7 @@ If you need to re-configure Firebase from scratch:
 
 ## Branching Strategy
 - `main`: Production-ready & tested stable code
-- `frontend`: UI screens (Landing, Login, Signup, Translate, History, Library, Settings), input components, auth UI
-- `rule-engine`: Phonetic transliteration algorithms & mapping logic (Python/FastAPI)
-- `backend-auth`: Firebase Auth, Cloud Firestore history & library sync, services
-- `data`: Khmer word lists, dictionary data
+- `supabase-lab`: Lab assignment branch (Supabase CRUD demo)
 
 ---
 
