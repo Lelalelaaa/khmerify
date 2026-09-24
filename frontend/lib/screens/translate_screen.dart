@@ -435,7 +435,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
       .map((entry) => _sentenceWord(entry.value))
       .toList();
 
-  String get _translatedSentence => _sentenceWords.join(' ');
+  String get _translatedSentence => _sentenceWords.join('');
 
   void _removeTranslatedWord(int index) {
     setState(() {
