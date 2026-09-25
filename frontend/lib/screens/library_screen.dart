@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-import '../services/api_service.dart';
-import '../services/database_service.dart';
+import '../services/app_data.dart';
 import '../theme/app_theme.dart';
 
 class LibraryScreen extends StatefulWidget {
@@ -17,7 +14,6 @@ class LibraryScreen extends StatefulWidget {
 
 class _LibraryScreenState extends State<LibraryScreen> {
   final _searchController = TextEditingController();
-  final DatabaseService _databaseService = DatabaseService();
   String _query = '';
 
   @override
@@ -30,61 +26,22 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.authStateChanges(),
-      builder: (context, authSnapshot) {
-        final user = authSnapshot.data;
-
-        return ValueListenableBuilder<bool>(
-          valueListenable: AppTheme.darkMode,
-          builder: (context, isDark, child) {
-            return Scaffold(
-              backgroundColor: AppTheme.paper,
-              appBar: widget.showAppBar
-                  ? AppBar(
-                      title: const Text('Library'),
-                      actions: [
-                        if (user != null) _buildAddButton(context),
-                      ],
-                    )
-                  : null,
-              floatingActionButton: widget.showAppBar || user == null
-                  ? null
-                  : _buildAddButton(context),
-              body: user == null
-                  ? _buildLoginPrompt(context)
-                  : _buildLibraryContent(context),
-            );
-          },
+    return ValueListenableBuilder<bool>(
+      valueListenable: AppTheme.darkMode,
+      builder: (context, isDark, child) {
+        return Scaffold(
+          backgroundColor: AppTheme.paper,
+          appBar: widget.showAppBar
+              ? AppBar(
+                  title: const Text('Library'),
+                  actions: [_buildAddButton(context)],
+                )
+              : null,
+          floatingActionButton:
+              widget.showAppBar ? null : _buildAddButton(context),
+          body: _buildLibraryContent(context),
         );
       },
-    );
-  }
-
-  Widget _buildLoginPrompt(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final isMobile = screenSize.width < 600;
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.lock_outline,
-            size: isMobile ? 56 : 64,
-            color: AppTheme.muted.withValues(alpha: 0.5),
-          ),
-          SizedBox(height: isMobile ? 12 : 16),
-          Text(
-            'Sign in to build your personal library',
-            style: TextStyle(
-              fontSize: isMobile ? 14.0 : 16.0,
-              color: AppTheme.muted,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ],
-      ),
     );
   }
 
@@ -109,73 +66,24 @@ class _LibraryScreenState extends State<LibraryScreen> {
           ),
         ),
         Expanded(
-          child: StreamBuilder<QuerySnapshot>(
-            stream: _databaseService.getLibrary(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.hasError) {
-                return Center(
-                  child: Text(
-                    'Error: ${snapshot.error}',
-                    style: TextStyle(color: AppTheme.muted),
-                  ),
-                );
-              }
-
-              final docs = snapshot.data?.docs ?? [];
-
-              if (docs.isEmpty) {
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.menu_book,
-                        size: 56,
-                        color: AppTheme.muted.withValues(alpha: 0.35),
-                      ),
-                      const SizedBox(height: 12),
-                      Text(
-                        'Your library is empty',
-                        style: TextStyle(
-                          fontSize: 14.0,
-                          color: AppTheme.muted,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Add words to build your custom dictionary',
-                        style: TextStyle(
-                          fontSize: 12.0,
-                          color: AppTheme.muted.withValues(alpha: 0.7),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              }
-
-              // Filter docs manually in memory (since Firestore text search is limited)
-              final filteredDocs = docs.where((doc) {
+          child: ValueListenableBuilder<List<LibraryWord>>(
+            valueListenable: AppData.library,
+            builder: (context, words, child) {
+              final filteredWords = words.where((word) {
                 if (_query.isEmpty) return true;
-                final data = doc.data() as Map<String, dynamic>;
-                final romanized = (data['romanized'] as String?)?.toLowerCase() ?? '';
-                final khmer = (data['khmer'] as String?) ?? '';
-                final aliases = List<String>.from(data['aliases'] ?? []);
-                
-                return romanized.contains(_query) ||
-                    khmer.contains(_query) ||
-                    aliases.any((a) => a.toLowerCase().contains(_query));
+                return word.romanized.toLowerCase().contains(_query) ||
+                    word.khmer.contains(_query) ||
+                    word.aliases.any(
+                      (alias) => alias.toLowerCase().contains(_query),
+                    );
               }).toList();
 
-              if (filteredDocs.isEmpty) {
+              if (filteredWords.isEmpty) {
                 return Center(
                   child: Text(
-                    'No words found matching "$_query"',
+                    _query.isEmpty
+                        ? 'Your library is empty'
+                        : 'No words found matching "$_query"',
                     style: TextStyle(color: AppTheme.muted),
                   ),
                 );
@@ -183,31 +91,22 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
               return ListView.separated(
                 padding: const EdgeInsets.fromLTRB(16, 8, 16, 90),
-                itemCount: filteredDocs.length,
-                separatorBuilder: (context, index) => const SizedBox(height: 10),
+                itemCount: filteredWords.length,
+                separatorBuilder: (context, index) =>
+                    const SizedBox(height: 10),
                 itemBuilder: (context, index) {
-                  final doc = filteredDocs[index];
-                  final data = doc.data() as Map<String, dynamic>;
-                  final docId = doc.id;
-                  
-                  final romanized = data['romanized'] as String? ?? '';
-                  final khmer = data['khmer'] as String? ?? '';
-                  
+                  final word = filteredWords[index];
+                  final wordIndex = AppData.library.value.indexOf(word);
                   return _WordTile(
-                    romanized: romanized,
-                    khmer: khmer,
+                    romanized: word.romanized,
+                    khmer: word.khmer,
                     onEdit: () => _showWordDialog(
                       context,
-                      docId: docId,
-                      initialRomanized: romanized,
-                      initialKhmer: khmer,
+                      wordIndex: wordIndex,
+                      initialRomanized: word.romanized,
+                      initialKhmer: word.khmer,
                     ),
-                    onDelete: () => _confirmDelete(
-                      context,
-                      docId,
-                      romanized,
-                      khmer,
-                    ),
+                    onDelete: () => _confirmDelete(context, wordIndex, word),
                   );
                 },
               );
@@ -228,7 +127,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
 
   Future<void> _showWordDialog(
     BuildContext context, {
-    String? docId,
+    int? wordIndex,
     String? initialRomanized,
     String? initialKhmer,
   }) async {
@@ -240,7 +139,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
       builder: (context) => AlertDialog(
         backgroundColor: Theme.of(context).cardColor,
         title: Text(
-          docId == null ? 'Add word' : 'Edit word',
+          wordIndex == null ? 'Add word' : 'Edit word',
           style: TextStyle(color: AppTheme.ink),
         ),
         content: Column(
@@ -280,7 +179,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
               backgroundColor: AppTheme.yellow,
               foregroundColor: AppTheme.onYellow,
             ),
-            child: Text(docId == null ? 'Add' : 'Save'),
+            child: Text(wordIndex == null ? 'Add' : 'Save'),
           ),
         ],
       ),
@@ -288,34 +187,21 @@ class _LibraryScreenState extends State<LibraryScreen> {
     
     if (result == null) return;
     
-    try {
-      if (docId == null) {
-        // Add new
-        await ApiService.addWord(result['romanized']!, result['khmer']!);
-        await _databaseService.addLibraryWord(result['romanized']!, result['khmer']!, []);
-      } else {
-        // Edit existing
-        if (initialRomanized != result['romanized'] || initialKhmer != result['khmer']) {
-          await ApiService.deleteWord(initialRomanized!, initialKhmer!);
-          await ApiService.addWord(result['romanized']!, result['khmer']!);
-        }
-        await _databaseService.updateLibraryWord(docId, result['romanized']!, result['khmer']!);
-      }
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(this.context).showSnackBar(
-        const SnackBar(
-          content: Text('Could not sync this word with the translator'),
-        ),
-      );
+    final word = LibraryWord(
+      romanized: result['romanized']!,
+      khmer: result['khmer']!,
+    );
+    if (wordIndex == null) {
+      await AppData.addWord(word);
+    } else {
+      await AppData.updateWord(wordIndex, word);
     }
   }
 
   Future<void> _confirmDelete(
     BuildContext context,
-    String docId,
-    String romanized,
-    String khmer,
+    int wordIndex,
+    LibraryWord word,
   ) async {
     final confirmed = await showDialog<bool>(
       context: context,
@@ -323,7 +209,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
         backgroundColor: Theme.of(context).cardColor,
         title: Text('Delete word?', style: TextStyle(color: AppTheme.ink)),
         content: Text(
-          'Remove $romanized from your library?',
+          'Remove ${word.romanized} from your library?',
           style: TextStyle(color: AppTheme.ink),
         ),
         actions: [
@@ -342,17 +228,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
     
     if (confirmed != true) return;
     
-    try {
-      await ApiService.deleteWord(romanized, khmer);
-      await _databaseService.deleteLibraryWord(docId);
-    } catch (_) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(this.context).showSnackBar(
-        const SnackBar(
-          content: Text('Could not delete this word from the translator'),
-        ),
-      );
-    }
+    await AppData.deleteWord(wordIndex);
   }
 
   @override

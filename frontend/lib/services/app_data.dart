@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryEntry {
   final String romanizedText;
@@ -26,6 +27,22 @@ class LibraryWord {
     this.aliases = const [],
   });
 
+  factory LibraryWord.fromJson(Map<String, dynamic> json) {
+    return LibraryWord(
+      romanized: json['romanized'] as String,
+      khmer: json['khmer'] as String,
+      aliases: (json['aliases'] as List<dynamic>? ?? [])
+          .map((alias) => alias as String)
+          .toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'romanized': romanized,
+        'khmer': khmer,
+        'aliases': aliases,
+      };
+
   LibraryWord copyWith({String? romanized, String? khmer}) {
     return LibraryWord(
       romanized: romanized ?? this.romanized,
@@ -36,6 +53,7 @@ class LibraryWord {
 }
 
 class AppData {
+  static const _libraryStorageKey = 'khmerify_library';
   static final history = ValueNotifier<List<HistoryEntry>>([]);
   static final library = ValueNotifier<List<LibraryWord>>([]);
 
@@ -44,18 +62,25 @@ class AppData {
       'assets/common_words_with_romanization.json',
     );
     final entries = jsonDecode(json) as List<dynamic>;
-    library.value = entries
-        .map((entry) {
-          final item = entry as Map<String, dynamic>;
-          return LibraryWord(
-            romanized: item['romanized'] as String,
-            khmer: item['khmer'] as String,
-            aliases: (item['aliases'] as List<dynamic>? ?? [])
-                .map((alias) => alias as String)
-                .toList(),
-          );
-        })
+    final seedLibrary = entries
+        .map((entry) => LibraryWord.fromJson(entry as Map<String, dynamic>))
         .toList(growable: true);
+
+    final preferences = await SharedPreferences.getInstance();
+    final savedLibrary = preferences.getString(_libraryStorageKey);
+    if (savedLibrary == null) {
+      library.value = seedLibrary;
+      return;
+    }
+
+    try {
+      final decoded = jsonDecode(savedLibrary) as List<dynamic>;
+      library.value = decoded
+          .map((entry) => LibraryWord.fromJson(entry as Map<String, dynamic>))
+          .toList(growable: true);
+    } catch (_) {
+      library.value = seedLibrary;
+    }
   }
 
   static void addHistory({required String romanized, required String khmer}) {
@@ -69,18 +94,29 @@ class AppData {
     ];
   }
 
-  static void addWord(LibraryWord word) {
-    library.value = [...library.value, word];
+  static Future<void> _persistLibrary() async {
+    final preferences = await SharedPreferences.getInstance();
+    await preferences.setString(
+      _libraryStorageKey,
+      jsonEncode(library.value.map((word) => word.toJson()).toList()),
+    );
   }
 
-  static void updateWord(int index, LibraryWord word) {
+  static Future<void> addWord(LibraryWord word) async {
+    library.value = [...library.value, word];
+    await _persistLibrary();
+  }
+
+  static Future<void> updateWord(int index, LibraryWord word) async {
     final words = [...library.value];
     words[index] = word;
     library.value = words;
+    await _persistLibrary();
   }
 
-  static void deleteWord(int index) {
+  static Future<void> deleteWord(int index) async {
     final words = [...library.value]..removeAt(index);
     library.value = words;
+    await _persistLibrary();
   }
 }

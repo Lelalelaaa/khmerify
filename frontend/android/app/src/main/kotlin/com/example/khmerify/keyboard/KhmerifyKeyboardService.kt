@@ -39,6 +39,7 @@ class KhmerifyKeyboardService : InputMethodService() {
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        KhmerDictionary.reload(this)
         composingBuffer.clear()
         isShifted = false
         isSymbols = false
@@ -67,13 +68,13 @@ class KhmerifyKeyboardService : InputMethodService() {
 
     private fun onSpace() {
         val query = composingBuffer.toString()
-        val candidates = KhmerDictionary.getCandidates(query)
+        val candidates = KhmerDictionary.getExactCandidates(query)
 
-        if (candidates.isNotEmpty()) {
-            // Auto-commit top candidate on space (like Gboard Pinyin)
+        if (!candidates.isNullOrEmpty()) {
             commitWord(candidates.first())
             currentInputConnection?.commitText(" ", 1)
         } else if (composingBuffer.isNotEmpty()) {
+            // Keep unknown spellings intact instead of silently guessing a word.
             currentInputConnection?.commitText("$composingBuffer ", 1)
             composingBuffer.clear()
             updateCandidates()
@@ -84,8 +85,8 @@ class KhmerifyKeyboardService : InputMethodService() {
 
     private fun onEnter() {
         if (composingBuffer.isNotEmpty()) {
-            val candidates = KhmerDictionary.getCandidates(composingBuffer.toString())
-            if (candidates.isNotEmpty()) {
+            val candidates = KhmerDictionary.getExactCandidates(composingBuffer.toString())
+            if (!candidates.isNullOrEmpty()) {
                 commitWord(candidates.first())
             } else {
                 currentInputConnection?.commitText(composingBuffer.toString(), 1)
