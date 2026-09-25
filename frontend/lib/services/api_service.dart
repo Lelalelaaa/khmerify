@@ -71,15 +71,8 @@ class WordResult {
 }
 
 class ApiService {
-  // Use a dynamic getter to choose the correct localhost IP
   static String get baseUrl {
-    if (kIsWeb) {
-      return "http://127.0.0.1:8000"; // Web
-    } else if (Platform.isAndroid) {
-      return "http://10.0.2.2:8000"; // Android Emulator
-    } else {
-      return "http://127.0.0.1:8000"; // Fallback
-    }
+    return "https://khmerify-backend.onrender.com";
   }
 
   /// Convert romanised Khmer text to Khmer script.
