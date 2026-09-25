@@ -37,8 +37,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
                   actions: [_buildAddButton(context)],
                 )
               : null,
-          floatingActionButton:
-              widget.showAppBar ? null : _buildAddButton(context),
+          floatingActionButton: widget.showAppBar
+              ? null
+              : _buildAddButton(context),
           body: _buildLibraryContent(context),
         );
       },
@@ -133,7 +134,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }) async {
     final romanizedController = TextEditingController(text: initialRomanized);
     final khmerController = TextEditingController(text: initialKhmer);
-    
+
     final result = await showDialog<Map<String, String>>(
       context: context,
       builder: (context) => AlertDialog(
@@ -169,10 +170,10 @@ class _LibraryScreenState extends State<LibraryScreen> {
               final romanized = romanizedController.text.trim();
               final khmer = khmerController.text.trim();
               if (romanized.isNotEmpty && khmer.isNotEmpty) {
-                Navigator.pop(
-                  context,
-                  {'romanized': romanized, 'khmer': khmer},
-                );
+                Navigator.pop(context, {
+                  'romanized': romanized,
+                  'khmer': khmer,
+                });
               }
             },
             style: FilledButton.styleFrom(
@@ -184,9 +185,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
         ],
       ),
     );
-    
+
     if (result == null) return;
-    
+
     final word = LibraryWord(
       romanized: result['romanized']!,
       khmer: result['khmer']!,
@@ -225,9 +226,9 @@ class _LibraryScreenState extends State<LibraryScreen> {
         ],
       ),
     );
-    
+
     if (confirmed != true) return;
-    
+
     await AppData.deleteWord(wordIndex);
   }
 
@@ -258,17 +259,11 @@ class _WordTile extends StatelessWidget {
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
         title: Text(
           romanized,
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-            color: AppTheme.ink,
-          ),
+          style: TextStyle(fontWeight: FontWeight.w700, color: AppTheme.ink),
         ),
         subtitle: Text(
           khmer,
-          style: TextStyle(
-            fontSize: 20,
-            color: AppTheme.muted,
-          ),
+          style: TextStyle(fontSize: 20, color: AppTheme.muted),
         ),
         trailing: PopupMenuButton<String>(
           icon: Icon(Icons.more_vert, color: AppTheme.ink),

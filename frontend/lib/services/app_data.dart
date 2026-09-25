@@ -38,10 +38,10 @@ class LibraryWord {
   }
 
   Map<String, dynamic> toJson() => {
-        'romanized': romanized,
-        'khmer': khmer,
-        'aliases': aliases,
-      };
+    'romanized': romanized,
+    'khmer': khmer,
+    'aliases': aliases,
+  };
 
   LibraryWord copyWith({String? romanized, String? khmer}) {
     return LibraryWord(
