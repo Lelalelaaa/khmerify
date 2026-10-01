@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../services/app_data.dart';
@@ -19,6 +21,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
   @override
   void initState() {
     super.initState();
+    unawaited(AppData.refreshLibrary());
     _searchController.addListener(() {
       setState(() => _query = _searchController.text.trim().toLowerCase());
     });

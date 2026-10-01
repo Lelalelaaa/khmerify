@@ -83,6 +83,21 @@ class AppData {
     }
   }
 
+  static Future<void> refreshLibrary() async {
+    final preferences = await SharedPreferences.getInstance();
+    final savedLibrary = preferences.getString(_libraryStorageKey);
+    if (savedLibrary == null) return;
+
+    try {
+      final decoded = jsonDecode(savedLibrary) as List<dynamic>;
+      library.value = decoded
+          .map((entry) => LibraryWord.fromJson(entry as Map<String, dynamic>))
+          .toList(growable: true);
+    } catch (_) {
+      // Keep the currently loaded library if external storage is malformed.
+    }
+  }
+
   static void addHistory({required String romanized, required String khmer}) {
     history.value = [
       HistoryEntry(
