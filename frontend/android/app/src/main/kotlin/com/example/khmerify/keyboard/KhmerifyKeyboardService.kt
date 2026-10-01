@@ -34,8 +34,7 @@ class KhmerifyKeyboardService : InputMethodService() {
 
     private var isShifted = false
     private var isSymbols = false
-    private var activeAddWordInput: EditText? = null
-    private val deleteHandler = Handler(Looper.getMainLooper())
+        private val deleteHandler = Handler(Looper.getMainLooper())
     private var repeatDelete = false
     private var didRepeatDelete = false
     private val deleteRunnable = object : Runnable {
@@ -85,28 +84,12 @@ class KhmerifyKeyboardService : InputMethodService() {
     // --- Keystroke Handlers ---
 
     private fun onCharTyped(c: Char) {
-        activeAddWordInput?.let { input ->
-            replaceSelection(input, c.toString())
-            return
-        }
         composingBuffer.append(c)
         updateComposingText()
         updateCandidates()
     }
 
     private fun onBackspace() {
-        activeAddWordInput?.let { input ->
-            val text = input.text
-            val start = input.selectionStart.coerceIn(0, text.length)
-            val end = input.selectionEnd.coerceIn(0, text.length)
-            val deleteStart = if (start == end) (start - 1).coerceAtLeast(0) else minOf(start, end)
-            val deleteEnd = if (start == end) start else maxOf(start, end)
-            if (deleteStart < deleteEnd) {
-                text.delete(deleteStart, deleteEnd)
-                input.setSelection(deleteStart)
-            }
-            return
-        }
         if (composingBuffer.isNotEmpty()) {
             composingBuffer.deleteCharAt(composingBuffer.length - 1)
             updateComposingText()
@@ -118,10 +101,6 @@ class KhmerifyKeyboardService : InputMethodService() {
     }
 
     private fun onSpace() {
-        if (activeAddWordInput != null) {
-            activeAddWordInput?.let { replaceSelection(it, " ") }
-            return
-        }
         val query = composingBuffer.toString()
         val candidates = KhmerDictionary.getExactCandidates(query)
 
@@ -137,10 +116,6 @@ class KhmerifyKeyboardService : InputMethodService() {
     }
 
     private fun onEnter() {
-        if (activeAddWordInput != null) {
-            activeAddWordInput?.focusSearch(View.FOCUS_DOWN)?.requestFocus()
-            return
-        }
         if (composingBuffer.isNotEmpty()) {
             val candidates = KhmerDictionary.getExactCandidates(composingBuffer.toString())
             if (!candidates.isNullOrEmpty()) {
@@ -234,75 +209,11 @@ class KhmerifyKeyboardService : InputMethodService() {
     }
 
     private fun showAddWordDialog(query: String) {
-        val romanizedInput = EditText(this).apply {
-            setText(query)
-            inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-            setSingleLine(true)
-            hint = "Romanized spelling"
+        val intent = android.content.Intent(this, AddWordActivity::class.java).apply {
+            addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK or android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            putExtra("romanized_word", query)
         }
-        val khmerInput = EditText(this).apply {
-            inputType = InputType.TYPE_CLASS_TEXT
-            setSingleLine(true)
-            hint = "Khmer translation"
-        }
-        romanizedInput.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) activeAddWordInput = romanizedInput
-        }
-        khmerInput.setOnFocusChangeListener { _, hasFocus ->
-            if (hasFocus) activeAddWordInput = khmerInput
-        }
-        val form = LinearLayout(this).apply {
-            orientation = LinearLayout.VERTICAL
-            setPadding(dpToPx(20), dpToPx(8), dpToPx(20), 0)
-            addView(romanizedInput)
-            addView(khmerInput)
-        }
-        val dialog = AlertDialog.Builder(this)
-            .setTitle("Add to your library")
-            .setView(form)
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("Add", null)
-            .create()
-        dialog.setCanceledOnTouchOutside(false)
-
-        dialog.window?.setType(WindowManager.LayoutParams.TYPE_APPLICATION_ATTACHED_DIALOG)
-        dialog.window?.addFlags(WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL)
-        dialog.window?.attributes = dialog.window?.attributes?.apply {
-            token = this@KhmerifyKeyboardService.window.window?.decorView?.windowToken
-        }
-        dialog.setOnShowListener {
-            dialog.window?.decorView?.post {
-                val dialogWindow = dialog.window ?: return@post
-                val imeDecorView = this@KhmerifyKeyboardService.window.window?.decorView
-                    ?: return@post
-                val imeLocation = IntArray(2)
-                imeDecorView.getLocationOnScreen(imeLocation)
-                val attributes = dialogWindow.attributes
-                attributes.gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-                attributes.y = resources.displayMetrics.heightPixels / 2 -
-                    dialogWindow.decorView.height / 2 - imeLocation[1]
-                dialogWindow.attributes = attributes
-            }
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                val romanized = romanizedInput.text.toString().trim()
-                val khmer = khmerInput.text.toString().trim()
-                if (romanized.isEmpty() || khmer.isEmpty()) {
-                    khmerInput.error = "Both fields are required"
-                    return@setOnClickListener
-                }
-                saveLibraryWord(romanized, khmer)
-                dialog.dismiss()
-            }
-        }
-        dialog.setOnDismissListener {
-            activeAddWordInput = null
-            deleteHandler.post {
-                requestShowSelf(0)
-            }
-        }
-        dialog.show()
-        khmerInput.requestFocus()
-        activeAddWordInput = khmerInput
+        startActivity(intent)
     }
 
     private fun replaceSelection(input: EditText, replacement: String) {
