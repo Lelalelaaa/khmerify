@@ -44,35 +44,12 @@ class LandingScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         SizedBox(height: verticalSpacing),
-                        // Logo Badge
-                        Container(
+                        // Logo
+                        Image.asset(
+                          'assets/logo.png',
                           width: logoSize,
                           height: logoSize,
-                          decoration: BoxDecoration(
-                            color: AppTheme.yellow,
-                            shape: BoxShape.circle,
-                            border:
-                                Border.all(color: AppTheme.ink, width: 3),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppTheme.ink.withValues(
-                                  alpha: isDark ? 0.4 : 0.85,
-                                ),
-                                offset: const Offset(4, 4),
-                                blurRadius: 0,
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: ClipOval(
-                              child: Image.asset(
-                                'assets/logo.png',
-                                width: logoSize * 0.7,
-                                height: logoSize * 0.7,
-                                fit: BoxFit.contain,
-                              ),
-                            ),
-                          ),
+                          fit: BoxFit.contain,
                         ),
                         SizedBox(height: verticalSpacing),
                         // App Title
