@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../services/api_service.dart';
+import '../services/keyboard_service.dart';
 import '../services/app_data.dart';
 import '../services/database_service.dart';
 import '../widgets/translate_tab.dart';
@@ -25,6 +26,12 @@ class _TranslateScreenState extends State<TranslateScreen> {
   final Map<String, int> _selectedCandidateIndexes = {};
   bool _loading = false;
   int _selectedTab = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    AppData.syncCloudLibrary();
+  }
 
   Future<void> _handleTranslate() async {
     if (_controller.text.isEmpty) {
@@ -316,7 +323,17 @@ class _TranslateScreenState extends State<TranslateScreen> {
         content: TextField(
           controller: khmerController,
           autofocus: true,
-          decoration: const InputDecoration(hintText: 'Correct Khmer script'),
+          decoration: InputDecoration(
+            hintText: 'Correct Khmer script',
+            suffixIcon: IconButton(
+              icon: const Icon(Icons.language),
+              tooltip: 'Switch Keyboard',
+              onPressed: () {
+                // Allows user to easily switch back to default Khmer keyboard
+                KeyboardService.showKeyboardPicker();
+              },
+            ),
+          ),
         ),
         actions: [
           TextButton(

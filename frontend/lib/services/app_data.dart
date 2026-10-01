@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'database_service.dart';
 
 class HistoryEntry {
   final String romanizedText;
@@ -120,6 +121,9 @@ class AppData {
   static Future<void> addWord(LibraryWord word) async {
     library.value = [...library.value, word];
     await _persistLibrary();
+    try {
+      await DatabaseService().addLibraryWord(word.romanized, word.khmer, word.aliases);
+    } catch (_) {}
   }
 
   static Future<void> updateWord(int index, LibraryWord word) async {
@@ -133,5 +137,33 @@ class AppData {
     final words = [...library.value]..removeAt(index);
     library.value = words;
     await _persistLibrary();
+  }
+
+  static Future<void> syncCloudLibrary() async {
+    try {
+      final snapshot = await DatabaseService().getLibrary().first;
+      bool changed = false;
+      final currentWords = library.value.toList();
+      
+      for (var doc in snapshot.docs) {
+        final data = doc.data() as Map<String, dynamic>;
+        final romanized = data['romanized'] as String? ?? '';
+        final khmer = data['khmer'] as String? ?? '';
+        
+        // Check if already exists
+        if (!currentWords.any((w) => w.romanized == romanized && w.khmer == khmer)) {
+          final aliases = (data['aliases'] as List<dynamic>? ?? []).map((e) => e.toString()).toList();
+          currentWords.add(LibraryWord(romanized: romanized, khmer: khmer, aliases: aliases));
+          changed = true;
+        }
+      }
+      
+      if (changed) {
+        library.value = currentWords;
+        await _persistLibrary();
+      }
+    } catch (_) {
+      // Ignore if not logged in or error
+    }
   }
 }
