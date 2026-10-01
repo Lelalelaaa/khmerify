@@ -35,9 +35,9 @@ class AddWordActivity : Activity() {
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT
             )
-            gravity = Gravity.CENTER
+            gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
             setBackgroundColor(Color.parseColor("#80000000"))
-            setPadding(dp(20), dp(20), dp(20), dp(20))
+            setPadding(dp(20), dp(100), dp(20), dp(20))
             setOnClickListener { finish() }
         }
 
