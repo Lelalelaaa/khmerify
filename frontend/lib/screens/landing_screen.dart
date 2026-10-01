@@ -64,12 +64,12 @@ class LandingScreen extends StatelessWidget {
                             ],
                           ),
                           child: Center(
-                            child: Text(
-                              'ក',
-                              style: TextStyle(
-                                fontSize: logoSize * 0.48,
-                                fontWeight: FontWeight.w900,
-                                color: AppTheme.onYellow,
+                            child: ClipOval(
+                              child: Image.asset(
+                                'assets/logo.png',
+                                width: logoSize * 0.7,
+                                height: logoSize * 0.7,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),
