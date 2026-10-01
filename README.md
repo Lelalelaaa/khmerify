@@ -6,7 +6,7 @@ Khmerify is a smart phonetic keyboard that allows you to type in English letters
 
 The easiest way to test Khmerify is to simply install the pre-built APK onto your Android device or emulator.
 
-1. **Download the APK:** [Download app-release.apk](frontend/build/app/outputs/flutter-apk/app-release.apk) *(also provided in the Google Classroom submission)*.
+1. **Download the APK:** [Download app-release.apk from GitHub Releases](https://github.com/Lelalelaaa/khmerify/releases/latest) *(also provided in the Google Classroom submission)*.
 2. **Install on Emulator/Device:** Drag and drop the APK file onto your Android emulator, or transfer it to your physical Android device and tap to install.
 3. **Enable the Keyboard:** 
    - Open the Khmerify app and log in.
