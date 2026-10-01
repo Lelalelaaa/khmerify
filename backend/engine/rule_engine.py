@@ -9,7 +9,13 @@ from google.genai import types
 from .db import get_conn
 
 load_dotenv()
-_gemini_client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+_api_key = os.getenv("GEMINI_API_KEY")
+_gemini_client = None
+if _api_key and _api_key != "your_key_here":
+    try:
+        _gemini_client = genai.Client(api_key=_api_key)
+    except Exception:
+        pass
 
 # ---------------------------------------------------------------------------
 # Phoneme maps — DO NOT MODIFY
