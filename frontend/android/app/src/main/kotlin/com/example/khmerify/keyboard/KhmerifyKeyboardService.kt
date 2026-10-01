@@ -47,25 +47,39 @@ class KhmerifyKeyboardService : InputMethodService() {
         }
     }
 
-    override fun onCreateInputView(): View {
-        KhmerDictionary.initialize(this)
-        val view = layoutInflater.inflate(R.layout.keyboard_view, null)
-        candidateContainer = view.findViewById(R.id.candidate_container)
-        tvComposingPreview = view.findViewById(R.id.tv_composing_preview)
-        keyboardRows = view.findViewById(R.id.keyboard_rows)
+    override fun onCreateInputView(): View? {
+        try {
+            KhmerDictionary.initialize(this)
+            val view = layoutInflater.inflate(R.layout.keyboard_view, null)
+            candidateContainer = view.findViewById(R.id.candidate_container)
+            tvComposingPreview = view.findViewById(R.id.tv_composing_preview)
+            keyboardRows = view.findViewById(R.id.keyboard_rows)
 
-        buildKeyboard()
-        return view
+            buildKeyboard()
+            return view
+        } catch (e: Exception) {
+            android.util.Log.e("KHMER_ERROR", "onCreateInputView crashed", e)
+            return null
+        }
+    }
+
+    override fun onEvaluateInputViewShown(): Boolean {
+        super.onEvaluateInputViewShown()
+        return true
     }
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
-        super.onStartInputView(info, restarting)
-        KhmerDictionary.reload(this)
-        composingBuffer.clear()
-        isShifted = false
-        isSymbols = false
-        updateCandidates()
-        buildKeyboard()
+        try {
+            super.onStartInputView(info, restarting)
+            KhmerDictionary.reload(this)
+            composingBuffer.clear()
+            isShifted = false
+            isSymbols = false
+            updateCandidates()
+            buildKeyboard()
+        } catch (e: Exception) {
+            android.util.Log.e("KHMER_ERROR", "onStartInputView crashed", e)
+        }
     }
 
     // --- Keystroke Handlers ---
