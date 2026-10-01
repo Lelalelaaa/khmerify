@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="#171D1A"
     android:paddingTop="5dp"
-    android:paddingBottom="7dp"
+    android:paddingBottom="34dp"
     android:paddingHorizontal="5dp">
 
     <!-- Candidate / Suggestion Bar (Pinyin style candidate strip) -->
