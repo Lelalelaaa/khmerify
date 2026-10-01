@@ -39,9 +39,10 @@ class _LoginScreenState extends State<LoginScreen> {
         password: password,
       );
       if (context.mounted) {
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const TranslateScreen()),
-        );
+        (route) => false,
+          );
       }
     } on FirebaseAuthException catch (e) {
       String message;
@@ -354,11 +355,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(
+                      Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(
                           builder: (context) => const TranslateScreen(),
                         ),
-                      );
+                      (route) => false,
+                        );
                     },
                     child: Text(
                       'VIEW AS GUEST',
@@ -385,47 +387,41 @@ class _LoginScreenState extends State<LoginScreen> {
     required Widget child,
   }) {
     return Expanded(
-      child: OutlinedButton(
-        style: OutlinedButton.styleFrom(
-          backgroundColor: Theme.of(context).cardColor,
-          foregroundColor: AppTheme.ink,
-          padding: EdgeInsets.symmetric(vertical: buttonHeight * 0.35),
-          side: BorderSide(color: AppTheme.ink, width: 2),
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        ),
-        onPressed: _isLoading
-            ? null
-            : () async {
-                setState(() => _isLoading = true);
-                final user = await signIn();
-                if (!mounted) return;
-                setState(() => _isLoading = false);
-                if (user != null) {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (context) => const TranslateScreen(),
-                    ),
-                  );
-                } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        '$provider sign-in failed. Please try again.',
+      child: SizedBox(
+        height: buttonHeight,
+        child: OutlinedButton(
+          style: OutlinedButton.styleFrom(
+            backgroundColor: Theme.of(context).cardColor,
+            foregroundColor: AppTheme.ink,
+            side: BorderSide(color: AppTheme.ink, width: 2),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+          ),
+          onPressed: _isLoading
+              ? null
+              : () async {
+                  setState(() => _isLoading = true);
+                  final user = await signIn();
+                  if (!mounted) return;
+                  setState(() => _isLoading = false);
+                  if (user != null) {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => const TranslateScreen(),
                       ),
-                      backgroundColor: Colors.red,
-                    ),
-                  );
-                }
-              },
-        child: child,
+                      (route) => false,
+                    );
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(' sign-in failed. Please try again.'),
+                        backgroundColor: Colors.red,
+                      ),
+                    );
+                  }
+                },
+          child: child,
+        ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
   }
 }

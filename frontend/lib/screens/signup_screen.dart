@@ -65,9 +65,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await credential.user?.updateDisplayName(name);
 
       if (context.mounted) {
-        Navigator.of(context).pushReplacement(
+        Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => const TranslateScreen()),
-        );
+        (route) => false,
+          );
       }
     } on FirebaseAuthException catch (e) {
       String message;
