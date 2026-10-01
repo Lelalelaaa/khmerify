@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../services/api_service.dart';
 import '../services/app_data.dart';
 import '../services/database_service.dart';
+import '../widgets/translate_tab.dart';
 import 'library_screen.dart';
 import 'history_screen.dart';
 import 'settings_screen.dart';
@@ -53,7 +54,7 @@ class _TranslateScreenState extends State<TranslateScreen> {
             khmer: results.map(_sentenceWord).join(' '),
           );
         }
-        
+
         final db = DatabaseService();
         final fullKhmerText = results.map((r) => _sentenceWord(r)).join(' ');
         if (fullKhmerText.trim().isNotEmpty) {
@@ -169,250 +170,24 @@ class _TranslateScreenState extends State<TranslateScreen> {
     );
   }
 
-  Widget _buildTranslateTab() {
-    final screenSize = MediaQuery.of(context).size;
-    final isMobile = screenSize.width < 600;
-    final isTablet = screenSize.width >= 600 && screenSize.width < 1200;
+  Widget _buildTranslateTab() => TranslateTab(
+    controller: _controller,
+    results: _results,
+    deletedResultIndexes: _deletedResultIndexes,
+    loading: _loading,
+    translatedSentence: _translatedSentence,
+    onTranslate: _handleTranslate,
+    onWordSelected: _handleWordResult,
+    onWordRemoved: _removeTranslatedWord,
+    onCopy: _copyTranslatedSentence,
+    wordLabel: (result, index) => _sentenceWord(result, index: index),
+  );
 
-    // Responsive sizes
-    final labelFontSize = isMobile ? 11.0 : (isTablet ? 12.0 : 13.0);
-    final outputFontSize = isMobile ? 20.0 : (isTablet ? 24.0 : 28.0);
-    final buttonHeight = isMobile ? 48.0 : (isTablet ? 52.0 : 56.0);
-    final horizontalPadding = isMobile ? 14.0 : (isTablet ? 20.0 : 28.0);
-    final verticalSpacing = isMobile ? 12.0 : (isTablet ? 16.0 : 20.0);
-
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.all(horizontalPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: verticalSpacing),
-            Text(
-              'ROMANIZED KHMER',
-              style: TextStyle(
-                fontSize: labelFontSize,
-                fontWeight: FontWeight.w600,
-                color: AppTheme.muted,
-              ),
-            ),
-            SizedBox(height: verticalSpacing * 0.6),
-            TextField(
-              controller: _controller,
-              style: TextStyle(color: AppTheme.ink),
-              decoration: InputDecoration(
-                hintText: 'Type romanized khmer here (e.g., suosdey)',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: isMobile ? 10 : 12,
-                ),
-              ),
-              minLines: 3,
-              maxLines: 5,
-            ),
-            SizedBox(height: verticalSpacing),
-            SizedBox(
-              width: double.infinity,
-              height: buttonHeight,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppTheme.yellow,
-                  foregroundColor: AppTheme.onYellow,
-                  elevation: 0,
-                  side: BorderSide(color: AppTheme.ink, width: 2),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                onPressed: _loading ? null : _handleTranslate,
-                child: Text(
-                  _loading ? 'Translating...' : 'Translate',
-                  style: TextStyle(
-                    fontSize: isMobile ? 14.0 : (isTablet ? 16.0 : 18.0),
-                    fontWeight: FontWeight.w900,
-                    color: AppTheme.onYellow,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: verticalSpacing * 1.5),
-            if (_results.isNotEmpty) ...[
-              Text(
-                'KHMER SCRIPT',
-                style: TextStyle(
-                  fontSize: labelFontSize,
-                  fontWeight: FontWeight.w600,
-                  color: AppTheme.muted,
-                ),
-              ),
-              SizedBox(height: verticalSpacing * 0.6),
-              // ── Output card ──────────────────────────────────────────────
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(horizontalPadding),
-                decoration: BoxDecoration(
-                  color: AppTheme.darkMode.value ? const Color(0xFF292725) : Colors.white,
-                  border: Border.all(color: AppTheme.ink, width: 2),
-                  borderRadius: BorderRadius.circular(14),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppTheme.ink.withValues(
-                        alpha: AppTheme.darkMode.value ? 0.35 : 0.85,
-                      ),
-                      offset: const Offset(3, 3),
-                      blurRadius: 0,
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: _results
-                          .asMap()
-                          .entries
-                          .where((entry) {
-                            return !_deletedResultIndexes.contains(entry.key);
-                          })
-                          .map((entry) {
-                            return _buildWordSegment(
-                              entry.value,
-                              index: entry.key,
-                              outputFontSize: outputFontSize,
-                              isDark: AppTheme.darkMode.value,
-                            );
-                          })
-                          .toList(),
-                    ),
-                    SizedBox(height: verticalSpacing),
-                    Container(
-                      width: double.infinity,
-                      padding: EdgeInsets.all(horizontalPadding),
-                      decoration: BoxDecoration(
-                        color: AppTheme.yellow.withValues(
-                          alpha: AppTheme.darkMode.value ? 0.14 : 0.1,
-                        ),
-                        border: Border.all(color: AppTheme.ink, width: 1.5),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Text(
-                        _translatedSentence,
-                        style: TextStyle(
-                          fontSize: outputFontSize,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.ink,
-                          height: 1.35,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: verticalSpacing),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.content_copy, color: AppTheme.ink),
-                            iconSize: isMobile ? 20 : 24,
-                            onPressed: () async {
-                              await Clipboard.setData(
-                                ClipboardData(text: _translatedSentence),
-                              );
-                              if (!mounted) return;
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text('Copied to clipboard'),
-                                ),
-                              );
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.share, color: AppTheme.ink),
-                            iconSize: isMobile ? 20 : 24,
-                            onPressed: () {
-                              // TODO: Implement share functionality
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(
-                              Icons.favorite_border,
-                              color: AppTheme.ink,
-                            ),
-                            iconSize: isMobile ? 20 : 24,
-                            onPressed: () {
-                              // TODO: Implement save/favorite
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ] else if (!_loading)
-              Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: verticalSpacing * 3),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.translate,
-                        size: isMobile ? 56 : 64,
-                        color: AppTheme.muted.withValues(alpha: 0.35),
-                      ),
-                      SizedBox(height: verticalSpacing),
-                      Text(
-                        'Translation will appear here',
-                        style: TextStyle(
-                          fontSize: isMobile ? 14.0 : (isTablet ? 15.0 : 16.0),
-                          color: AppTheme.muted,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildWordSegment(
-    WordResult result, {
-    required int index,
-    required double outputFontSize,
-    required bool isDark,
-  }) {
-    final label = _sentenceWord(result, index: index);
-    final canChooseAlternate = result.found && result.candidates.length > 1;
-
-    return InputChip(
-      label: Text(
-        label,
-        style: TextStyle(
-          fontSize: outputFontSize,
-          fontWeight: FontWeight.w700,
-          color: AppTheme.ink,
-        ),
-      ),
-      onPressed: () => _handleWordResult(result),
-      onDeleted: () => _removeTranslatedWord(index),
-      deleteIcon: Icon(Icons.close, color: AppTheme.ink),
-      avatar: canChooseAlternate
-          ? Icon(Icons.more_horiz, color: AppTheme.ink)
-          : null,
-      backgroundColor: result.found
-          ? (isDark ? const Color(0xFF191817) : Colors.white)
-          : AppTheme.yellow.withValues(alpha: 0.2),
-      side: BorderSide(color: AppTheme.ink, width: 1.5),
-    );
+  Future<void> _copyTranslatedSentence() async {
+    await Clipboard.setData(ClipboardData(text: _translatedSentence));
+    if (!mounted) return;
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Copied to clipboard')));
   }
 
   String _sentenceWord(WordResult result, {int? index}) {

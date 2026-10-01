@@ -67,10 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(message),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text(message), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -84,13 +81,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter an email and password to sign up.')),
+        const SnackBar(
+          content: Text('Please enter an email and password to sign up.'),
+        ),
       );
       return;
     }
     if (password.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password must be at least 6 characters.')),
+        const SnackBar(
+          content: Text('Password must be at least 6 characters.'),
+        ),
       );
       return;
     }
@@ -124,10 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(message),
-            backgroundColor: Colors.red,
-          ),
+          SnackBar(content: Text(message), backgroundColor: Colors.red),
         );
       }
     } finally {
@@ -290,8 +288,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         : Text(
                             'LOG IN',
                             style: TextStyle(
-                              fontSize:
-                                  isMobile ? 14.0 : (isTablet ? 16.0 : 18.0),
+                              fontSize: isMobile
+                                  ? 14.0
+                                  : (isTablet ? 16.0 : 18.0),
                               fontWeight: FontWeight.w900,
                               color: AppTheme.onYellow,
                               letterSpacing: 0.5,
@@ -332,154 +331,41 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Social Login Buttons — Google, Facebook, Twitter only (no Apple)
                 Row(
                   children: [
-                    // Google
-                    Expanded(
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Theme.of(context).cardColor,
-                          foregroundColor: AppTheme.ink,
-                          padding: EdgeInsets.symmetric(
-                            vertical: buttonHeight * 0.35,
-                          ),
-                          side: BorderSide(color: AppTheme.ink, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: _isLoading
-                            ? null
-                            : () async {
-                                setState(() => _isLoading = true);
-                                final user =
-                                    await AuthService.signInWithGoogle();
-                                if (context.mounted) {
-                                  setState(() => _isLoading = false);
-                                  if (user != null) {
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const TranslateScreen(),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content:
-                                            Text('Google sign-in failed. Please try again.'),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                        child: Text(
-                          'G',
-                          style: TextStyle(
-                            fontSize:
-                                isMobile ? 16.0 : (isTablet ? 18.0 : 20.0),
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.ink,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: verticalSpacing * 0.4),
-                    // Facebook
-                    Expanded(
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Theme.of(context).cardColor,
-                          foregroundColor: AppTheme.ink,
-                          padding: EdgeInsets.symmetric(
-                            vertical: buttonHeight * 0.35,
-                          ),
-                          side: BorderSide(color: AppTheme.ink, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: _isLoading
-                            ? null
-                            : () async {
-                                setState(() => _isLoading = true);
-                                final user =
-                                    await AuthService.signInWithFacebook();
-                                if (context.mounted) {
-                                  setState(() => _isLoading = false);
-                                  if (user != null) {
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const TranslateScreen(),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Facebook sign-in failed. Please try again.'),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                        child: Icon(
-                          Icons.facebook,
-                          size: isMobile ? 22.0 : (isTablet ? 24.0 : 26.0),
+                    _buildSocialButton(
+                      provider: 'Google',
+                      buttonHeight: buttonHeight,
+                      signIn: AuthService.signInWithGoogle,
+                      child: Text(
+                        'G',
+                        style: TextStyle(
+                          fontSize: isMobile ? 16.0 : (isTablet ? 18.0 : 20.0),
+                          fontWeight: FontWeight.bold,
                           color: AppTheme.ink,
                         ),
                       ),
                     ),
                     SizedBox(width: verticalSpacing * 0.4),
-                    // Twitter / X
-                    Expanded(
-                      child: OutlinedButton(
-                        style: OutlinedButton.styleFrom(
-                          backgroundColor: Theme.of(context).cardColor,
-                          foregroundColor: AppTheme.ink,
-                          padding: EdgeInsets.symmetric(
-                            vertical: buttonHeight * 0.35,
-                          ),
-                          side: BorderSide(color: AppTheme.ink, width: 2),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: _isLoading
-                            ? null
-                            : () async {
-                                setState(() => _isLoading = true);
-                                final user =
-                                    await AuthService.signInWithTwitter();
-                                if (context.mounted) {
-                                  setState(() => _isLoading = false);
-                                  if (user != null) {
-                                    Navigator.of(context).pushReplacement(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            const TranslateScreen(),
-                                      ),
-                                    );
-                                  } else {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      const SnackBar(
-                                        content: Text(
-                                            'Twitter sign-in failed. Please try again.'),
-                                        backgroundColor: Colors.red,
-                                      ),
-                                    );
-                                  }
-                                }
-                              },
-                        child: Text(
-                          '𝕏',
-                          style: TextStyle(
-                            fontSize:
-                                isMobile ? 18.0 : (isTablet ? 20.0 : 22.0),
-                            fontWeight: FontWeight.bold,
-                            color: AppTheme.ink,
-                          ),
+                    _buildSocialButton(
+                      provider: 'Facebook',
+                      buttonHeight: buttonHeight,
+                      signIn: AuthService.signInWithFacebook,
+                      child: Icon(
+                        Icons.facebook,
+                        size: isMobile ? 22.0 : (isTablet ? 24.0 : 26.0),
+                        color: AppTheme.ink,
+                      ),
+                    ),
+                    SizedBox(width: verticalSpacing * 0.4),
+                    _buildSocialButton(
+                      provider: 'Twitter',
+                      buttonHeight: buttonHeight,
+                      signIn: AuthService.signInWithTwitter,
+                      child: Text(
+                        '𝕏',
+                        style: TextStyle(
+                          fontSize: isMobile ? 18.0 : (isTablet ? 20.0 : 22.0),
+                          fontWeight: FontWeight.bold,
+                          color: AppTheme.ink,
                         ),
                       ),
                     ),
@@ -499,8 +385,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextSpan(
                           text: 'Sign up',
                           style: TextStyle(
-                            fontSize:
-                                isMobile ? 12.0 : (isTablet ? 13.0 : 14.0),
+                            fontSize: isMobile
+                                ? 12.0
+                                : (isTablet ? 13.0 : 14.0),
                             color: AppTheme.ink,
                             fontWeight: FontWeight.bold,
                           ),
@@ -544,6 +431,50 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       },
+    );
+  }
+
+  Widget _buildSocialButton({
+    required String provider,
+    required double buttonHeight,
+    required Future<UserCredential?> Function() signIn,
+    required Widget child,
+  }) {
+    return Expanded(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          backgroundColor: Theme.of(context).cardColor,
+          foregroundColor: AppTheme.ink,
+          padding: EdgeInsets.symmetric(vertical: buttonHeight * 0.35),
+          side: BorderSide(color: AppTheme.ink, width: 2),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+        onPressed: _isLoading
+            ? null
+            : () async {
+                setState(() => _isLoading = true);
+                final user = await signIn();
+                if (!mounted) return;
+                setState(() => _isLoading = false);
+                if (user != null) {
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const TranslateScreen(),
+                    ),
+                  );
+                } else {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        '$provider sign-in failed. Please try again.',
+                      ),
+                      backgroundColor: Colors.red,
+                    ),
+                  );
+                }
+              },
+        child: child,
+      ),
     );
   }
 
