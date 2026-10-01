@@ -104,36 +104,7 @@ class _SettingsScreenState extends State<SettingsScreen> with WidgetsBindingObse
           body: SingleChildScrollView(
             child: Column(
               children: [
-                Padding(
-                  padding: EdgeInsets.fromLTRB(
-                    horizontalPadding,
-                    isMobile ? 18 : 26,
-                    horizontalPadding,
-                    8,
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Make it yours.',
-                        style: TextStyle(
-                          fontSize: isMobile ? 28 : 36,
-                          height: 1,
-                          fontWeight: FontWeight.w900,
-                          color: AppTheme.ink,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Tune your Khmerify experience.',
-                        style: TextStyle(
-                          fontSize: isMobile ? 13 : 15,
-                          color: AppTheme.muted,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+
                 Padding(
                   padding: EdgeInsets.all(horizontalPadding),
                   child: AccountSection(
